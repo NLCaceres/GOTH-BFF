@@ -2,11 +2,17 @@ package main
 
 import (
 	"fmt"
+	"github.com/joho/godotenv"
 	"github.com/labstack/echo/v4"
 	"github.com/labstack/echo/v4/middleware"
+	"log"
 )
 
 func main() {
+	if dotEnvErr := godotenv.Load(); dotEnvErr != nil {
+		log.Fatal("Environment not properly loaded") // "log" is prettier than "fmt" by default
+	} // NOTE: "log" AND "fmt" print to the terminal BUT Echo's logger easily hides them
+
 	app := echo.New()
 	// `Use` must be used & declared BEFORE starting the app
 	app.Use(middleware.RequestLoggerWithConfig(middleware.RequestLoggerConfig{
@@ -21,6 +27,6 @@ func main() {
 			return nil
 		},
 	}))
-	// app.Use(middleware.Logger()) // Original Echo Logger but not as extensible
+
 	app.Logger.Debug(app.Start("localhost:3000"))
 }
