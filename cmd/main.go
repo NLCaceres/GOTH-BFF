@@ -2,6 +2,7 @@ package main
 
 import (
 	"fmt"
+	"github.com/NLCaceres/goth-example/internal/route"
 	"github.com/joho/godotenv"
 	"github.com/labstack/echo/v4"
 	"github.com/labstack/echo/v4/middleware"
@@ -27,6 +28,8 @@ func main() {
 			return nil
 		},
 	}))
+
+	route.Routes(app) // Routes must ALSO be declared before `app.Start` is called
 
 	app.Logger.Debug(app.Start("localhost:3000"))
 }
