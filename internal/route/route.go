@@ -11,14 +11,7 @@ import (
 
 // NOTE: Public funcs in Go start with a capital 1st letter, no keyword needed
 func Routes(app *echo.Echo) {
-	routeMap := make(map[string]string)
-	// NOTE: Golang ISN'T functional so no `map`, `filter`, etc. Just need to use `for`
-	for _, routeKeyVal := range strings.Split(os.Getenv("ROUTE_MAP"), ",") {
-		// Gets each from ["route:routeReadable", "foo:Foo"]
-		splitKeyVal := strings.Split(routeKeyVal, ":") // Then ["route", "routeReadable"]
-		routePath, routeReadable := splitKeyVal[0], splitKeyVal[1]
-		routeMap[routePath] = routeReadable
-	}
+	routeMap := mapFromString(os.Getenv("ROUTE_MAP"))
 
 	appRoutes := strings.Split(os.Getenv("APP_ROUTES"), ",") // Load comma-separated routes from `.env`
 	for _, route := range appRoutes {
@@ -35,4 +28,17 @@ func Routes(app *echo.Echo) {
 			return c.String(http.StatusOK, fmt.Sprintf("Hello %s", routeFormatted))
 		})
 	}
+}
+
+func mapFromString(mapString string) map[string]string {
+	newMap := make(map[string]string)
+	//NOTE: Golang ISN'T functional so no `map`, `filter`, etc. There's only `for`
+	for _, keyValPair := range strings.Split(mapString, ",") {
+		splitKeyVal := strings.Split(keyValPair, ":") // [key, value]
+		if len(splitKeyVal) > 1 {
+			key, value := splitKeyVal[0], splitKeyVal[1]
+			newMap[key] = value
+		}
+	}
+	return newMap
 }
