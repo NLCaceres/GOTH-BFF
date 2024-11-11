@@ -2,9 +2,8 @@ package route
 
 import (
 	"fmt"
+	"github.com/NLCaceres/goth-example/internal/util"
 	"github.com/labstack/echo/v4"
-	"golang.org/x/text/cases"
-	"golang.org/x/text/language"
 	"net/http"
 	"os"
 	"strings"
@@ -30,7 +29,7 @@ func Routes(app *echo.Echo) {
 			if routeReadable, ok := routeMap[route]; ok { // `ok` is false if no value exists for given key
 				routeFormatted = routeReadable // No formatting needed if readable version of route exists in map
 			} else {
-				routeFormatted = cases.Title(language.English).String(route)
+				routeFormatted = util.TitleCase(route)
 			}
 
 			return c.String(http.StatusOK, fmt.Sprintf("Hello %s", routeFormatted))
