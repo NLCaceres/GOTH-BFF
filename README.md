@@ -14,3 +14,18 @@ a better grasp on NeoVim as an IDE, personalizing it to my needs.
    - [Recent improvements to Go's router](https://go.dev/blog/routing-enhancements)
    - [Advanced patterns in Go standard library routing video](https://www.youtube.com/watch?v=H7tbjKFSg58)
 7. Dockerize for easy building, sharing and running
+
+### Testing
+Golang testing is pretty awesome! It is particularly awesome, because everything you need is baked into Go's
+standard library! Testing files end with `_test.go`, and all test functions start with `Test` and include a
+parameter `t` of type `*testing.T` (or sometimes of type `*testing.B` or `*testing.F` for Benchmarks or Fuzzing respectively).
+For funcs with lots of cases to test, Golang uses table testing as a means of covering all of these test
+cases from a single parent test func, structuring the test to be very simple, readable and quick to write
+- `go test` - The default command for running tests. It typically accepts any packages you've created as args
+and also offers a `-v` flag for detailed logging
+ - `go test ./...` is probably the best way to run tests since it'll recursively
+ run any tests found in any subdirectories
+ - `go list ./...` can similarly be used to list ALL packages found in subdirectories
+ which makes it easier to run tests for specific packages in your project
+ - `go test ./... -coverpkg=./...` can be used to get testing code coverage for your entire project
+
