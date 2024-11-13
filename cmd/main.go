@@ -22,8 +22,8 @@ func main() {
 		LogValuesFunc: func(c echo.Context, v middleware.RequestLoggerValues) error {
 			if v.Error == nil { // Println provides a simple way of concatening strings with vars with spaces injected between
 				fmt.Println("REQUEST URL =", v.URI, "&", "REQUEST Status =", v.Status)
-			} else { // Printf provides an old-school Python style of interpolating vars into a string
-				fmt.Printf("ERROR on REQUEST URL = %v with Status %v & Error = %v", v.URI, v.Status, v.Error)
+			} else { // Printf provides an old-school Python style of interpolating vars into a string BUT SHOULD end with `\n`
+				fmt.Printf("ERROR on REQUEST URL = %v with Status %v & Error = %v\n", v.URI, v.Status, v.Error)
 			}
 			return nil
 		},
