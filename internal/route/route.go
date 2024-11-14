@@ -16,17 +16,19 @@ func Routes(app *echo.Echo) {
 	appRoutes := strings.Split(os.Getenv("APP_ROUTES"), ",") // Load comma-separated routes from `.env`
 	for _, route := range appRoutes {
 		routePath := "/" + route
+		var routeFormatted string
+		if routeReadable, ok := routeMap[route]; ok { // `ok` is false if no value exists for given key
+			routeFormatted = routeReadable // No formatting needed if readable version of route exists in map
+		} else {
+			routeFormatted = util.TitleCase(route)
+		}
+		routeFormattedPath := "/" + routeFormatted
 
-		app.GET(routePath, func(c echo.Context) error {
-			var routeFormatted string
-			if routeReadable, ok := routeMap[route]; ok { // `ok` is false if no value exists for given key
-				routeFormatted = routeReadable // No formatting needed if readable version of route exists in map
-			} else {
-				routeFormatted = util.TitleCase(route)
-			}
-
+		handler := func(c echo.Context) error {
 			return c.String(http.StatusOK, fmt.Sprintf("Hello %s", routeFormatted))
-		})
+		}
+		app.GET(routePath, handler)
+		app.GET(routeFormattedPath, handler)
 	}
 }
 
