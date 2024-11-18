@@ -23,6 +23,9 @@ func PostRequest(url string, contentType string, body io.Reader) (map[string]int
 	//INFO: Closing the response body after reading helps the client/server reuse their TCP connection
 	defer response.Body.Close()
 	responseBody, err := io.ReadAll(response.Body)
+	if err != nil {
+		return responseData, err
+	}
 
 	if err = json.Unmarshal(responseBody, &responseData); err != nil {
 		return responseData, err
