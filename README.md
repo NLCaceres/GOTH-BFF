@@ -19,8 +19,18 @@ a better grasp on NeoVim as an IDE, personalizing it to my needs.
 Golang testing is pretty awesome! It is particularly awesome, because everything you need is baked into Go's
 standard library! Testing files end with `_test.go`, and all test functions start with `Test` and include a
 parameter `t` of type `*testing.T` (or sometimes of type `*testing.B` or `*testing.F` for Benchmarks or Fuzzing respectively).
+
 For funcs with lots of cases to test, Golang uses table testing as a means of covering all of these test
-cases from a single parent test func, structuring the test to be very simple, readable and quick to write
+cases from a single parent test func, structuring the test to be very simple, readable and quick to write.
+
+In order to best focus a test on the particular function in question, testing mocks are often helpful replacements
+for the functions' parameters. By creating Mocks that resemble those parameter types, but with quick and
+lightweight implementations of their interface methods, we can guarantee and, in the case of spies, verify
+specific interactions occur between the function and its parameters. If these events don't occur, then we can
+fail the tests. In Go, the standard library also includes one such helper, `httptest`, which provides
+convenient test helpers for faking external API calls that are not the focus of the test at hand.
+
+#### Useful Testing Commands
 - `go test` - The default command for running tests. It typically accepts any packages you've created as args
 and also offers a `-v` flag for detailed logging
  - `go test ./...` is probably the best way to run tests since it'll recursively
