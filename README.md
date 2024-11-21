@@ -1,14 +1,28 @@
-# GOTH Example - Go + Templ + HTMX
+# GOTH-BFF - A Go Backend for a Templ-HTMX Frontend
 An all around learning experience where I intend to explore Go in greater depths
 as well as evaluate the many tools available in the Go ecosystem, all while I get
 a better grasp on NeoVim as an IDE, personalizing it to my needs.
 
-### Future Plans
-- Make each branch the next major step in development
+The goal of the project is to build a Go backend comparing the developer experience
+of the Echo framework, the Chi Router and the Go Standard Library. This Go backend
+will act as a gateway to a GraphQL API while also serving a UI based on Templ HTML
+Components as the front-end to clients. The Templ UI will feature the HTMX library
+as a means of triggering server-side re-renders as the user interacts with elements
+on the page. Elements with HTMX attributes issue requests to the backend not only
+to get new data, but to get a set of just the necessary components ready to swap
+into place in the layout, already filled with all relevant data.
+
+### Step by Step Plans & Layout of the Repo
+- `Main` branch will always be the most up to date version of the project
+- Each numbered branch represents the next major step in development
+  - Branches with letters after the number represent small but important steps
+  worth highlighting while developing a particular feature
+0. The repo with a README, simple file structure, and basic dependencies
 1. [Echo framework](https://github.com/labstack/echo) to set up the page routing
 2. [Templ layout templates](https://github.com/a-h/templ) to set up basic HTML structure of each page
-3. Add in [HTMX](https://htmx.org/docs/#introduction) to allow partial page updates in relation to Nav bar or tab bar
-4. Setup Search bar that makes POST requests to a GraphQL API of your choice and lists results
+3. [HTMX](https://htmx.org/docs/#introduction) to allow partial page updates in relation to Nav bar or tab bar
+4. Search bar to make POST requests to this backend to get more customized responses
+from the underlying GraphQL API so results can be dynamically listed in the UI
 5. Swap out Echo for a simpler [Chi implementation](https://github.com/go-chi/chi) of the page routing
 6. Swap out Chi for an even simpler [standard library implementation](https://pkg.go.dev/net/http#ServeMux)
    - [Recent improvements to Go's router](https://go.dev/blog/routing-enhancements)
