@@ -2,7 +2,6 @@ package util
 
 import (
 	"encoding/json"
-	"io"
 	"os"
 	"path/filepath"
 	"runtime"
@@ -17,14 +16,9 @@ func ReadJSON[T any](filePath string) (T, error) {
 	projectRoot := filepath.Join(filepath.Dir(b), "../..")
 
 	var jsonMap T // This init helps for err returns to send back a default value
-	fileContent, err := os.Open(filepath.Join(projectRoot, filePath))
-	if err != nil {
-		return jsonMap, err
-	}
 
-	defer fileContent.Close()
-
-	fileBytes, err := io.ReadAll(fileContent)
+	// Using ReadFile handles Opening, Closing and Reading the file directly into []byte
+	fileBytes, err := os.ReadFile(filepath.Join(projectRoot, filePath))
 	if err != nil {
 		return jsonMap, err
 	}
