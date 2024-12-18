@@ -3,8 +3,6 @@ package util
 import (
 	"encoding/json"
 	"os"
-	"path/filepath"
-	"runtime"
 )
 
 // Go 1.18 adds `any` which acts exactly like `interface{}`
@@ -12,13 +10,10 @@ import (
 
 // Reads and Parses JSON into a usable type all in one function
 func ReadJSON[T any](filePath string) (T, error) {
-	_, b, _, _ := runtime.Caller(0)
-	projectRoot := filepath.Join(filepath.Dir(b), "../..")
-
 	var jsonMap T // This init helps for err returns to send back a default value
 
 	// Using ReadFile handles Opening, Closing and Reading the file directly into []byte
-	fileBytes, err := os.ReadFile(filepath.Join(projectRoot, filePath))
+	fileBytes, err := os.ReadFile(GetProjectFile(filePath))
 	if err != nil {
 		return jsonMap, err
 	}
