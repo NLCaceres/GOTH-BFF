@@ -2,7 +2,9 @@ package util
 
 import (
 	"encoding/json"
+	"errors"
 	"os"
+	"strings"
 )
 
 // Go 1.18 adds `any` which acts exactly like `interface{}`
@@ -12,6 +14,9 @@ import (
 func ReadJSON[T any](filePath string) (T, error) {
 	var jsonMap T // This init helps for err returns to send back a default value
 
+	if !strings.HasSuffix(filePath, ".json") {
+		return jsonMap, errors.New("Incorrect File Type: Expected \".json\" file")
+	}
 	// Using ReadFile handles Opening, Closing and Reading the file directly into []byte
 	fileBytes, err := os.ReadFile(GetProjectFile(filePath))
 	if err != nil {

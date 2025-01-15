@@ -1,6 +1,9 @@
 package util
 
-import "testing"
+import (
+	"strings"
+	"testing"
+)
 
 func TestReadJson(t *testing.T) {
 	// WHEN unable to open the JSON file (since it doesn't exist)
@@ -19,6 +22,12 @@ func TestReadJson(t *testing.T) {
 	_, graphqlErr := ReadJSON[any]("internal/util/test/graphql_json.json")
 	if graphqlErr == nil { // THEN should get an unexpected key char error
 		t.Error("ReadJSON unexpectedly failed with graphql formatted JSON")
+	}
+	// WHEN any other file type is input
+	_, fileTypeErr := ReadJSON[any]("internal/util/test/json.go")
+	// THEN should get an incorrect file type error
+	if fileTypeErr == nil || !strings.HasPrefix(fileTypeErr.Error(), "Incorrect File Type") {
+		t.Error("ReadJSON unexpectedly read a non-JSON file")
 	}
 
 	// map[string][]map = parent jsonObj with key to an array of jsonObjs
