@@ -15,6 +15,11 @@ func TestReadJson(t *testing.T) {
 	if badJsonErr == nil { // THEN should receive an error back
 		t.Error("ReadJSON unexpectedly succeeded in unmarshaling JSON")
 	}
+	// WHEN a GraphQL query placed in a JSON file is input
+	_, graphqlErr := ReadJSON[any]("internal/util/test/graphql_json.json")
+	if graphqlErr == nil { // THEN should get an unexpected key char error
+		t.Error("ReadJSON unexpectedly failed with graphql formatted JSON")
+	}
 
 	// map[string][]map = parent jsonObj with key to an array of jsonObjs
 	// WHEN JSON file exists with valid JSON, matching the generic type
