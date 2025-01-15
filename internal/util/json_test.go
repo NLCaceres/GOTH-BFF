@@ -42,3 +42,25 @@ func TestReadJson(t *testing.T) {
 		t.Errorf("Json Map contains different values than expected = %v", jsonMap)
 	}
 }
+
+func TestReadFileText(t *testing.T) {
+	// WHEN unable to open file (since it doesn't exist)
+	data, missingFileErr := ReadFileText("internal/util/test/unknown_file.json")
+	// THEN data should be nil (or other default value) and err not nil
+	if data != "" && missingFileErr == nil {
+		t.Error("ReadFileText unexpectedly succeeded")
+	}
+
+	// WHEN file exists but underlying JSON is malformed
+	badJsonStr, badJsonErr := ReadFileText("internal/util/test/bad_json.json")
+	if badJsonStr == "" && badJsonErr != nil { // THEN should STILL get text back, no err
+		t.Error("ReadFileText unexpected failed to read malformed JSON into string")
+	}
+
+	// WHEN a GraphQL query is packed into a json file
+	graphqlText, graphqlErr := ReadFileText("internal/util/test/graphql_json.json")
+	// THEN should get a perfectly valid query string back w/out error
+	if graphqlText == "" && graphqlErr != nil {
+		t.Error("ReadFileText unexpectedly failed to read basic GraphQL Query")
+	}
+}

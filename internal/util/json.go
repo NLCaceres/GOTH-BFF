@@ -29,3 +29,15 @@ func ReadJSON[T any](filePath string) (T, error) {
 
 	return jsonMap, nil
 }
+
+// Reads any file and returns its text contents as a string, completely unmodified
+func ReadFileText(filePath string) (string, error) {
+	var queryObj string
+
+	fileBytes, err := os.ReadFile(GetProjectFile(filePath))
+	if err != nil {
+		return queryObj, err
+	}
+
+	return string(fileBytes), nil
+}
