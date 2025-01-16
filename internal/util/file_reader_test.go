@@ -19,7 +19,7 @@ func TestReadJson(t *testing.T) {
 		t.Error("ReadJSON unexpectedly succeeded in unmarshaling JSON")
 	}
 	// WHEN a GraphQL query placed in a JSON file is input
-	_, graphqlErr := ReadJSON[any]("internal/util/test/graphql_json.json")
+	_, graphqlErr := ReadJSON[any]("internal/util/test/graphql_query.json")
 	if graphqlErr == nil { // THEN should get an unexpected key char error
 		t.Error("ReadJSON unexpectedly failed with graphql formatted JSON")
 	}
@@ -58,7 +58,7 @@ func TestReadFileText(t *testing.T) {
 	}
 
 	// WHEN a GraphQL query is packed into a json file
-	graphqlText, graphqlErr := ReadFileText("internal/util/test/graphql_json.json")
+	graphqlText, graphqlErr := ReadFileText("internal/util/test/graphql_query.json")
 	// THEN should get a perfectly valid query string back w/out error
 	if graphqlText == "" && graphqlErr != nil {
 		t.Error("ReadFileText unexpectedly failed to read basic GraphQL Query")
