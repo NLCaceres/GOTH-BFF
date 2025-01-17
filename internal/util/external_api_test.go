@@ -15,17 +15,13 @@ func TestPostRequest(t *testing.T) {
 		ExpectedResponse map[string]interface{}
 		ExpectedErr      error
 	}{
-		"Error within POST itself": { // Using ASCII Ctrl Char (DEL aka 177) breaks the Server URL
+		"Error within POST itself": { // ASCII Ctrl Char (DEL aka 177) breaks the Server URL
 			"/foo" + string([]byte{0x7f}), newHttpMock(403, `{"foo":"bar"}`, nil),
 			nil, errors.New("parse net/url error"),
 		},
-		"Error Reading Response": { // An empty Response w/out a StatusCode
-			"/foo", newHttpMock(0, ``, map[string]string{"Content-Length": "1"}), // BUT a Content-Length header of "1"
-			nil, errors.New("unexpected EOF Error"), // causes this EOF Error
-		},
-		"Error due to Malformed JSON Response": {
-			"/foo", newHttpMock(202, `"foo":"bar"`, nil), // No brackets surrounding JSON response
-			nil, errors.New("invalid character at top-level of JSON Error"), // Causes this error
+		"Error Reading Response": { // Empty response w/ bad StatusCode & Content-Length == 1
+			"/foo", newHttpMock(0, ``, map[string]string{"Content-Length": "1"}),
+			nil, errors.New("unexpected EOF Error"), // Causes this EOF Error
 		},
 		"Successfully POSTed": {
 			"/foo", newHttpMock(202, `{"foo":"bar"}`, nil),
@@ -39,18 +35,54 @@ func TestPostRequest(t *testing.T) {
 			defer server.Close()
 
 			serverURL := server.URL + testCase.PostURL
-			responseData, err := PostRequest(serverURL, "application/json", bytes.NewBuffer([]byte(`{"foo":"bar"}`)))
+			requestBody := bytes.NewBuffer([]byte(`{"foo":"bar"}`))
+			responseBody, err := PostRequest(serverURL, "application/json", requestBody)
 
+			if (testCase.ExpectedResponse == nil && responseBody != nil) || (testCase.ExpectedResponse != nil && responseBody == nil) {
+				t.Errorf("Response unexpectedly = %v when it should NOT have been", responseBody)
+			}
+			if (testCase.ExpectedErr == nil && err != nil) || (testCase.ExpectedErr != nil && err == nil) {
+				t.Errorf("Error unexpectedly = %v when it should NOT have been", err)
+			}
+		})
+	}
+}
+func TestPostJSON(t *testing.T) {
+	var tests = map[string]struct {
+		ServerMock       test.HttpMock
+		ExpectedResponse map[string]interface{}
+		ExpectedErr      error
+	}{
+		"Error from internal PostRequest": {
+			newHttpMock(0, ``, map[string]string{"Content-Length": "1"}),
+			nil, errors.New("parse net/url error"),
+		},
+		"Error due to Malformed JSON Response": {
+			newHttpMock(202, `"foo":"bar"`, nil), // JSON response w/out brackets causes this err
+			nil, errors.New("invalid character at top-level of JSON Error"),
+		},
+		"Successfully POSTed JSON": {
+			newHttpMock(202, `{"foo":"bar"}`, nil), map[string]interface{}{"foo": "bar"}, nil,
+		},
+	}
+	for testName, testCase := range tests {
+		t.Run(testName, func(t *testing.T) {
+			server := httptest.NewServer(test.NewTestHandlerFunc(t, testCase.ServerMock))
+			defer server.Close()
+
+			serverURL := server.URL + "/foo"
+			requestBody := bytes.NewBuffer([]byte(`{"foo":"bar"}`))
+			responseData, err := PostJSON(serverURL, requestBody)
 			if testCase.ExpectedResponse == nil && responseData != nil {
 				t.Errorf("Response data expected to be nil but was actually filled")
 			}
 			for key, expectedValue := range testCase.ExpectedResponse {
 				if actualValue, ok := responseData[key]; !ok || expectedValue != actualValue {
-					t.Errorf("Response map key %v found value of %v instead of %v", key, actualValue, expectedValue)
+					t.Errorf("Response map key %v has value of %v instead of %v", key, actualValue, expectedValue)
 				}
 			}
 			if (testCase.ExpectedErr == nil && err != nil) || (testCase.ExpectedErr != nil && err == nil) {
-				t.Errorf("Error unexpectedly = %v when it shouldn't have been", err)
+				t.Errorf("Error unexpectedly = %v when it should NOT have been", err)
 			}
 		})
 	}
