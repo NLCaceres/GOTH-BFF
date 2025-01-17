@@ -12,20 +12,19 @@ func TestPostRequest(t *testing.T) {
 	var tests = map[string]struct {
 		PostURL          string
 		ServerMock       test.HttpMock
-		ExpectedResponse map[string]interface{}
+		ExpectedResponse string
 		ExpectedErr      error
 	}{
 		"Error within POST itself": { // ASCII Ctrl Char (DEL aka 177) breaks the Server URL
 			"/foo" + string([]byte{0x7f}), newHttpMock(403, `{"foo":"bar"}`, nil),
-			nil, errors.New("parse net/url error"),
+			"", errors.New("parse net/url error"),
 		},
 		"Error Reading Response": { // Empty response w/ bad StatusCode & Content-Length == 1
 			"/foo", newHttpMock(0, ``, map[string]string{"Content-Length": "1"}),
-			nil, errors.New("unexpected EOF Error"), // Causes this EOF Error
+			"", errors.New("unexpected EOF Error"), // Causes this EOF Error
 		},
 		"Successfully POSTed": {
-			"/foo", newHttpMock(202, `{"foo":"bar"}`, nil),
-			map[string]interface{}{"foo": "bar"}, nil,
+			"/foo", newHttpMock(202, `{"foo":"bar"}`, nil), `{"foo":"bar"}`, nil,
 		},
 	}
 
@@ -38,8 +37,8 @@ func TestPostRequest(t *testing.T) {
 			requestBody := bytes.NewBuffer([]byte(`{"foo":"bar"}`))
 			responseBody, err := PostRequest(serverURL, "application/json", requestBody)
 
-			if (testCase.ExpectedResponse == nil && responseBody != nil) || (testCase.ExpectedResponse != nil && responseBody == nil) {
-				t.Errorf("Response unexpectedly = %v when it should NOT have been", responseBody)
+			if testCase.ExpectedResponse != string(responseBody) {
+				t.Errorf("Response unexpectedly = %v but should be %v", string(responseBody), testCase.ExpectedResponse)
 			}
 			if (testCase.ExpectedErr == nil && err != nil) || (testCase.ExpectedErr != nil && err == nil) {
 				t.Errorf("Error unexpectedly = %v when it should NOT have been", err)
