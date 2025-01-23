@@ -13,7 +13,7 @@ import (
 // POSTs pre-formatted JSON to an API after dynamically updating the JSON string's
 // key-value pair corresponding to the search value
 func ApiPostRequest(c echo.Context) error {
-	queryMap, err := util.ReadJSON[map[string][]map[string]any]("internal/query.json")
+	queryMap, err := util.ReadJSON[map[string][]map[string]any](os.Getenv("QUERY_FILE"))
 	if err != nil {
 		log.Printf("Issue getting formatted JSON query map due to: %s\n", err)
 		return c.NoContent(500)
@@ -22,8 +22,8 @@ func ApiPostRequest(c echo.Context) error {
 	queries := queryMap["searches"]
 	queries[len(queries)-1]["q"] = c.Path()[1:] // Drop 1st "/". No Unicode in URLs so OK
 
-	jsonBytes, err := json.MarshalIndent(queryMap, "", "  ") // Last param sets spacing
-	if err != nil {
+	jsonBytes, err := json.MarshalIndent(queryMap, "", "  ")
+	if err != nil { // Unclear if Marshal can even fail since it parses already parsed JSON
 		log.Printf("Issue parsing JSON map into a []byte due to: %s\n", err)
 		return c.NoContent(400)
 	}

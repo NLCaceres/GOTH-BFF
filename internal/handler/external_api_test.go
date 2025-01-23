@@ -12,13 +12,18 @@ import (
 
 func TestApiPostRequest(t *testing.T) {
 	successData := `{"foo":"bar"}`
+	queryFile := "internal/query.json"
 	tests := map[string]struct {
 		Mock               test.HttpMock
+		QueryFile          string
 		ExpectedStatusCode int
 		ExpectedResponse   string
 	}{
-		"Error from internal Post Request":    {newHttpMock(`"foo":"bar"`), 502, ""},
-		"Successfully POSTed to external API": {newHttpMock(successData), 200, successData},
+		"Error from inside ReadJSON": {newHttpMock(`"foo":"bar"`), "./bad.json", 500, ""},
+		"Error from inside PostJSON": {newHttpMock(`"foo":"bar"`), queryFile, 502, ""},
+		"Successfully POSTed to external API": {
+			newHttpMock(successData), queryFile, 200, successData,
+		},
 	}
 	for testName, testCase := range tests {
 		t.Run(testName, func(t *testing.T) {
@@ -31,6 +36,7 @@ func TestApiPostRequest(t *testing.T) {
 			c := echo.New().NewContext(req, rec)
 			c.SetPath("/foo") //NOTE: BUT must set the Path in Echo's context here!
 
+			os.Setenv("QUERY_FILE", testCase.QueryFile)
 			ApiPostRequest(c)
 			if rec.Code != testCase.ExpectedStatusCode {
 				t.Errorf("Response unexpectedly sent %v instead of %v\n", rec.Code, testCase.ExpectedStatusCode)
