@@ -11,18 +11,23 @@ import (
 )
 
 func TestApiPostRequest(t *testing.T) {
-	successData := `{"foo":"bar"}`
-	queryFile := "internal/query.json"
+	badData := `"foo":"bar"`
+	successData := "{" + badData + "}"
+	queryFile := "internal/long_query.json"
 	tests := map[string]struct {
 		Mock               test.HttpMock
 		QueryFile          string
+		Filters            string
 		ExpectedStatusCode int
 		ExpectedResponse   string
 	}{
-		"Error from inside ReadJSON": {newHttpMock(`"foo":"bar"`), "./bad.json", 500, ""},
-		"Error from inside PostJSON": {newHttpMock(`"foo":"bar"`), queryFile, 502, ""},
+		"Error from inside ReadJSON": {newHttpMock(badData), "./bad.json", "", 500, ""},
+		"Error setting filters":      {newHttpMock(badData), queryFile, "foo|bar", 501, ""},
+		"Error from inside PostJSON": {
+			newHttpMock(badData), queryFile, "foo|bar|fizz", 502, "",
+		},
 		"Successfully POSTed to external API": {
-			newHttpMock(successData), queryFile, 200, successData,
+			newHttpMock(successData), queryFile, "foo|bar|fizz", 200, successData,
 		},
 	}
 	for testName, testCase := range tests {
@@ -37,6 +42,7 @@ func TestApiPostRequest(t *testing.T) {
 			c.SetPath("/foo") //NOTE: BUT must set the Path in Echo's context here!
 
 			os.Setenv("QUERY_FILE", testCase.QueryFile)
+			os.Setenv("FILTER_REPLACEMENTS", testCase.Filters)
 			ApiPostRequest(c)
 			if rec.Code != testCase.ExpectedStatusCode {
 				t.Errorf("Response unexpectedly sent %v instead of %v\n", rec.Code, testCase.ExpectedStatusCode)
@@ -50,4 +56,33 @@ func TestApiPostRequest(t *testing.T) {
 
 func newHttpMock(data string) test.HttpMock {
 	return test.HttpMock{RequestMethod: "POST", ResponseStatus: 200, ResponseData: data}
+}
+
+func TestSetFilters(t *testing.T) {
+	tests := map[string]struct {
+		Start       any
+		Replacement string
+		Final       any
+		Err         string
+	}{
+		"Invalid filter value": {Start: 1, Final: 1, Err: "Issue coercing JSON filter"},
+		"No matches found": {
+			Start: "foo", Final: "foo", Err: "Replacement and match length unequal",
+		},
+		"Replacements successful": {Start: "[`foo`]", Replacement: "`bar`", Final: "[`bar`]"},
+	}
+	for testName, testCase := range tests {
+		t.Run(testName, func(t *testing.T) {
+			jsonObj := map[string]any{"filter_by": testCase.Start}
+			os.Setenv("FILTER_REPLACEMENTS", testCase.Replacement)
+			err := setFilters(jsonObj)
+			finalFilter := jsonObj["filter_by"]
+			if finalFilter != testCase.Final {
+				t.Errorf("Filter wanted = %v but got %v", testCase.Replacement, finalFilter)
+			}
+			if testCase.Err != "" && !strings.HasPrefix(err.Error(), testCase.Err) {
+				t.Errorf("Error of '%v' expected but got '%v'", testCase.Err, err)
+			}
+		})
+	}
 }
