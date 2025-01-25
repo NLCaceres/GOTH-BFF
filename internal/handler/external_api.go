@@ -64,14 +64,13 @@ func setFilters(jsonObj map[string]any) error {
 	}
 
 	replacements := strings.Split(os.Getenv("FILTER_REPLACEMENTS"), "|")
-	newFilter := filter
-	if len(replacements) != len(trimmedMatches) {
-		errMsg := fmt.Sprintf("Replacement and match length unequal, %v to %v", len(replacements), len(trimmedMatches))
-		return errors.New(errMsg)
+	length := len(replacements)
+	if len(trimmedMatches) < length {
+		length = len(trimmedMatches)
 	}
-	for i, replacement := range replacements {
-		newFilter = strings.Replace(newFilter, trimmedMatches[i], replacement, 1)
+	for i := 0; i < length; i++ {
+		filter = strings.Replace(filter, trimmedMatches[i], replacements[i], 1)
 	}
-	jsonObj["filter_by"] = newFilter
+	jsonObj["filter_by"] = filter
 	return nil
 }

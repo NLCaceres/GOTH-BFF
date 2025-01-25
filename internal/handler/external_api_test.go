@@ -13,7 +13,6 @@ import (
 func TestApiPostRequest(t *testing.T) {
 	badData := `"foo":"bar"`
 	successData := "{" + badData + "}"
-	queryFile := "internal/long_query.json"
 	tests := map[string]struct {
 		Mock               test.HttpMock
 		QueryFile          string
@@ -22,12 +21,14 @@ func TestApiPostRequest(t *testing.T) {
 		ExpectedResponse   string
 	}{
 		"Error from inside ReadJSON": {newHttpMock(badData), "./bad.json", "", 500, ""},
-		"Error setting filters":      {newHttpMock(badData), queryFile, "foo|bar", 501, ""},
+		"Error setting filters": {
+			newHttpMock(badData), "internal/util/test/bad_typing.json", "", 501, "",
+		},
 		"Error from inside PostJSON": {
-			newHttpMock(badData), queryFile, "foo|bar|fizz", 502, "",
+			newHttpMock(badData), "internal/long_query.json", "foo|bar|fi", 502, "",
 		},
 		"Successfully POSTed to external API": {
-			newHttpMock(successData), queryFile, "foo|bar|fizz", 200, successData,
+			newHttpMock(successData), "internal/long_query.json", "foo|bar|fi", 200, successData,
 		},
 	}
 	for testName, testCase := range tests {
@@ -66,10 +67,16 @@ func TestSetFilters(t *testing.T) {
 		Err         string
 	}{
 		"Invalid filter value": {Start: 1, Final: 1, Err: "Issue coercing JSON filter"},
-		"No matches found": {
-			Start: "foo", Final: "foo", Err: "Replacement and match length unequal",
+		"No matches found":     {Start: "foo", Final: "foo"},
+		"One match found but multiple replacements": {
+			Start: "[`foo`]", Replacement: "foo|bar", Final: "[foo]",
 		},
-		"Replacements successful": {Start: "[`foo`]", Replacement: "`bar`", Final: "[`bar`]"},
+		"One replacement but multiple matches": {
+			Start: "[`foo`] && [`bar`]", Replacement: "fi", Final: "[fi] && [`bar`]",
+		},
+		"All replacements successful": {
+			Start: "[`foo`,`bar`] && [`fi`]", Replacement: "foo|bar", Final: "[foo] && [bar]",
+		},
 	}
 	for testName, testCase := range tests {
 		t.Run(testName, func(t *testing.T) {
