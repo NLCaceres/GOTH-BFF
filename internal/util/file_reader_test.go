@@ -14,7 +14,7 @@ func TestReadJson(t *testing.T) {
 	}
 
 	// WHEN JSON file exists but underlying JSON is malformed
-	_, badJsonErr := ReadJSON[any]("internal/util/test/bad_json.json")
+	_, badJsonErr := ReadJSON[any]("internal/util/test/bad.json")
 	if badJsonErr == nil { // THEN should receive an error back
 		t.Error("ReadJSON unexpectedly succeeded in unmarshaling JSON")
 	}
@@ -32,7 +32,7 @@ func TestReadJson(t *testing.T) {
 
 	// map[string][]map = parent jsonObj with key to an array of jsonObjs
 	// WHEN JSON file exists with valid JSON, matching the generic type
-	goodFile := "internal/util/test/good_json.json"
+	goodFile := "internal/util/test/good.json"
 	jsonMap, err := ReadJSON[map[string][]map[string]any](goodFile)
 	if err != nil { // THEN no err returned
 		t.Error("ReadJSON unexpected failed to return a map")
@@ -52,7 +52,7 @@ func TestReadFileText(t *testing.T) {
 	}
 
 	// WHEN file exists but underlying JSON is malformed
-	badJsonStr, badJsonErr := ReadFileText("internal/util/test/bad_json.json")
+	badJsonStr, badJsonErr := ReadFileText("internal/util/test/bad.json")
 	if badJsonStr == "" && badJsonErr != nil { // THEN should STILL get text back, no err
 		t.Error("ReadFileText unexpected failed to read malformed JSON into string")
 	}
