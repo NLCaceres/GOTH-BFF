@@ -40,3 +40,33 @@ func TestTitleCase(t *testing.T) {
 	}
 	// Explicitly nil values aren't allowed, so should be safe
 }
+
+func TestFindDunderVars(t *testing.T) {
+	tests := map[string]struct {
+		input  string
+		expect []string
+	}{
+		"No dunder values":      {"foo", []string{}},
+		"Missing brackets":      {"__FOO__", []string{}},
+		"Extra underscores":     {"[__FOO___]", []string{}},
+		"Extra spaces":          {"[ __FOO__ ]", []string{}},
+		"1 var found":           {"[__FOO__]", []string{"__FOO__"}},
+		"2 vars found":          {"[__FOO__][__BAR__]", []string{"__FOO__", "__BAR__"}},
+		"Spaced out vars found": {"[__FOO__] && [__BAR__]", []string{"__FOO__", "__BAR__"}},
+	}
+
+	for testName, testCase := range tests {
+		t.Run(testName, func(t *testing.T) {
+			matches, err := FindDunderVars(testCase.input)
+			if err != nil { // Only error possible BUT probably can't manually trigger it
+				t.Error("Unexpectedly found a Regexp compilation issue")
+			}
+			for i, match := range matches {
+				if match != testCase.expect[i] {
+					t.Errorf("Matches found = %v BUT expected = %v", matches, testCase.expect)
+
+				}
+			}
+		})
+	}
+}
