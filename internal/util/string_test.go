@@ -1,6 +1,9 @@
 package util
 
-import "testing"
+import (
+	"strings"
+	"testing"
+)
 
 func TestTitleCase(t *testing.T) {
 	tests := map[string]struct {
@@ -53,6 +56,37 @@ func TestFindDunderVars(t *testing.T) {
 					t.Errorf("Matches found = %v BUT expected = %v", matches, testCase.expect)
 
 				}
+			}
+		})
+	}
+}
+
+func TestUnescapeUnicodeStr(t *testing.T) {
+	tests := map[string]struct {
+		Input    string
+		Expected string
+		Err      string
+	}{
+		"An empty string returns empty":                  {"", "", ""},
+		"Normal strings returns normal":                  {"Foo", "Foo", ""},
+		"Normal sentence returns normal":                 {"Foo bar", "Foo bar", ""},
+		"String with ASCII":                              {"Foo || Bar", "Foo || Bar", ""},
+		"String with ASCII in Sequence":                  {"Foo\u007cBar", "Foo|Bar", ""},
+		"String with ASCII in Escaped Sequence":          {"Fi\\u007cZz", "Fi\u007cZz", ""},
+		"String with ASCII in Escaped Hex fails":         {"H\\u0x7cI", "", "invalid syntax"},
+		"String with ASCII in Unicode":                   {"cómo", "cómo", ""},
+		"String with ASCII in Escaped Unicode":           {"c\u00f3mo", "cómo", ""},
+		"String with ASCII in Escaped Hex Unicode fails": {"c\\u0xf3mo", "", "invalid syntax"},
+	}
+
+	for testName, testCase := range tests {
+		t.Run(testName, func(t *testing.T) {
+			str, err := UnescapeUnicodeStr([]byte(testCase.Input))
+			if err != nil && (testCase.Err == "" || !strings.HasPrefix(err.Error(), testCase.Err)) {
+				t.Errorf("Expected err = %q BUT got %q", testCase.Err, err)
+			}
+			if str != testCase.Expected {
+				t.Errorf("Expected %q but got %q", testCase.Expected, str)
 			}
 		})
 	}
