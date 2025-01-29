@@ -2,6 +2,7 @@ package test
 
 import (
 	"errors"
+	"reflect"
 	"testing"
 )
 
@@ -70,40 +71,33 @@ func TestIsBothNonNil(t *testing.T) {
 }
 
 func TestOnlyOneIsNil(t *testing.T) {
-	//NOTE: Why have `OnlyOneIsNil`? The following 3 cases highlight why
-	// It returns true if one value is nil BUT the other is non-nil
-	if !OnlyOneIsNil("", nil) {
-		t.Error("Non-nil value and nil value unexpectedly found to be both non-nil or nil")
+	tests := map[string]struct {
+		Lhs    any
+		Rhs    any
+		Expect bool
+	}{ //NOTE: Why have `OnlyOneIsNil`? The first 3 cases highlight why
+		// Return true if ONE value is nil BUT the other is non-nil
+		"One nil value & empty string": {"", nil, true},   // Only one is nil, so return true
+		"Two nil values":               {nil, nil, false}, // BOTH nil returns false
+		"Two 0s":                       {0, 0, false},     // All else should be false too
+		"Two empty strings":            {"", "", false},
+		"A 0 and empty string":         {0, "", false}, // Not checking falsy equality or type
+		"Two arrays":                   {[]int{}, []int{}, false},
+		"Two made empty arrays":        {make([]int, 0), make([]int, 0), false},
+		"Two made arrays":              {make([]int, 1), make([]int, 1), false},
+		"Two maps":                     {map[string]int{}, map[string]int{}, false},
+		"Two made maps":                {make(map[string]int), make(map[string]int), false},
 	}
-	//NOTE: It returns false if both values are nil OR both values are non-nil
-	if OnlyOneIsNil(nil, nil) { // So 2 nil values returns false
-		t.Error("Two nil values unexpectedly found to have a single non-nil value")
-	}
-	if OnlyOneIsNil(0, 0) { // and 2 concrete ints (even if 0) returns false
-		t.Error("Two int values unexpectedly found to have a single non-nil value")
-	}
-	if OnlyOneIsNil("", "") {
-		t.Error("Two string values unexpectedly found to have a single non-nil value")
-	}
-	if OnlyOneIsNil(0, "") { //NOTE: Not an equality or type check! Just checking for nil
-		t.Error("Two primitive values unexpectedly found to have a single non-nil value")
-	}
-
-	if OnlyOneIsNil([]int{}, []int{}) {
-		t.Error("Two arrays unexpectedly found to have a single non-nil value")
-	}
-	if OnlyOneIsNil(make([]int, 0), make([]int, 0)) {
-		t.Error("Two arrays unexpectedly found to have a single non-nil value")
-	}
-	if OnlyOneIsNil(make([]int, 1), make([]int, 1)) {
-		t.Error("Two arrays unexpectedly found to have a single non-nil value")
-	}
-
-	if OnlyOneIsNil(map[int]string{}, map[int]string{}) {
-		t.Error("Two maps unexpectedly found to have a single non-nil value")
-	}
-	if OnlyOneIsNil(make(map[string]int), make(map[string]int)) {
-		t.Error("Two maps unexpectedly found to have a single non-nil value")
+	for testName, testCase := range tests {
+		t.Run(testName, func(t *testing.T) {
+			if OnlyOneIsNil(testCase.Lhs, testCase.Rhs) != testCase.Expect {
+				if testCase.Lhs == nil || testCase.Rhs == nil {
+					t.Error("Two nil values unexpectedly found to have 1 non-nil value")
+				} else {
+					t.Errorf("Two %vs = %v & %v unexpectedly found to have 1 non-nil value", reflect.TypeOf(testCase.Lhs).Kind(), testCase.Lhs, testCase.Rhs)
+				}
+			}
+		})
 	}
 }
 
