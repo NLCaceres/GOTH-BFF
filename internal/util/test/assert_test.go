@@ -39,34 +39,31 @@ func TestIsBothNil(t *testing.T) {
 }
 
 func TestIsBothNonNil(t *testing.T) {
-	if IsBothNonNil(nil, nil) { // Sanity check, nil shouldn't be non-nil
-		t.Error("Two nil values found to be unexpectedly found to be non-nil")
+	tests := map[string]struct {
+		Lhs    any
+		Rhs    any
+		Expect bool
+	}{
+		"Two nil values":        {nil, nil, false}, // Ensure two nils return false
+		"Two 0s":                {0, 0, true},      // All else should be true
+		"Two empty strings":     {"", "", true},
+		"A 0 and empty string":  {0, "", true}, // JUST want to be sure both NOT nil
+		"Two arrays":            {[]int{}, []int{}, true},
+		"Two made empty arrays": {make([]int, 0), make([]int, 0), true},
+		"Two made arrays":       {make([]int, 1), make([]int, 1), true},
+		"Two maps":              {map[string]int{}, map[string]int{}, true},
+		"Two made maps":         {make(map[string]int), make(map[string]int), true},
 	}
-	if !IsBothNonNil(0, 0) {
-		t.Error("An int was found to be nil when both should be non-nil")
-	}
-	if !IsBothNonNil("", "") {
-		t.Error("An string was found to be nil when both should be non-nil")
-	}
-	if !IsBothNonNil(0, "") { // Not checking for type or equality, just that both are NOT nil
-		t.Error("An int and string were found to be nil when both should be non-nil")
-	}
-
-	if !IsBothNonNil([]int{}, []int{}) {
-		t.Error("An array was found to be nil when both should be non-nil")
-	}
-	if !IsBothNonNil(make([]int, 0), make([]int, 0)) {
-		t.Error("An array was found to be nil when both should be non-nil")
-	}
-	if !IsBothNonNil(make([]int, 1), make([]int, 1)) {
-		t.Error("An array was found to be nil when both should be non-nil")
-	}
-
-	if !IsBothNonNil(map[int]string{}, map[int]string{}) {
-		t.Error("An map was found to be nil when both should be non-nil")
-	}
-	if !IsBothNonNil(make(map[string]int), make(map[string]int)) {
-		t.Error("An map was found to be nil when both should be non-nil")
+	for testName, testCase := range tests {
+		t.Run(testName, func(t *testing.T) {
+			if IsBothNonNil(testCase.Lhs, testCase.Rhs) != testCase.Expect {
+				if testCase.Lhs == nil || testCase.Rhs == nil {
+					t.Error("Two nil values unexpectedly non-nil")
+				} else {
+					t.Errorf("Two %vs unexpectedly = %v vs %v", reflect.TypeOf(testCase.Lhs).Kind(), testCase.Lhs, testCase.Rhs)
+				}
+			}
+		})
 	}
 }
 
