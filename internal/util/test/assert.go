@@ -1,5 +1,7 @@
 package test
 
+import "strings"
+
 // Returns true is both parameters are equal to nil
 func IsBothNil(lhs any, rhs any) bool {
 	return lhs == nil && rhs == nil
@@ -14,4 +16,12 @@ func IsBothNonNil(lhs any, rhs any) bool {
 // Useful to conditionally trigger fails in tests due to unequal values
 func OnlyOneIsNil(lhs any, rhs any) bool {
 	return (lhs == nil && rhs != nil) || (lhs != nil && rhs == nil)
+}
+
+// Returns true if the error's message has the expected string as a prefix.
+// Alternatively, it returns true if the error is nil and the expected string is empty.
+func IsSameError(actual error, expect string) bool {
+	nilErrCheck := actual == nil && expect == ""
+	errorCheck := actual != nil && expect != "" && strings.HasPrefix(actual.Error(), expect)
+	return nilErrCheck || errorCheck
 }

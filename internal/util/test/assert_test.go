@@ -1,6 +1,9 @@
 package test
 
-import "testing"
+import (
+	"errors"
+	"testing"
+)
 
 func TestIsBothNil(t *testing.T) {
 	if !IsBothNil(nil, nil) { // Sanity check that both nil should return true
@@ -101,5 +104,29 @@ func TestOnlyOneIsNil(t *testing.T) {
 	}
 	if OnlyOneIsNil(make(map[string]int), make(map[string]int)) {
 		t.Error("Two maps unexpectedly found to have a single non-nil value")
+	}
+}
+
+func TestIsSameError(t *testing.T) {
+	tests := map[string]struct {
+		Err    error
+		Msg    string
+		Expect bool
+	}{
+		"No error":                            {nil, "", true},
+		"No error BUT expect message":         {nil, "Foo", false},
+		"Error BUT not expecting it":          {errors.New("Foo"), "", false},
+		"Error AND expecting it":              {errors.New("Foo"), "Foo", true},
+		"Error AND expecting similar message": {errors.New("Foo Bar"), "Foo", true},
+		"Error AND expecting longer message":  {errors.New("Foo"), "Foo Bar", false},
+		"Error AND expecting different one":   {errors.New("Bar"), "Foo", false},
+	}
+
+	for testName, testCase := range tests {
+		t.Run(testName, func(t *testing.T) {
+			if IsSameError(testCase.Err, testCase.Msg) != testCase.Expect {
+				t.Errorf("Expected errors the same = '%v' BUT got '%v'", testCase.Expect, !testCase.Expect)
+			}
+		})
 	}
 }
