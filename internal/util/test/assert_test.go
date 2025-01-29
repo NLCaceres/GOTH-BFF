@@ -7,34 +7,31 @@ import (
 )
 
 func TestIsBothNil(t *testing.T) {
-	if !IsBothNil(nil, nil) { // Sanity check that both nil should return true
-		t.Error("Two nil values unexpectedly non-nil")
+	tests := map[string]struct {
+		Lhs    any
+		Rhs    any
+		Expect bool
+	}{
+		"Two nil values":        {nil, nil, true}, // Ensure two nils return true
+		"Two 0s":                {0, 0, false},    // All else should be false
+		"Two empty strings":     {"", "", false},
+		"A 0 and empty string":  {0, "", false}, // JUST want to be sure both nil, not falsy
+		"Two arrays":            {[]int{}, []int{}, false},
+		"Two made empty arrays": {make([]int, 0), make([]int, 0), false},
+		"Two made arrays":       {make([]int, 1), make([]int, 1), false},
+		"Two maps":              {map[string]int{}, map[string]int{}, false},
+		"Two made maps":         {make(map[string]int), make(map[string]int), false},
 	}
-	if IsBothNil(0, 0) {
-		t.Error("Two ints unexpectedly nil")
-	}
-	if IsBothNil("", "") {
-		t.Error("Two strings unexpectedly nil")
-	}
-	if IsBothNil(0, "") { // Not checking if equal or same type, just checking if both nil
-		t.Error("Two primitives values unexpectedly nil")
-	}
-
-	if IsBothNil([]int{}, []int{}) {
-		t.Error("Two arrays unexpectedly nil")
-	}
-	if IsBothNil(make([]int, 0), make([]int, 0)) {
-		t.Error("Two arrays unexpectedly nil")
-	}
-	if IsBothNil(make([]int, 1), make([]int, 1)) {
-		t.Error("Two arrays unexpectedly nil")
-	}
-
-	if IsBothNil(map[int]string{}, map[int]string{}) {
-		t.Error("Two maps unexpectedly nil")
-	}
-	if IsBothNil(make(map[int]string), make(map[int]string)) {
-		t.Error("Two maps unexpectedly nil")
+	for testName, testCase := range tests {
+		t.Run(testName, func(t *testing.T) {
+			if IsBothNil(testCase.Lhs, testCase.Rhs) != testCase.Expect {
+				if testCase.Lhs == nil || testCase.Rhs == nil {
+					t.Error("Two nil values unexpectedly non-nil")
+				} else {
+					t.Errorf("Two %vs unexpectedly = %v vs %v", reflect.TypeOf(testCase.Lhs).Kind(), testCase.Lhs, testCase.Rhs)
+				}
+			}
+		})
 	}
 }
 
