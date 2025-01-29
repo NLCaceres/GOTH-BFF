@@ -7,11 +7,7 @@ import (
 )
 
 func TestIsBothNil(t *testing.T) {
-	tests := map[string]struct {
-		Lhs    any
-		Rhs    any
-		Expect bool
-	}{
+	tests := map[string]assertionTest{
 		"Two nil values":        {nil, nil, true}, // Ensure two nils return true
 		"Two 0s":                {0, 0, false},    // All else should be false
 		"Two empty strings":     {"", "", false},
@@ -36,11 +32,7 @@ func TestIsBothNil(t *testing.T) {
 }
 
 func TestIsBothNonNil(t *testing.T) {
-	tests := map[string]struct {
-		Lhs    any
-		Rhs    any
-		Expect bool
-	}{
+	tests := map[string]assertionTest{
 		"Two nil values":        {nil, nil, false}, // Ensure two nils return false
 		"Two 0s":                {0, 0, true},      // All else should be true
 		"Two empty strings":     {"", "", true},
@@ -65,12 +57,8 @@ func TestIsBothNonNil(t *testing.T) {
 }
 
 func TestOnlyOneIsNil(t *testing.T) {
-	tests := map[string]struct {
-		Lhs    any
-		Rhs    any
-		Expect bool
-	}{ //NOTE: Why have `OnlyOneIsNil`? The first 3 cases highlight why
-		// Return true if ONE value is nil BUT the other is non-nil
+	tests := map[string]assertionTest{ //NOTE: Why have `OnlyOneIsNil`?
+		// The first 3 cases illustrate: Return true if ONE value is nil BUT the other is non-nil
 		"One nil value & empty string": {"", nil, true},   // Only one is nil, so return true
 		"Two nil values":               {nil, nil, false}, // BOTH nil returns false
 		"Two 0s":                       {0, 0, false},     // All else should be false too
@@ -93,6 +81,14 @@ func TestOnlyOneIsNil(t *testing.T) {
 			}
 		})
 	}
+}
+
+// For table tests that take two values, compare them, either to each other or specific
+// values, and expect the two comparisons to yield a particular logic-based bool result
+type assertionTest struct {
+	Lhs    any
+	Rhs    any
+	Expect bool
 }
 
 func TestIsSameError(t *testing.T) {
