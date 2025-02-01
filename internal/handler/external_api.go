@@ -10,7 +10,6 @@ import (
 	"log"
 	"net/http"
 	"os"
-	"regexp"
 	"strings"
 )
 
@@ -51,25 +50,18 @@ func setFilters(jsonObj map[string]any) error {
 		errMsg := fmt.Sprintf("Issue coercing JSON filter value %v to string", jsonObj["filter_by"])
 		return errors.New(errMsg)
 	}
-	// Regex to find entire text groups like "[`foo`,`bar`]" wrapped in brackets
-	re, err := regexp.Compile("\\[{1}([A-Z]|[`-z]|,|\\s|\\/)+]{1}")
+	matches, err := util.FindDunderVars(filter)
 	if err != nil {
-		return errors.New("Issue with regex to find search filters: " + err.Error())
-	}
-
-	matches := re.FindAllString(filter, -1)
-	trimmedMatches := make([]string, len(matches))
-	for i, match := range matches { // Remove surrounding brackets
-		trimmedMatches[i] = strings.Trim(match, "[]")
+		return err
 	}
 
 	replacements := strings.Split(os.Getenv("FILTER_REPLACEMENTS"), "|")
 	length := len(replacements)
-	if len(trimmedMatches) < length {
-		length = len(trimmedMatches)
+	if len(matches) < length { //NOTE: These few lines are basically how Python's Zip works
+		length = len(matches)
 	}
-	for i := 0; i < length; i++ {
-		filter = strings.Replace(filter, trimmedMatches[i], replacements[i], 1)
+	for i := 0; i < length; i++ { // Matching all values together until one array runs out
+		filter = strings.Replace(filter, matches[i], replacements[i], 1)
 	}
 	jsonObj["filter_by"] = filter
 	return nil

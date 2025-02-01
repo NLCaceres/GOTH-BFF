@@ -68,14 +68,14 @@ func TestSetFilters(t *testing.T) {
 	}{
 		"Invalid filter value": {Start: 1, Final: 1, Err: "Issue coercing JSON filter"},
 		"No matches found":     {Start: "foo", Final: "foo"},
-		"One match found but multiple replacements": {
-			Start: "[`foo`]", Replacement: "foo|bar", Final: "[foo]",
+		"One match found but multiple replacements": { // NEED ALL CAPS DunderVars
+			Start: "[__FOO__]", Replacement: "foo|bar", Final: "[foo]",
 		},
 		"One replacement but multiple matches": {
-			Start: "[`foo`] && [`bar`]", Replacement: "fi", Final: "[fi] && [`bar`]",
+			Start: "[__FOO__] && [__BAR__]", Replacement: "fi", Final: "[fi] && [__BAR__]",
 		},
 		"All replacements successful": {
-			Start: "[`foo`,`bar`] && [`fi`]", Replacement: "foo|bar", Final: "[foo] && [bar]",
+			Start: "[__FOO__] && [__BAR__]", Replacement: "foo|bar", Final: "[foo] && [bar]",
 		},
 	}
 	for testName, testCase := range tests {
