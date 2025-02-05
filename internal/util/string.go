@@ -14,19 +14,14 @@ func TitleCase(someString string) string {
 }
 
 func FindDunderVars(str string) ([]string, error) {
-	// Regex to find "[__FOO__]" text groups. All else fails
-	re, err := regexp.Compile(`\[_{2}[A-Z]+_{2}\]`) // MUST Trim remaining "[" later
+	// Regex to find "__FOO__" text groups surrounded by any word boundary (![A-Za-z0-9_])
+	re, err := regexp.Compile(`\b_{2}[A-Z]+_{2}\b`)
 	if err != nil {
 		log.Print("Issue with regex to find search filters:", err)
 		return []string{}, err
 	}
 
-	matches := re.FindAllString(str, -1)
-	trimmedMatches := make([]string, len(matches))
-	for i, match := range matches { // Remove surrounding brackets
-		trimmedMatches[i] = strings.Trim(match, "[]")
-	}
-	return trimmedMatches, nil
+	return re.FindAllString(str, -1), nil
 }
 
 // Converts a string containing Unicode representations of characters

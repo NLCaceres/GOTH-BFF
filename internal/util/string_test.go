@@ -36,13 +36,26 @@ func TestFindDunderVars(t *testing.T) {
 		input  string
 		expect []string
 	}{
-		"No dunder values":      {"foo", []string{}},
-		"Missing brackets":      {"__FOO__", []string{}},
-		"Extra underscores":     {"[__FOO___]", []string{}},
-		"Extra spaces":          {"[ __FOO__ ]", []string{}},
-		"1 var found":           {"[__FOO__]", []string{"__FOO__"}},
-		"2 vars found":          {"[__FOO__][__BAR__]", []string{"__FOO__", "__BAR__"}},
-		"Spaced out vars found": {"[__FOO__] && [__BAR__]", []string{"__FOO__", "__BAR__"}},
+		"No dunder values":         {"foo", []string{}},
+		"Incorrect lowercasing":    {"__foo__", []string{}},
+		"Incorrect normal casing":  {"__Foo__", []string{}},
+		"Missing brackets":         {"__FOO__", []string{"__FOO__"}},
+		"Underscored Var name":     {"__DUNDER_VAR__", []string{"__DUNDER_VAR__"}},
+		"Backtick word boundary":   {"`__FOO__`", []string{"__FOO__"}},
+		"Apostrophe word boundary": {"'__FOO__'", []string{"__FOO__"}},
+		"Space word boundary":      {" __FOO__ ", []string{"__FOO__"}},
+		"Hyphen word boundary":     {"-__FOO__-", []string{"__FOO__"}},
+		"Slash word boundary":      {"/__FOO__/", []string{"__FOO__"}},
+		"Star word boundary":       {"***__FOO__***", []string{"__FOO__"}},
+		"'()' word boundary":       {"(__FOO__)", []string{"__FOO__"}},
+		"'{}' word boundary":       {"{__FOO__}", []string{"__FOO__"}},
+		"'<>' word boundary":       {"<__FOO__>", []string{"__FOO__"}},
+		"Character word boundary":  {"a__FOO__b", []string{}},
+		"Extra underscores":        {"[__FOO___]", []string{}},
+		"Extra spaces":             {"[ __FOO__ ]", []string{"__FOO__"}},
+		"1 var found":              {"[__FOO__]", []string{"__FOO__"}},
+		"2 vars found":             {"[__FOO__][__BAR__]", []string{"__FOO__", "__BAR__"}},
+		"Spaced out vars found":    {"[__FOO__] && [__BAR__]", []string{"__FOO__", "__BAR__"}},
 	}
 
 	for testName, testCase := range tests {
