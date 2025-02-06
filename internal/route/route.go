@@ -1,32 +1,30 @@
 package route
 
 import (
-	"fmt"
+	"github.com/NLCaceres/goth-example/internal/handler"
 	"github.com/NLCaceres/goth-example/internal/util"
 	"github.com/labstack/echo/v4"
-	"net/http"
 	"os"
 	"strings"
 )
 
 // NOTE: Public funcs in Go start with a capital 1st letter, no keyword needed
+
 func Routes(app *echo.Echo) {
 	routeMap := mapFromString(os.Getenv("ROUTE_MAP"))
 
-	appRoutes := strings.Split(os.Getenv("APP_ROUTES"), ",") // Load comma-separated routes from `.env`
+	appRoutes := strings.Split(os.Getenv("APP_ROUTES"), ",") // Get comma-delim'd route paths
 	for _, route := range appRoutes {
 		routePath := "/" + route
 		var routeFormatted string
-		if routeReadable, ok := routeMap[route]; ok { // `ok` is false if no value exists for given key
-			routeFormatted = routeReadable // No formatting needed if readable version of route exists in map
+		if routeReadable, ok := routeMap[route]; ok { // `ok` = true if value is in map
+			routeFormatted = routeReadable // No formatting needed for existing readable version
 		} else {
 			routeFormatted = util.TitleCase(route)
 		}
 		routeFormattedPath := "/" + routeFormatted
 
-		handler := func(c echo.Context) error {
-			return c.String(http.StatusOK, fmt.Sprintf("Hello %s", routeFormatted))
-		}
+		handler := func(c echo.Context) error { return handler.ApiPostRequest(c) }
 		app.GET(routePath, handler)
 		app.GET(routeFormattedPath, handler)
 	}
