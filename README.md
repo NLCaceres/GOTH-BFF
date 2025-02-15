@@ -46,6 +46,12 @@ of the page routing
 - `go mod tidy` - Clean up and optimize dependencies in `go.mod` and `go.sum` files
   - VERY useful since it can it act similarly to `go get .` and help install dependencies
   you may have missed, remove unused dependencies, downgrade or upgrade them, etc.
+- `go run cmd/main.go` - Runs `main()` inside the cmd folder's `main.go` file
+  - To run the module with live reloading, install `github.com/bokwoon95/wgo`
+  and convert `go run` to `wgo run`
+- `go install <github-url/external-module>@latest`
+  - Installs a module's globally runnable executable
+  - DOESN'T affect your local module as long as a version is included, e.g. "@latest"
 
 ### Testing
 
