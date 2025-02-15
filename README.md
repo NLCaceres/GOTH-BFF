@@ -35,6 +35,18 @@ of the page routing
    - [Advanced patterns in Go standard library routing video](https://www.youtube.com/watch?v=H7tbjKFSg58)
 7. Dockerize for easy building, sharing and running
 
+### Helpful Go Commands
+
+- `go get <github-url>` - Install new dependency
+  - `go get <github-url>@none` - Removes dependency
+  - `go get .` - Finds external dependencies in current package files to install
+- `go mod init <my-github/root-folder>`
+  - Run in root folder to set up dependency tracking creating `go.mod`, i.e.
+  `go mod init github.com/NLCaceres/goth-example` sets up a "goth-example" module
+- `go mod tidy` - Clean up and optimize dependencies in `go.mod` and `go.sum` files
+  - VERY useful since it can it act similarly to `go get .` and help install dependencies
+  you may have missed, remove unused dependencies, downgrade or upgrade them, etc.
+
 ### Testing
 
 Golang testing is pretty awesome! It is particularly awesome, because everything
