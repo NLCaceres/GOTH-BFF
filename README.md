@@ -37,6 +37,10 @@ of the page routing
 
 ### Helpful Go Commands
 
+- `make run` - Runs `main()` in `cmd/main.go` to setup server
+  - `make watch` - Runs `main()` via `wgo` to restart server on code updates
+  - All commands created in a `Makefile` can be run similarly by prepending
+  `make` before the name of the command, e.g. `make lint`, `make build`, etc
 - `go get <github-url>` - Install new dependency
   - `go get <github-url>@none` - Removes dependency
   - `go get .` - Finds external dependencies in current package files to install
