@@ -40,6 +40,11 @@ of the page routing
 - `go get <github-url>` - Install new dependency
   - `go get <github-url>@none` - Removes dependency
   - `go get .` - Finds external dependencies in current package files to install
+  - `go get -tool <github-url>` - Installs tool dependencies
+    - Adds `tool` directive to `go.mod` for pkgs like linters/formatters/builders
+    - Pre-Go v1.24 tool dependencies could be split off into a `/internal/tools`
+    package with a `tools.go` file importing the tools and a `go.mod` requiring them.
+    BUT, this would require a `Makefile` command to globally install the runnables
 - `go mod init <my-github/root-folder>`
   - Run in root folder to set up dependency tracking creating `go.mod`, i.e.
   `go mod init github.com/NLCaceres/goth-example` sets up a "goth-example" module
