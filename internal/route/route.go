@@ -13,8 +13,10 @@ import (
 func Routes(app *echo.Echo) {
 	routeMap := mapFromString(os.Getenv("ROUTE_MAP"))
 
-	appRoutes := strings.Split(os.Getenv("APP_ROUTES"), ",") // Get comma-delim'd route paths
-	for _, route := range appRoutes {
+	app.GET("/", handler.RenderView)
+
+	apiRoutes := strings.Split(os.Getenv("APP_ROUTES"), ",") // Get comma-delim'd route paths
+	for _, route := range apiRoutes {
 		routePath := "/" + route
 		var routeFormatted string
 		if routeReadable, ok := routeMap[route]; ok { // `ok` = true if value is in map
