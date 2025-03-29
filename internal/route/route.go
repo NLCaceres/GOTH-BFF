@@ -26,9 +26,8 @@ func Routes(app *echo.Echo) {
 		}
 		routeFormattedPath := "/" + routeFormatted
 
-		handler := func(c echo.Context) error { return handler.ApiPostRequest(c) }
-		app.GET(routePath, handler)
-		app.GET(routeFormattedPath, handler)
+		app.GET(routePath, handler.ApiPostRequest)
+		app.GET(routeFormattedPath, handler.ApiPostRequest)
 	}
 }
 
