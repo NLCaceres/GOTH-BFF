@@ -1,11 +1,29 @@
 package view
 
+import (
+	"os"
+	"strings"
+	"github.com/NLCaceres/goth-example/internal/util"
+)
+
 templ head(title string) {
 	<head>
 		<title>{ title }</title>
 		<meta charset="UTF-8"/>
 		<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
 	</head>
+}
+
+templ navbar(navItems []string) {
+	<nav>
+		for _, item := range navItems {
+			if !strings.Contains(item, "-") {
+				<a href={ templ.URL("/" + item) } style="padding-right:1rem;">
+					{ util.TitleCase(item) }
+				</a>
+			}
+		}
+	</nav>
 }
 
 templ footer() {
@@ -15,6 +33,7 @@ templ footer() {
 templ HTMLIndex(contents templ.Component, title string) {
 	@head(title)
 	<body>
+		@navbar(strings.Split(os.Getenv("APP_ROUTES"), ","))
 		<main>
 			@contents
 		</main>
