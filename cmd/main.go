@@ -29,6 +29,8 @@ func main() {
 		},
 	}))
 
+	app.Use(middleware.Static("static"))
+
 	route.Routes(app) // Routes must ALSO be declared before `app.Start` is called
 
 	app.Logger.Debug(app.Start("localhost:3000"))
