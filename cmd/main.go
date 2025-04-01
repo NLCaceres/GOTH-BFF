@@ -7,6 +7,7 @@ import (
 	"github.com/labstack/echo/v4"
 	"github.com/labstack/echo/v4/middleware"
 	"log"
+	"slices"
 )
 
 func main() {
@@ -29,7 +30,12 @@ func main() {
 		},
 	}))
 
-	app.Use(middleware.Static("static"))
+	app.Use(middleware.StaticWithConfig(middleware.StaticConfig{
+		Root: "static",
+		Skipper: func(c echo.Context) bool { // Skip if returning true
+			return !slices.Contains(c.Request().Header["Origin"], "http://localhost:3000")
+		},
+	}))
 
 	route.Routes(app) // Routes must ALSO be declared before `app.Start` is called
 
