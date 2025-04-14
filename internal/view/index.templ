@@ -4,6 +4,7 @@ import (
 	"os"
 	"strings"
 	"github.com/NLCaceres/goth-example/internal/util"
+	"github.com/NLCaceres/goth-example/internal/util/list"
 )
 
 templ head(title string) {
@@ -17,7 +18,7 @@ templ head(title string) {
 
 templ navbar(navItems []string) {
 	<nav>
-		for _, item := range navItems {
+		for _, item := range list.DistinctBy(navItems, func(str string) string { return strings.ToLower(str) }) {
 			if !strings.Contains(item, "-") {
 				<a href={ templ.URL("/" + item) } style="padding-right:1rem;">
 					{ util.TitleCase(item) }
