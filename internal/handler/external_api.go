@@ -6,6 +6,7 @@ import (
 	"errors"
 	"fmt"
 	"github.com/NLCaceres/goth-example/internal/util"
+	matcher "github.com/NLCaceres/goth-example/internal/util/strings"
 	"github.com/labstack/echo/v4"
 	"log"
 	"net/http"
@@ -50,7 +51,7 @@ func setFilters(jsonObj map[string]any) error {
 		errMsg := fmt.Sprintf("Issue coercing JSON filter value %v to string", jsonObj["filter_by"])
 		return errors.New(errMsg)
 	}
-	matches, err := util.FindDunderVars(filter)
+	matches, err := matcher.FindDunderVars(filter)
 	if err != nil {
 		return err
 	}
