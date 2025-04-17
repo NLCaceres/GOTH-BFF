@@ -1,4 +1,4 @@
-package util
+package stringy
 
 import (
 	"golang.org/x/text/cases"
