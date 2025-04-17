@@ -2,7 +2,7 @@ package route
 
 import (
 	"github.com/NLCaceres/goth-example/internal/handler"
-	formatter "github.com/NLCaceres/goth-example/internal/util/strings"
+	"github.com/NLCaceres/goth-example/internal/util/stringy"
 	"github.com/labstack/echo/v4"
 	"os"
 	"strings"
@@ -21,7 +21,7 @@ func Routes(app *echo.Echo) {
 		if routeReadable, ok := routeMap[route]; ok { // `ok` = true if value is in map
 			routeFormatted = routeReadable // No formatting needed for existing readable version
 		} else {
-			routeFormatted = formatter.TitleCase(route)
+			routeFormatted = stringy.TitleCase(route)
 		}
 		routeFormattedPath := "/" + routeFormatted
 

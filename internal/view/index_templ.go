@@ -9,8 +9,8 @@ import "github.com/a-h/templ"
 import templruntime "github.com/a-h/templ/runtime"
 
 import (
-	"github.com/NLCaceres/goth-example/internal/util"
 	"github.com/NLCaceres/goth-example/internal/util/list"
+	"github.com/NLCaceres/goth-example/internal/util/stringy"
 	"os"
 	"strings"
 )
@@ -98,9 +98,9 @@ func navbar(navItems []string) templ.Component {
 					return templ_7745c5c3_Err
 				}
 				var templ_7745c5c3_Var5 string
-				templ_7745c5c3_Var5, templ_7745c5c3_Err = templ.JoinStringErrs(util.TitleCase(item))
+				templ_7745c5c3_Var5, templ_7745c5c3_Err = templ.JoinStringErrs(stringy.TitleCase(item))
 				if templ_7745c5c3_Err != nil {
-					return templ.Error{Err: templ_7745c5c3_Err, FileName: `internal/view/index.templ`, Line: 24, Col: 27}
+					return templ.Error{Err: templ_7745c5c3_Err, FileName: `internal/view/index.templ`, Line: 24, Col: 30}
 				}
 				_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var5))
 				if templ_7745c5c3_Err != nil {
