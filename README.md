@@ -92,3 +92,12 @@ packages you've created as args and also offers a `-v` flag for detailed logging
  which makes it easier to run tests for specific packages in your project
   - `go test ./... -coverpkg=./...` can be used to get testing code coverage for
   your entire project
+
+### Helpful Golang Style Guides
+
+1. [Google Style Guide](https://google.github.io/styleguide/go/)
+    - Style Decisions is very helpful in understanding specific reasoning behind
+    Go's features & their usage whether package naming, initializers/getters or methods
+    - Best Practices details many of Go's most common patterns to common problems
+2. [Effective Go](https://go.dev/doc/effective_go)
+    - Effectively, a more concise version of Google's Style Guide
