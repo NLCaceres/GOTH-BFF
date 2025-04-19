@@ -18,8 +18,8 @@ type HttpMock struct { // Lowercased Struct fields ARE package private!
 // - Replace `reflect.DeepEquals` with `cmp.Equals` in tests
 // - Embrace zero initialiers (string's "", int's 0, bool's false, etc)
 // like `new(SomeStruct)` over `&SomeStruct{}` if initial values aren't important
-func NewTestHandlerFunc(t *testing.T, mock HttpMock) http.HandlerFunc {
-	return http.HandlerFunc(func(rw http.ResponseWriter, r *http.Request) {
+func HttpHandlerFunc(t *testing.T, mock HttpMock) http.HandlerFunc {
+	return func(rw http.ResponseWriter, r *http.Request) {
 		if r.Method != mock.RequestMethod {
 			t.Errorf("Unexpected Request method = %s", r.Method)
 		}
@@ -36,5 +36,5 @@ func NewTestHandlerFunc(t *testing.T, mock HttpMock) http.HandlerFunc {
 		for key, value := range mock.ResponseHeaders {
 			rw.Header().Set(key, value)
 		}
-	})
+	}
 }

@@ -33,7 +33,7 @@ func TestApiPostRequest(t *testing.T) {
 	}
 	for testName, testCase := range tests {
 		t.Run(testName, func(t *testing.T) {
-			server := httptest.NewServer(test.NewTestHandlerFunc(t, testCase.Mock))
+			server := httptest.NewServer(test.HttpHandlerFunc(t, testCase.Mock))
 			defer server.Close()
 			os.Setenv("EXTERNAL_API_URL", server.URL)
 			// Actual request from client NOT relevant to the test since only grabbing its Path

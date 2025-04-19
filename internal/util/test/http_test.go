@@ -6,7 +6,7 @@ import (
 	"testing"
 )
 
-func TestNewTestHandlerFunc(t *testing.T) {
+func TestHttpHandlerFunc(t *testing.T) {
 	var tests = map[string]struct {
 		input         HttpMock
 		expectedCount int
@@ -21,7 +21,7 @@ func TestNewTestHandlerFunc(t *testing.T) {
 
 	for testName, test := range tests {
 		t.Run(testName, func(t *testing.T) {
-			handler := NewTestHandlerFunc(t, test.input)
+			handler := HttpHandlerFunc(t, test.input)
 			mockRequest, _ := http.NewRequest(test.input.RequestMethod, test.input.RequestURL, bytes.NewBuffer([]byte(``)))
 			// Setting the Map keys ensures it's checked when the funcs under test are NOT called
 			mockResponseWriter := mockResponseWriter{t, map[string]int{"WriteHeader": 0, "Write": 0, "Header": 0}}

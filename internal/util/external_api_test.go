@@ -30,7 +30,7 @@ func TestPostRequest(t *testing.T) {
 
 	for testName, testCase := range tests {
 		t.Run(testName, func(t *testing.T) {
-			server := httptest.NewServer(test.NewTestHandlerFunc(t, testCase.ServerMock))
+			server := httptest.NewServer(test.HttpHandlerFunc(t, testCase.ServerMock))
 			defer server.Close()
 
 			serverURL := server.URL + testCase.PostURL
@@ -66,7 +66,7 @@ func TestPostJSON(t *testing.T) {
 	}
 	for testName, testCase := range tests {
 		t.Run(testName, func(t *testing.T) {
-			server := httptest.NewServer(test.NewTestHandlerFunc(t, testCase.ServerMock))
+			server := httptest.NewServer(test.HttpHandlerFunc(t, testCase.ServerMock))
 			defer server.Close()
 
 			serverURL := server.URL + "/foo"
