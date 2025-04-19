@@ -1,4 +1,4 @@
-package util
+package projectpath
 
 import (
 	"github.com/joho/godotenv"

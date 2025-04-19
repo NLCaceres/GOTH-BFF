@@ -1,5 +1,7 @@
-package util
+package projectpath
 
+// Directory names should match package names - short, flatcased, abbreviated when easily understood
+// File names CAN have underscores BUT largely don't in Google's source code
 import (
 	"path/filepath"
 	"runtime"
