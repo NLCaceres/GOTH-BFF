@@ -12,10 +12,10 @@ func TestHttpHandlerFunc(t *testing.T) {
 		expectedCount int
 	}{
 		"Calls WriteHeader, Write & Header ONCE": {
-			newHttpMock(200, `{"foo":"bar"}`, map[string]string{"Content-Length": "1"}), 1,
+			httpMock(200, `{"foo":"bar"}`, map[string]string{"Content-Length": "1"}), 1,
 		},
 		"DOESN'T Call WriteHeader, Write, or Header": {
-			newHttpMock(0, ``, nil), 0,
+			httpMock(0, ``, nil), 0,
 		}, // NOTE: Adding a test case for when Request Methods ("POST, "GET", etc) don't match ALWAYS fails
 	} // due to underlying `t.Error()` AND the fail CAN'T be prevented, so maybe rewrite Handler later?
 
@@ -55,6 +55,6 @@ func (rw mockResponseWriter) WriteHeader(statusCode int) {
 	rw.CallCounter["WriteHeader"]++
 }
 
-func newHttpMock(statusCode int, responseData string, responseHeaders map[string]string) HttpMock {
+func httpMock(statusCode int, responseData string, responseHeaders map[string]string) HttpMock {
 	return HttpMock{"GET", "/fizz", statusCode, responseData, responseHeaders}
 }

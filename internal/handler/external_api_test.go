@@ -20,15 +20,15 @@ func TestApiPostRequest(t *testing.T) {
 		ExpectedStatusCode int
 		ExpectedResponse   string
 	}{
-		"Error from inside ReadJSON": {newHttpMock(badData), "./bad.json", "", 500, ""},
+		"Error from inside ReadJSON": {httpMock(badData), "./bad.json", "", 500, ""},
 		"Error setting filters": {
-			newHttpMock(badData), "internal/util/test/bad_typing.json", "", 501, "",
+			httpMock(badData), "internal/util/test/bad_typing.json", "", 501, "",
 		},
 		"Error from inside PostJSON": {
-			newHttpMock(badData), "internal/long_query.json", "foo|bar|fi", 502, "",
+			httpMock(badData), "internal/long_query.json", "foo|bar|fi", 502, "",
 		},
 		"Successfully POSTed to external API": {
-			newHttpMock(successData), "internal/long_query.json", "foo|bar|fi", 200, successData,
+			httpMock(successData), "internal/long_query.json", "foo|bar|fi", 200, successData,
 		},
 	}
 	for testName, testCase := range tests {
@@ -55,7 +55,7 @@ func TestApiPostRequest(t *testing.T) {
 	}
 }
 
-func newHttpMock(data string) test.HttpMock {
+func httpMock(data string) test.HttpMock {
 	return test.HttpMock{RequestMethod: "POST", ResponseStatus: 200, ResponseData: data}
 }
 
