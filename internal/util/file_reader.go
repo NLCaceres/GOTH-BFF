@@ -3,6 +3,7 @@ package util
 import (
 	"encoding/json"
 	"errors"
+	"github.com/NLCaceres/goth-example/internal/util/projectpath"
 	"os"
 	"strings"
 )
@@ -18,7 +19,7 @@ func ReadJSON[T any](filePath string) (T, error) {
 		return jsonMap, errors.New("Incorrect File Type: Expected \".json\" file")
 	}
 	// Using ReadFile handles Opening, Closing and Reading the file directly into []byte
-	fileBytes, err := os.ReadFile(GetProjectFile(filePath))
+	fileBytes, err := os.ReadFile(projectpath.File(filePath))
 	if err != nil {
 		return jsonMap, err
 	}
@@ -34,7 +35,7 @@ func ReadJSON[T any](filePath string) (T, error) {
 func ReadFileText(filePath string) (string, error) {
 	var queryObj string
 
-	fileBytes, err := os.ReadFile(GetProjectFile(filePath))
+	fileBytes, err := os.ReadFile(projectpath.File(filePath))
 	if err != nil {
 		return queryObj, err
 	}

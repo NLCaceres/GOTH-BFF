@@ -8,15 +8,15 @@ import (
 )
 
 // Path of the Project Root Folder
-var ProjectRoot = findProjectRoot()
+var Root = findRoot()
 
 // Uses runtime.Caller to get this file's name
 // Then uses the file's name to get its directory
 // And jump back from `util` to `internal` then the project root
 // To be reusable, it expects future Go projects to follow a similar folder structure
-func findProjectRoot() string {
+func findRoot() string {
 	_, b, _, _ := runtime.Caller(0)
-	projectRoot := filepath.Join(filepath.Dir(b), "../..")
+	projectRoot := filepath.Join(filepath.Dir(b), "../../..")
 
 	return projectRoot
 }
@@ -24,6 +24,6 @@ func findProjectRoot() string {
 // Takes the path of a file relative to the project root folder
 // and returns the concatenated path as a string ready for use
 // by funcs like `Open` or `ReadFile`
-func GetProjectFile(filePath string) string {
-	return filepath.Join(ProjectRoot, filePath)
+func File(filePath string) string {
+	return filepath.Join(Root, filePath)
 }
