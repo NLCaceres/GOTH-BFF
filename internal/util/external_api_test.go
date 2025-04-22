@@ -4,6 +4,7 @@ import (
 	"bytes"
 	"errors"
 	"github.com/NLCaceres/goth-example/internal/util/test"
+	"github.com/google/go-cmp/cmp"
 	"net/http/httptest"
 	"testing"
 )
@@ -72,13 +73,8 @@ func TestPostJSON(t *testing.T) {
 			serverURL := server.URL + "/foo"
 			requestBody := bytes.NewBuffer([]byte(`{"foo":"bar"}`))
 			responseData, err := PostJSON(serverURL, requestBody)
-			if test.OnlyOneIsNil(testCase.ExpectedResponse, responseData) {
-				t.Errorf("Response data expected to be nil but was actually filled")
-			}
-			for key, expectedValue := range testCase.ExpectedResponse {
-				if actualValue, ok := responseData[key]; !ok || expectedValue != actualValue {
-					t.Errorf("Response map key %v has value of %v instead of %v", key, actualValue, expectedValue)
-				}
+			if !cmp.Equal(testCase.ExpectedResponse, responseData) {
+				t.Errorf("Expected response of %v but got %v", testCase.ExpectedResponse, responseData)
 			}
 			if test.OnlyOneIsNil(testCase.ExpectedErr, err) {
 				t.Errorf("Error unexpectedly = %v when it should NOT have been", err)

@@ -1,6 +1,9 @@
 package route
 
-import "testing"
+import (
+	"github.com/google/go-cmp/cmp"
+	"testing"
+)
 
 func TestMapFromString(t *testing.T) {
 	//NOTE: Instead of a []struct slice, using a map catches unexpected data mutations
@@ -35,6 +38,9 @@ func TestMapFromString(t *testing.T) {
 		t.Run(testName, func(t *testing.T) {
 			output := mapFromString(test.input)
 
+			if !cmp.Equal(test.want, output) {
+				t.Errorf("Expected %v but got %v", test.want, output)
+			}
 			for key, value := range output {
 				if test.want[key] != value {
 					t.Errorf("Key %q should have a value of %q BUT has a value of %q", key, value, test.want[key])
