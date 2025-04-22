@@ -1,7 +1,7 @@
 package list
 
 import (
-	"reflect"
+	"github.com/google/go-cmp/cmp"
 	"strings"
 	"testing"
 )
@@ -22,7 +22,7 @@ func TestFilter(t *testing.T) {
 	for testName, testCase := range tests {
 		t.Run(testName, func(t *testing.T) {
 			actual := Filter(testCase.InitList, testCase.FilterFunc)
-			if !reflect.DeepEqual(testCase.ExpectList, actual) {
+			if !cmp.Equal(testCase.ExpectList, actual) {
 				t.Errorf("Expected %v but got %v", testCase.ExpectList, actual)
 			}
 		})
@@ -48,7 +48,7 @@ func TestDistinctBy(t *testing.T) {
 	for testName, testCase := range tests {
 		t.Run(testName, func(t *testing.T) {
 			actual := DistinctBy(testCase.InitList, testCase.SelectorFunc)
-			if !reflect.DeepEqual(testCase.ExpectList, actual) {
+			if !cmp.Equal(testCase.ExpectList, actual) {
 				t.Errorf("Expected %v but got %v", testCase.ExpectList, actual)
 			}
 		})

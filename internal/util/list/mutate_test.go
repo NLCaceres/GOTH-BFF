@@ -1,7 +1,7 @@
 package list
 
 import (
-	"reflect"
+	"github.com/google/go-cmp/cmp"
 	"strconv"
 	"strings"
 	"testing"
@@ -20,7 +20,7 @@ func TestForEach(t *testing.T) {
 	for testName, testCase := range tests {
 		t.Run(testName, func(t *testing.T) {
 			actual, err := ForEach(testCase.InitList, mapper)
-			if !reflect.DeepEqual(testCase.ExpectList, actual) {
+			if !cmp.Equal(testCase.ExpectList, actual) {
 				t.Errorf("Expected %v but got %v\n", testCase.ExpectList, actual)
 			}
 			if err != nil && !strings.Contains(err.Error(), testCase.ErrMsg) {
