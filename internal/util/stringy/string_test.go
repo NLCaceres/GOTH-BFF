@@ -1,6 +1,8 @@
 package stringy
 
 import (
+	"github.com/google/go-cmp/cmp"
+	"github.com/google/go-cmp/cmp/cmpopts"
 	"strings"
 	"testing"
 )
@@ -64,11 +66,9 @@ func TestFindDunderVars(t *testing.T) {
 			if err != nil { // Only error possible BUT probably can't manually trigger it
 				t.Error("Unexpectedly found a Regexp compilation issue")
 			}
-			for i, match := range matches {
-				if match != testCase.expect[i] {
-					t.Errorf("Matches found = %v BUT expected = %v", matches, testCase.expect)
 
-				}
+			if !cmp.Equal(testCase.expect, matches, cmpopts.EquateEmpty()) {
+				t.Errorf("Matches found = %v BUT expected %v", matches, testCase.expect)
 			}
 		})
 	}
