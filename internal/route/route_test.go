@@ -41,11 +41,6 @@ func TestMapFromString(t *testing.T) {
 			if !cmp.Equal(test.want, output) {
 				t.Errorf("Expected %v but got %v", test.want, output)
 			}
-			for key, value := range output {
-				if test.want[key] != value {
-					t.Errorf("Key %q should have a value of %q BUT has a value of %q", key, value, test.want[key])
-				}
-			}
 		})
 	}
 }
