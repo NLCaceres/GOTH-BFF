@@ -15,7 +15,7 @@ func TitleCase(someString string) string {
 
 func FindDunderVars(str string) ([]string, error) {
 	// Regex to find "__FOO__" text groups surrounded by any word boundary (![A-Za-z0-9_])
-	re, err := regexp.Compile(`\b_{2}[A-Z]+_{2}\b`)
+	re, err := regexp.Compile(`\b_{2}[A-Z]+(_?[A-Z])*_{2}\b`)
 	if err != nil {
 		log.Print("Issue with regex to find search filters:", err)
 		return []string{}, err
