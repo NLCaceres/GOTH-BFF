@@ -61,30 +61,30 @@ func httpMock(data string) test.HttpMock {
 
 func TestSetFilters(t *testing.T) {
 	tests := map[string]struct {
-		Start       any
+		Input       any
 		Replacement string
-		Final       any
+		Expect      any
 		Err         string
 	}{
-		"Invalid filter value": {Start: 1, Final: 1, Err: "Issue coercing JSON filter"},
-		"No matches found":     {Start: "foo", Final: "foo"},
+		"Invalid filter value": {Input: 1, Expect: 1, Err: "Issue coercing JSON filter"},
+		"No matches found":     {Input: "foo", Expect: "foo"},
 		"One match found but multiple replacements": { // NEED ALL CAPS DunderVars
-			Start: "[__FOO__]", Replacement: "foo|bar", Final: "[foo]",
+			Input: "[__FOO__]", Replacement: "foo|bar", Expect: "[foo]",
 		},
 		"One replacement but multiple matches": {
-			Start: "[__FOO__] && [__BAR__]", Replacement: "fi", Final: "[fi] && [__BAR__]",
+			Input: "[__FOO__] && [__BAR__]", Replacement: "fi", Expect: "[fi] && [__BAR__]",
 		},
 		"All replacements successful": {
-			Start: "[__FOO__] && [__BAR__]", Replacement: "foo|bar", Final: "[foo] && [bar]",
+			Input: "[__FOO__] && [__BAR__]", Replacement: "foo|bar", Expect: "[foo] && [bar]",
 		},
 	}
 	for testName, testCase := range tests {
 		t.Run(testName, func(t *testing.T) {
-			jsonObj := map[string]any{"filter_by": testCase.Start}
+			jsonObj := map[string]any{"filter_by": testCase.Input}
 			os.Setenv("FILTER_REPLACEMENTS", testCase.Replacement)
 			err := setFilters(jsonObj)
 			finalFilter := jsonObj["filter_by"]
-			if finalFilter != testCase.Final {
+			if finalFilter != testCase.Expect {
 				t.Errorf("Filter wanted = %v but got %v", testCase.Replacement, finalFilter)
 			}
 			if err != nil && (testCase.Err == "" || !strings.HasPrefix(err.Error(), testCase.Err)) {

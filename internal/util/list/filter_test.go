@@ -8,8 +8,8 @@ import (
 
 func TestFilter(t *testing.T) {
 	tests := map[string]struct {
-		InitList   []string
-		ExpectList []string
+		Input      []string
+		Expect     []string
 		FilterFunc func(string) bool
 	}{
 		"Filters out chars after c": {[]string{"c", "d", "e"}, []string{"c"}, func(str string) bool {
@@ -21,9 +21,9 @@ func TestFilter(t *testing.T) {
 	}
 	for testName, testCase := range tests {
 		t.Run(testName, func(t *testing.T) {
-			actual := Filter(testCase.InitList, testCase.FilterFunc)
-			if !cmp.Equal(testCase.ExpectList, actual) {
-				t.Errorf("Expected %v but got %v", testCase.ExpectList, actual)
+			actual := Filter(testCase.Input, testCase.FilterFunc)
+			if !cmp.Equal(testCase.Expect, actual) {
+				t.Errorf("Expected %v but got %v", testCase.Expect, actual)
 			}
 		})
 	}
@@ -31,8 +31,8 @@ func TestFilter(t *testing.T) {
 
 func TestDistinctBy(t *testing.T) {
 	tests := map[string]struct {
-		InitList     []string
-		ExpectList   []string
+		Input        []string
+		Expect       []string
 		SelectorFunc func(string) any
 	}{
 		"Gets distinct strings by length": {[]string{"a", "ab", "de"}, []string{"a", "ab"},
@@ -47,9 +47,9 @@ func TestDistinctBy(t *testing.T) {
 	}
 	for testName, testCase := range tests {
 		t.Run(testName, func(t *testing.T) {
-			actual := DistinctBy(testCase.InitList, testCase.SelectorFunc)
-			if !cmp.Equal(testCase.ExpectList, actual) {
-				t.Errorf("Expected %v but got %v", testCase.ExpectList, actual)
+			actual := DistinctBy(testCase.Input, testCase.SelectorFunc)
+			if !cmp.Equal(testCase.Expect, actual) {
+				t.Errorf("Expected %v but got %v", testCase.Expect, actual)
 			}
 		})
 	}

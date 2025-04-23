@@ -7,9 +7,9 @@ import (
 
 func TestMapFromString(t *testing.T) {
 	//NOTE: Instead of a []struct slice, using a map catches unexpected data mutations
-	var tests = map[string]struct {
-		input string
-		want  map[string]string
+	tests := map[string]struct {
+		Input  string
+		Expect map[string]string
 	}{ // Laying out maps as follows is probably best for `gofmt`,
 		"Empty string": { // otherwise it expects a single line per key-value pair
 			"", make(map[string]string),
@@ -34,12 +34,12 @@ func TestMapFromString(t *testing.T) {
 		},
 	}
 
-	for testName, test := range tests {
+	for testName, testCase := range tests {
 		t.Run(testName, func(t *testing.T) {
-			output := mapFromString(test.input)
+			output := mapFromString(testCase.Input)
 
-			if !cmp.Equal(test.want, output) {
-				t.Errorf("Expected %v but got %v", test.want, output)
+			if !cmp.Equal(testCase.Expect, output) {
+				t.Errorf("Expected %v but got %v", testCase.Expect, output)
 			}
 		})
 	}

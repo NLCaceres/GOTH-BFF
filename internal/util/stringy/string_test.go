@@ -35,8 +35,8 @@ func TestTitleCase(t *testing.T) {
 
 func TestFindDunderVars(t *testing.T) {
 	tests := map[string]struct {
-		input  string
-		expect []string
+		Input  string
+		Expect []string
 	}{
 		"No dunder values":         {"foo", []string{}},
 		"Incorrect lowercasing":    {"__foo__", []string{}},
@@ -62,13 +62,13 @@ func TestFindDunderVars(t *testing.T) {
 
 	for testName, testCase := range tests {
 		t.Run(testName, func(t *testing.T) {
-			matches, err := FindDunderVars(testCase.input)
+			matches, err := FindDunderVars(testCase.Input)
 			if err != nil { // Only error possible BUT probably can't manually trigger it
 				t.Error("Unexpectedly found a Regexp compilation issue")
 			}
 
-			if !cmp.Equal(testCase.expect, matches, cmpopts.EquateEmpty()) {
-				t.Errorf("Matches found = %v BUT expected %v", matches, testCase.expect)
+			if !cmp.Equal(testCase.Expect, matches, cmpopts.EquateEmpty()) {
+				t.Errorf("Matches found = %v BUT expected %v", matches, testCase.Expect)
 			}
 		})
 	}
@@ -76,9 +76,9 @@ func TestFindDunderVars(t *testing.T) {
 
 func TestUnescapeUnicodeStr(t *testing.T) {
 	tests := map[string]struct {
-		Input    string
-		Expected string
-		Err      string
+		Input  string
+		Expect string
+		Err    string
 	}{
 		"An empty string returns empty":                  {"", "", ""},
 		"Normal strings returns normal":                  {"Foo", "Foo", ""},
@@ -98,8 +98,8 @@ func TestUnescapeUnicodeStr(t *testing.T) {
 			if err != nil && (testCase.Err == "" || !strings.HasPrefix(err.Error(), testCase.Err)) {
 				t.Errorf("Expected err = %q BUT got %q", testCase.Err, err)
 			}
-			if str != testCase.Expected {
-				t.Errorf("Expected %q but got %q", testCase.Expected, str)
+			if str != testCase.Expect {
+				t.Errorf("Expected %q but got %q", testCase.Expect, str)
 			}
 		})
 	}

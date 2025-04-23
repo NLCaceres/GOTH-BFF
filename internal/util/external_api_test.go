@@ -10,11 +10,11 @@ import (
 )
 
 func TestPostRequest(t *testing.T) {
-	var tests = map[string]struct {
-		PostURL          string
-		ServerMock       test.HttpMock
-		ExpectedResponse string
-		ExpectedErr      error
+	tests := map[string]struct {
+		PostURL    string
+		ServerMock test.HttpMock
+		Expect     string
+		Err        error
 	}{
 		"Error within POST itself": { // ASCII Ctrl Char (DEL aka 177) breaks the Server URL
 			"/foo" + string([]byte{0x7f}), httpMock(403, `{"foo":"bar"}`, nil),
@@ -38,20 +38,20 @@ func TestPostRequest(t *testing.T) {
 			requestBody := bytes.NewBuffer([]byte(`{"foo":"bar"}`))
 			responseBody, err := PostRequest(serverURL, "application/json", requestBody)
 
-			if testCase.ExpectedResponse != string(responseBody) {
-				t.Errorf("Response unexpectedly = %v but should be %v", string(responseBody), testCase.ExpectedResponse)
+			if testCase.Expect != string(responseBody) {
+				t.Errorf("Response unexpectedly = %v but should be %v", string(responseBody), testCase.Expect)
 			}
-			if test.OnlyOneIsNil(testCase.ExpectedErr, err) {
+			if test.OnlyOneIsNil(testCase.Err, err) {
 				t.Errorf("Error unexpectedly = %v when it should NOT have been", err)
 			}
 		})
 	}
 }
 func TestPostJSON(t *testing.T) {
-	var tests = map[string]struct {
-		ServerMock       test.HttpMock
-		ExpectedResponse map[string]interface{}
-		ExpectedErr      error
+	tests := map[string]struct {
+		ServerMock test.HttpMock
+		Expect     map[string]interface{}
+		Err        error
 	}{
 		"Error from internal PostRequest": {
 			httpMock(0, ``, map[string]string{"Content-Length": "1"}),
@@ -73,10 +73,10 @@ func TestPostJSON(t *testing.T) {
 			serverURL := server.URL + "/foo"
 			requestBody := bytes.NewBuffer([]byte(`{"foo":"bar"}`))
 			responseData, err := PostJSON(serverURL, requestBody)
-			if !cmp.Equal(testCase.ExpectedResponse, responseData) {
-				t.Errorf("Expected response of %v but got %v", testCase.ExpectedResponse, responseData)
+			if !cmp.Equal(testCase.Expect, responseData) {
+				t.Errorf("Expected response of %v but got %v", testCase.Expect, responseData)
 			}
-			if test.OnlyOneIsNil(testCase.ExpectedErr, err) {
+			if test.OnlyOneIsNil(testCase.Err, err) {
 				t.Errorf("Error unexpectedly = %v when it should NOT have been", err)
 			}
 		})
