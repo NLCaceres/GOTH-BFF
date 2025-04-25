@@ -20,7 +20,7 @@ func TestApiPostRequest(t *testing.T) {
 		ExpectedStatusCode int
 		ExpectedResponse   string
 	}{
-		"Error from inside ReadJSON": {httpMock(badData), "./bad.json", "", 500, ""},
+		"Error from inside fileread.JSON()": {httpMock(badData), "./bad.json", "", 500, ""},
 		"Error setting filters": {
 			httpMock(badData), "internal/util/test/bad_typing.json", "", 501, "",
 		},

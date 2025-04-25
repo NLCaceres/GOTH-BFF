@@ -6,6 +6,7 @@ import (
 	"errors"
 	"fmt"
 	"github.com/NLCaceres/goth-example/internal/util"
+	"github.com/NLCaceres/goth-example/internal/util/fileread"
 	"github.com/NLCaceres/goth-example/internal/util/stringy"
 	"github.com/labstack/echo/v4"
 	"log"
@@ -17,7 +18,7 @@ import (
 // POSTs pre-formatted JSON to an API after dynamically updating the JSON string's
 // key-value pair corresponding to the search value
 func ApiPostRequest(c echo.Context) error {
-	queryMap, err := util.ReadJSON[map[string][]map[string]any](os.Getenv("QUERY_FILE"))
+	queryMap, err := fileread.JSON[map[string][]map[string]any](os.Getenv("QUERY_FILE"))
 	if err != nil {
 		log.Printf("Issue getting formatted JSON query map due to: %s\n", err)
 		return c.NoContent(500) // Internal issue

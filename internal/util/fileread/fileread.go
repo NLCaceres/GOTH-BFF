@@ -12,7 +12,7 @@ import (
 // All Generic funcs need their type arg to conform to some interface
 
 // Reads and Parses JSON into a usable type all in one function
-func ReadJSON[T any](filePath string) (T, error) {
+func JSON[T any](filePath string) (T, error) {
 	var jsonMap T // This init helps for err returns to send back a default value
 
 	if !strings.HasSuffix(filePath, ".json") {
@@ -32,7 +32,7 @@ func ReadJSON[T any](filePath string) (T, error) {
 }
 
 // Reads any file and returns its text contents as a string, completely unmodified
-func ReadFileText(filePath string) (string, error) {
+func Text(filePath string) (string, error) {
 	var queryObj string
 
 	fileBytes, err := os.ReadFile(projectpath.File(filePath))
