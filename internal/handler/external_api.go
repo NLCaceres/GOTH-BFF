@@ -5,8 +5,8 @@ import (
 	"encoding/json"
 	"errors"
 	"fmt"
-	"github.com/NLCaceres/goth-example/internal/util"
 	"github.com/NLCaceres/goth-example/internal/util/fileread"
+	"github.com/NLCaceres/goth-example/internal/util/proxy"
 	"github.com/NLCaceres/goth-example/internal/util/stringy"
 	"github.com/labstack/echo/v4"
 	"log"
@@ -37,7 +37,7 @@ func ApiPostRequest(c echo.Context) error {
 		return c.NoContent(400) // Bad request probably due to changes in JSON map
 	}
 
-	response, err := util.PostJSON(os.Getenv("EXTERNAL_API_URL"), bytes.NewBuffer(jsonBytes))
+	response, err := proxy.PostJSON(os.Getenv("EXTERNAL_API_URL"), bytes.NewBuffer(jsonBytes))
 	if err != nil {
 		log.Printf("Issue making POST Request due to: %s\n", err)
 		return c.NoContent(502) // Gateway error due to upstream server issue
