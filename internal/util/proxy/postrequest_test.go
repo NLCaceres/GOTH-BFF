@@ -50,7 +50,7 @@ func TestPostRequest(t *testing.T) {
 func TestPostJSON(t *testing.T) {
 	tests := map[string]struct {
 		ServerMock test.HttpMock
-		Expect     map[string]interface{}
+		Expect     map[string]any
 		Err        error
 	}{
 		"Error from internal PostRequest": {
@@ -62,7 +62,7 @@ func TestPostJSON(t *testing.T) {
 			nil, errors.New("invalid character at top-level of JSON Error"),
 		},
 		"Successfully POSTed JSON": {
-			httpMock(202, `{"foo":"bar"}`, nil), map[string]interface{}{"foo": "bar"}, nil,
+			httpMock(202, `{"foo":"bar"}`, nil), map[string]any{"foo": "bar"}, nil,
 		},
 	}
 	for testName, testCase := range tests {
