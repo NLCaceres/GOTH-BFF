@@ -58,11 +58,8 @@ func setFilters(jsonObj map[string]any) error {
 	}
 
 	replacements := strings.Split(os.Getenv("FILTER_REPLACEMENTS"), "|")
-	length := len(replacements)
-	if len(matches) < length { //NOTE: These few lines are basically how Python's Zip works
-		length = len(matches)
-	}
-	for i := 0; i < length; i++ { // Matching all values together until one array runs out
+	//NOTE: Similar to how Python's Zip() Works, choose the shortest list to match
+	for i := range min(len(replacements), len(matches)) { // values until it runs out
 		filter = strings.Replace(filter, matches[i], replacements[i], 1)
 	}
 	jsonObj["filter_by"] = filter
