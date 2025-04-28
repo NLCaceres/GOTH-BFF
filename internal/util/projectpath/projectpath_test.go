@@ -18,7 +18,7 @@ func TestProjectPath(t *testing.T) {
 	expectedRoot := testEnv["EXPECTED_ROOT"] // Expected root folder name (not full path)
 	// WHEN getting `Root`, THEN expect it to end with the project root folder name
 	if !strings.HasSuffix(Root, expectedRoot) {
-		t.Errorf("Project root path is %v instead of expected %v", Root, expectedRoot)
+		t.Errorf("Expected root path = %q but got %q\n", expectedRoot, Root)
 	}
 
 	for _, filePath := range [3]string{"foobar", "/fizz", "//buzz"} {
@@ -27,7 +27,7 @@ func TestProjectPath(t *testing.T) {
 		// THEN `filePath` should be properly appended to the Project's root folder path
 		expectedFilePath := expectedRoot + "/" + strings.TrimLeft(filePath, "/")
 		if !strings.HasSuffix(actualFilePath, expectedFilePath) {
-			t.Errorf("Actual Path = %v but expected %v", actualFilePath, expectedFilePath)
+			t.Errorf("Expected file path = %q but got %q\n", expectedFilePath, actualFilePath)
 		}
 	}
 }

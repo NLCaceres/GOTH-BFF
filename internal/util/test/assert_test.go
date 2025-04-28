@@ -24,7 +24,7 @@ func TestIsBothNil(t *testing.T) {
 				if testCase.Lhs == nil || testCase.Rhs == nil {
 					t.Error("Two nil values unexpectedly non-nil")
 				} else {
-					t.Errorf("Two %vs unexpectedly = %v vs %v", reflect.TypeOf(testCase.Lhs).Kind(), testCase.Lhs, testCase.Rhs)
+					t.Errorf("Two %vs unexpectedly = %v vs %v\n", reflect.TypeOf(testCase.Lhs).Kind(), testCase.Lhs, testCase.Rhs)
 				}
 			}
 		})
@@ -49,7 +49,7 @@ func TestIsBothNonNil(t *testing.T) {
 				if testCase.Lhs == nil || testCase.Rhs == nil {
 					t.Error("Two nil values unexpectedly non-nil")
 				} else {
-					t.Errorf("Two %vs unexpectedly = %v vs %v", reflect.TypeOf(testCase.Lhs).Kind(), testCase.Lhs, testCase.Rhs)
+					t.Errorf("Two %vs unexpectedly = %v vs %v\n", reflect.TypeOf(testCase.Lhs).Kind(), testCase.Lhs, testCase.Rhs)
 				}
 			}
 		})
@@ -76,7 +76,7 @@ func TestOnlyOneIsNil(t *testing.T) {
 				if testCase.Lhs == nil || testCase.Rhs == nil {
 					t.Error("Two nil values unexpectedly found to have 1 non-nil value")
 				} else {
-					t.Errorf("Two %vs = %v & %v unexpectedly found to have 1 non-nil value", reflect.TypeOf(testCase.Lhs).Kind(), testCase.Lhs, testCase.Rhs)
+					t.Errorf("Two %vs = %v & %v unexpectedly found to have 1 non-nil value\n", reflect.TypeOf(testCase.Lhs).Kind(), testCase.Lhs, testCase.Rhs)
 				}
 			}
 		})
@@ -109,7 +109,7 @@ func TestIsSameError(t *testing.T) {
 	for testName, testCase := range tests {
 		t.Run(testName, func(t *testing.T) {
 			if IsSameError(testCase.Err, testCase.Msg) != testCase.Expect {
-				t.Errorf("Expected errors the same = '%v' BUT got '%v'", testCase.Expect, !testCase.Expect)
+				t.Errorf("Expected errors the same = '%v' BUT got '%v'\n", testCase.Expect, !testCase.Expect)
 			}
 		})
 	}

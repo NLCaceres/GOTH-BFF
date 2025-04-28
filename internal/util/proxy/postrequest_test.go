@@ -39,10 +39,10 @@ func TestPostRequest(t *testing.T) {
 			responseBody, err := PostRequest(serverURL, "application/json", requestBody)
 
 			if testCase.Expect != string(responseBody) {
-				t.Errorf("Response unexpectedly = %v but should be %v", string(responseBody), testCase.Expect)
+				t.Errorf("Expected response body = %q but got %q\n", testCase.Expect, string(responseBody))
 			}
 			if test.OnlyOneIsNil(testCase.Err, err) {
-				t.Errorf("Error unexpectedly = %v when it should NOT have been", err)
+				t.Errorf("Expected err = %q but got %q\n", testCase.Err, err)
 			}
 		})
 	}
@@ -74,10 +74,10 @@ func TestPostJSON(t *testing.T) {
 			requestBody := bytes.NewBuffer([]byte(`{"foo":"bar"}`))
 			responseData, err := PostJSON(serverURL, requestBody)
 			if !cmp.Equal(testCase.Expect, responseData) {
-				t.Errorf("Expected response of %v but got %v", testCase.Expect, responseData)
+				t.Errorf("Expected response data = %v but got %v\n", testCase.Expect, responseData)
 			}
 			if test.OnlyOneIsNil(testCase.Err, err) {
-				t.Errorf("Error unexpectedly = %v when it should NOT have been", err)
+				t.Errorf("Expected err = %q but got %q\n", testCase.Err, err)
 			}
 		})
 	}

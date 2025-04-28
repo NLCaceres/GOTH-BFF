@@ -46,10 +46,10 @@ func TestApiPostRequest(t *testing.T) {
 			os.Setenv("FILTER_REPLACEMENTS", testCase.Filters)
 			ApiPostRequest(c)
 			if rec.Code != testCase.ExpectedStatusCode {
-				t.Errorf("Response unexpectedly sent %v instead of %v\n", rec.Code, testCase.ExpectedStatusCode)
+				t.Errorf("Expected response = %v but got %v\n", testCase.ExpectedStatusCode, rec.Code)
 			}
 			if strings.TrimSpace(rec.Body.String()) != testCase.ExpectedResponse {
-				t.Errorf("Response unexpectedly sent %v instead of %v\n", rec.Body.String(), testCase.ExpectedResponse)
+				t.Errorf("Expected response = %v but got %v\n", testCase.ExpectedResponse, rec.Body.String())
 			}
 		})
 	}
@@ -85,10 +85,10 @@ func TestSetFilters(t *testing.T) {
 			err := setFilters(jsonObj)
 			finalFilter := jsonObj["filter_by"]
 			if finalFilter != testCase.Expect {
-				t.Errorf("Filter wanted = %v but got %v", testCase.Replacement, finalFilter)
+				t.Errorf("Expected filter = %v but got %v\n", testCase.Expect, finalFilter)
 			}
 			if err != nil && (testCase.Err == "" || !strings.HasPrefix(err.Error(), testCase.Err)) {
-				t.Errorf("Error of %q expected but got %q", testCase.Err, err)
+				t.Errorf("Expected error = %q but got %q\n", testCase.Err, err)
 			}
 		})
 	}

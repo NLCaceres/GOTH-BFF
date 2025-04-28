@@ -39,7 +39,7 @@ func TestMapFromString(t *testing.T) {
 			output := mapFromString(testCase.Input)
 
 			if !cmp.Equal(testCase.Expect, output) {
-				t.Errorf("Expected %v but got %v", testCase.Expect, output)
+				t.Errorf("Expected map = %v but got %v\n", testCase.Expect, output)
 			}
 		})
 	}

@@ -27,7 +27,7 @@ func TestTitleCase(t *testing.T) {
 	for testName, testCase := range tests {
 		t.Run(testName, func(t *testing.T) {
 			if TitleCase(testCase.Input) != testCase.Expect {
-				t.Errorf("%q did not become %q as expected", testCase.Input, testCase.Expect)
+				t.Errorf("Expected TitleCased string = %q by inputting %q\n", testCase.Expect, testCase.Input)
 			}
 		})
 	}
@@ -68,7 +68,7 @@ func TestFindDunderVars(t *testing.T) {
 			}
 
 			if !cmp.Equal(testCase.Expect, matches, cmpopts.EquateEmpty()) {
-				t.Errorf("Matches found = %v BUT expected %v", matches, testCase.Expect)
+				t.Errorf("Expected matches = %v but got %v\n", testCase.Expect, matches)
 			}
 		})
 	}
@@ -96,10 +96,10 @@ func TestUnescapeUnicodeStr(t *testing.T) {
 		t.Run(testName, func(t *testing.T) {
 			str, err := UnescapeUnicodeStr([]byte(testCase.Input))
 			if err != nil && (testCase.Err == "" || !strings.HasPrefix(err.Error(), testCase.Err)) {
-				t.Errorf("Expected err = %q BUT got %q", testCase.Err, err)
+				t.Errorf("Expected err = %q BUT got %q\n", testCase.Err, err)
 			}
 			if str != testCase.Expect {
-				t.Errorf("Expected %q but got %q", testCase.Expect, str)
+				t.Errorf("Expected unescaped unicode str = %q but got %q\n", testCase.Expect, str)
 			}
 		})
 	}

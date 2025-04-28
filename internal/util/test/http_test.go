@@ -30,7 +30,7 @@ func TestHttpHandlerFunc(t *testing.T) {
 
 			for funcName, count := range mockResponseWriter.CallCounter {
 				if count != testCase.ExpectCount {
-					t.Errorf("ResponseWriter %v() unexpectedly called %d times BUT expected %d times", funcName, count, testCase.ExpectCount)
+					t.Errorf("Expected ResponseWriter %v() called %d times but got %d", funcName, testCase.ExpectCount, count)
 				}
 			}
 		})

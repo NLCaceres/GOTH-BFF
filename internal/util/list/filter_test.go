@@ -23,7 +23,7 @@ func TestFilter(t *testing.T) {
 		t.Run(testName, func(t *testing.T) {
 			actual := Filter(testCase.Input, testCase.FilterFunc)
 			if !cmp.Equal(testCase.Expect, actual) {
-				t.Errorf("Expected %v but got %v", testCase.Expect, actual)
+				t.Errorf("Expected new list = %v but got %v\n", testCase.Expect, actual)
 			}
 		})
 	}
@@ -49,7 +49,7 @@ func TestDistinctBy(t *testing.T) {
 		t.Run(testName, func(t *testing.T) {
 			actual := DistinctBy(testCase.Input, testCase.SelectorFunc)
 			if !cmp.Equal(testCase.Expect, actual) {
-				t.Errorf("Expected %v but got %v", testCase.Expect, actual)
+				t.Errorf("Expected new list = %v but got %v\n", testCase.Expect, actual)
 			}
 		})
 	}
