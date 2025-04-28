@@ -1,66 +1,61 @@
 package fileread
 
 import (
-	"strings"
+	"github.com/NLCaceres/goth-example/internal/util/test"
+	"github.com/google/go-cmp/cmp"
 	"testing"
 )
 
 func TestJSON(t *testing.T) {
-	// WHEN unable to open the JSON file (since it doesn't exist)
-	data, missingFileErr := JSON[any]("internal/util/test/unknown_file.json")
-	// THEN data should be nil (or other default value) and err not nil
-	if data != nil && missingFileErr == nil {
-		t.Error("JSON() unexpectedly succeeded")
+	tests := map[string]struct {
+		Input  string
+		Expect map[string][]map[string]any
+		Err    string
+	}{
+		"Unknown file":       {"internal/util/test/unknown_file.json", nil, "no such file"},
+		"Unmarshalable JSON": {"internal/util/test/bad.json", nil, "invalid character"},
+		"GraphQL in JSON":    {"internal/util/test/graphql_query.json", nil, "invalid character"},
+		"File is not JSON":   {"internal/util/test/json.go", nil, "Incorrect File Type"},
+		"Valid JSON": {
+			"internal/util/test/good.json", map[string][]map[string]any{"objs": {{"foo": "bar"}}}, "",
+		},
 	}
+	for testName, testCase := range tests {
+		t.Run(testName, func(t *testing.T) {
+			data, err := JSON[map[string][]map[string]any](testCase.Input)
 
-	// WHEN JSON file exists but underlying JSON is malformed
-	_, badJsonErr := JSON[any]("internal/util/test/bad.json")
-	if badJsonErr == nil { // THEN should receive an error back
-		t.Error("JSON() unexpectedly succeeded in unmarshaling JSON")
-	}
-	// WHEN a GraphQL query placed in a JSON file is input
-	_, graphqlErr := JSON[any]("internal/util/test/graphql_query.json")
-	if graphqlErr == nil { // THEN should get an unexpected key char error
-		t.Error("JSON() unexpectedly failed with graphql formatted JSON")
-	}
-	// WHEN any other file type is input
-	_, fileTypeErr := JSON[any]("internal/util/test/json.go")
-	// THEN should get an incorrect file type error
-	if fileTypeErr == nil || !strings.HasPrefix(fileTypeErr.Error(), "Incorrect File Type") {
-		t.Error("JSON() unexpectedly read a non-JSON file")
-	}
-
-	// map[string][]map = parent jsonObj with key to an array of jsonObjs
-	// WHEN JSON file exists with valid JSON, matching the generic type
-	goodFile := "internal/util/test/good.json"
-	jsonMap, err := JSON[map[string][]map[string]any](goodFile)
-	if err != nil { // THEN no err returned
-		t.Error("JSON() unexpected failed to return a map")
-	}
-	jsonArr := jsonMap["objs"] // AND the returned type should be usable
-	if jsonArr == nil || jsonArr[0] == nil || jsonArr[0]["foo"] != "bar" {
-		t.Errorf("Json Map contains different values than expected = %v", jsonMap)
+			if !test.IsSameError(err, testCase.Err) {
+				t.Errorf("Expected err = %q but got %q", testCase.Err, err)
+			}
+			if !cmp.Equal(testCase.Expect, data) {
+				t.Errorf("Expected data = %v but got %v", testCase.Expect, data)
+			}
+		})
 	}
 }
 
 func TestText(t *testing.T) {
-	// WHEN unable to open file (since it doesn't exist)
-	data, missingFileErr := Text("internal/util/test/unknown_file.json")
-	// THEN data should be nil (or other default value) and err not nil
-	if data != "" && missingFileErr == nil {
-		t.Error("Text() unexpectedly succeeded")
+	tests := map[string]struct {
+		Input  string
+		Expect string
+		Err    string
+	}{
+		"Unknown text file":   {"internal/util/test/unknown_file.json", "", "no such file"},
+		"Malformed JSON file": {"internal/util/test/bad.json", "{\n  bad: json\n}\n", ""},
+		"GraphQL query in JSON": {
+			"internal/util/test/graphql_query.json", "{\n  foo {\n    bar\n  }\n}\n", "",
+		},
 	}
+	for testName, testCase := range tests {
+		t.Run(testName, func(t *testing.T) {
+			data, err := Text(testCase.Input)
 
-	// WHEN file exists but underlying JSON is malformed
-	badJsonStr, badJsonErr := Text("internal/util/test/bad.json")
-	if badJsonStr == "" && badJsonErr != nil { // THEN should STILL get text back, no err
-		t.Error("Text() unexpected failed to read malformed JSON into string")
-	}
-
-	// WHEN a GraphQL query is packed into a json file
-	graphqlText, graphqlErr := Text("internal/util/test/graphql_query.json")
-	// THEN should get a perfectly valid query string back w/out error
-	if graphqlText == "" && graphqlErr != nil {
-		t.Error("Text() unexpectedly failed to read basic GraphQL Query")
+			if !test.IsSameError(err, testCase.Err) {
+				t.Errorf("Expected err = %q but got %q", testCase.Err, err)
+			}
+			if data != testCase.Expect {
+				t.Errorf("Expected text = %q but got %q", testCase.Expect, data)
+			}
+		})
 	}
 }
