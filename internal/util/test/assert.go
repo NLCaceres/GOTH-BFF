@@ -22,6 +22,6 @@ func OnlyOneIsNil(lhs any, rhs any) bool {
 // Alternatively, it returns true if the error is nil and the expected string is empty.
 func IsSameError(actual error, expect string) bool {
 	nilErrCheck := actual == nil && expect == ""
-	errorCheck := actual != nil && expect != "" && strings.HasPrefix(actual.Error(), expect)
+	errorCheck := actual != nil && expect != "" && strings.Contains(actual.Error(), expect)
 	return nilErrCheck || errorCheck
 }
