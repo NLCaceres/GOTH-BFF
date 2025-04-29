@@ -1,9 +1,9 @@
 package stringy
 
 import (
+	"github.com/NLCaceres/goth-example/internal/util/test"
 	"github.com/google/go-cmp/cmp"
 	"github.com/google/go-cmp/cmp/cmpopts"
-	"strings"
 	"testing"
 )
 
@@ -63,7 +63,7 @@ func TestFindDunderVars(t *testing.T) {
 	for testName, testCase := range tests {
 		t.Run(testName, func(t *testing.T) {
 			matches, err := FindDunderVars(testCase.Input)
-			if err != nil { // Only error possible BUT probably can't manually trigger it
+			if err != nil { // Only 1 error possible BUT probably can't manually trigger it
 				t.Error("Unexpectedly found a Regexp compilation issue")
 			}
 
@@ -95,7 +95,7 @@ func TestUnescapeUnicodeStr(t *testing.T) {
 	for testName, testCase := range tests {
 		t.Run(testName, func(t *testing.T) {
 			str, err := UnescapeUnicodeStr([]byte(testCase.Input))
-			if err != nil && (testCase.Err == "" || !strings.HasPrefix(err.Error(), testCase.Err)) {
+			if !test.IsSameError(err, testCase.Err) {
 				t.Errorf("Expected err = %q BUT got %q\n", testCase.Err, err)
 			}
 			if str != testCase.Expect {

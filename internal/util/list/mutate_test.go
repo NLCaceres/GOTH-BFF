@@ -1,9 +1,9 @@
 package list
 
 import (
+	"github.com/NLCaceres/goth-example/internal/util/test"
 	"github.com/google/go-cmp/cmp"
 	"strconv"
-	"strings"
 	"testing"
 )
 
@@ -23,8 +23,9 @@ func TestForEach(t *testing.T) {
 			if !cmp.Equal(testCase.Expect, actual) {
 				t.Errorf("Expected new list = %v but got %v\n", testCase.Expect, actual)
 			}
-			if err != nil && !strings.Contains(err.Error(), testCase.Err) {
+			if !test.IsSameError(err, testCase.Err) {
 				t.Errorf("Expected Error = %q but got %q\n", testCase.Err, err)
+
 			}
 		})
 	}

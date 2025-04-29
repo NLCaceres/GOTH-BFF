@@ -87,7 +87,7 @@ func TestSetFilters(t *testing.T) {
 			if finalFilter != testCase.Expect {
 				t.Errorf("Expected filter = %v but got %v\n", testCase.Expect, finalFilter)
 			}
-			if err != nil && (testCase.Err == "" || !strings.HasPrefix(err.Error(), testCase.Err)) {
+			if !test.IsSameError(err, testCase.Err) {
 				t.Errorf("Expected error = %q but got %q\n", testCase.Err, err)
 			}
 		})
