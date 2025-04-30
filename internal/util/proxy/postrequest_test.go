@@ -2,7 +2,6 @@ package proxy
 
 import (
 	"bytes"
-	"errors"
 	"github.com/NLCaceres/goth-example/internal/util/test"
 	"github.com/google/go-cmp/cmp"
 	"net/http/httptest"
@@ -14,18 +13,16 @@ func TestPostRequest(t *testing.T) {
 		PostURL    string
 		ServerMock test.HttpMock
 		Expect     string
-		Err        error
+		Err        string
 	}{
 		"Error within POST itself": { // ASCII Ctrl Char (DEL aka 177) breaks the Server URL
-			"/foo" + string([]byte{0x7f}), httpMock(403, `{"foo":"bar"}`, nil),
-			"", errors.New("parse net/url error"),
+			"/foo" + string([]byte{0x7f}), httpMock(403, `{"foo":"bar"}`, nil), "", "invalid control character",
 		},
-		"Error Reading Response": { // Empty response w/ bad StatusCode & Content-Length == 1
-			"/foo", httpMock(0, ``, map[string]string{"Content-Length": "1"}),
-			"", errors.New("unexpected EOF Error"), // Causes this EOF Error
+		"Error Reading Response": { // Empty response w/ bad StatusCode & Content-Length == 1 to trigger error
+			"/foo", httpMock(0, ``, map[string]string{"Content-Length": "1"}), "", "unexpected EOF",
 		},
 		"Successfully POSTed": {
-			"/foo", httpMock(202, `{"foo":"bar"}`, nil), `{"foo":"bar"}`, nil,
+			"/foo", httpMock(202, `{"foo":"bar"}`, nil), `{"foo":"bar"}`, "",
 		},
 	}
 
@@ -41,7 +38,7 @@ func TestPostRequest(t *testing.T) {
 			if testCase.Expect != string(responseBody) {
 				t.Errorf("Expected response body = %q but got %q\n", testCase.Expect, string(responseBody))
 			}
-			if test.OnlyOneIsNil(testCase.Err, err) {
+			if !test.IsSameError(err, testCase.Err) {
 				t.Errorf("Expected err = %q but got %q\n", testCase.Err, err)
 			}
 		})
@@ -51,18 +48,16 @@ func TestPostJSON(t *testing.T) {
 	tests := map[string]struct {
 		ServerMock test.HttpMock
 		Expect     map[string]any
-		Err        error
+		Err        string
 	}{
 		"Error from internal PostRequest": {
-			httpMock(0, ``, map[string]string{"Content-Length": "1"}),
-			nil, errors.New("unexpected EOF Error"),
+			httpMock(0, ``, map[string]string{"Content-Length": "1"}), nil, "unexpected EOF",
 		},
-		"Error due to Malformed JSON Response": {
-			httpMock(202, `"foo":"bar"`, nil), // JSON response w/out brackets causes this err
-			nil, errors.New("invalid character at top-level of JSON Error"),
+		"Error due to Malformed JSON Response": { // Missing brackets in JSON response to trigger err
+			httpMock(202, `"foo":"bar"`, nil), nil, "invalid character",
 		},
 		"Successfully POSTed JSON": {
-			httpMock(202, `{"foo":"bar"}`, nil), map[string]any{"foo": "bar"}, nil,
+			httpMock(202, `{"foo":"bar"}`, nil), map[string]any{"foo": "bar"}, "",
 		},
 	}
 	for testName, testCase := range tests {
@@ -76,7 +71,7 @@ func TestPostJSON(t *testing.T) {
 			if !cmp.Equal(testCase.Expect, responseData) {
 				t.Errorf("Expected response data = %v but got %v\n", testCase.Expect, responseData)
 			}
-			if test.OnlyOneIsNil(testCase.Err, err) {
+			if !test.IsSameError(err, testCase.Err) {
 				t.Errorf("Expected err = %q but got %q\n", testCase.Err, err)
 			}
 		})
