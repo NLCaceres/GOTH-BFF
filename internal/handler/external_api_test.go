@@ -88,7 +88,7 @@ func TestSetFilters(t *testing.T) {
 				t.Error(test.ErrorMsg("filter", testCase.Expect, finalFilter))
 			}
 			if !test.IsSameError(err, testCase.Err) {
-				t.Errorf("Expected error = %q but got %q\n", testCase.Err, err)
+				t.Error(test.QuotedErrorMsg("error", testCase.Err, err))
 			}
 		})
 	}

@@ -36,10 +36,10 @@ func TestPostRequest(t *testing.T) {
 			responseBody, err := PostRequest(serverURL, "application/json", requestBody)
 
 			if testCase.Expect != string(responseBody) {
-				t.Errorf("Expected response body = %q but got %q\n", testCase.Expect, string(responseBody))
+				t.Error(test.QuotedErrorMsg("response body", testCase.Expect, string(responseBody)))
 			}
 			if !test.IsSameError(err, testCase.Err) {
-				t.Errorf("Expected err = %q but got %q\n", testCase.Err, err)
+				t.Error(test.QuotedErrorMsg("error", testCase.Err, err))
 			}
 		})
 	}
@@ -72,7 +72,7 @@ func TestPostJSON(t *testing.T) {
 				t.Error(test.ErrorMsg("response data", testCase.Expect, responseData))
 			}
 			if !test.IsSameError(err, testCase.Err) {
-				t.Errorf("Expected err = %q but got %q\n", testCase.Err, err)
+				t.Error(test.QuotedErrorMsg("error", testCase.Err, err))
 			}
 		})
 	}

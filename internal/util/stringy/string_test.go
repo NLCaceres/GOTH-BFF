@@ -26,8 +26,9 @@ func TestTitleCase(t *testing.T) {
 	}
 	for testName, testCase := range tests {
 		t.Run(testName, func(t *testing.T) {
-			if TitleCase(testCase.Input) != testCase.Expect {
-				t.Errorf("Expected TitleCased string = %q by inputting %q\n", testCase.Expect, testCase.Input)
+			actual := TitleCase(testCase.Input)
+			if actual != testCase.Expect {
+				t.Error(test.QuotedErrorMsg("TitleCased string", testCase.Expect, actual))
 			}
 		})
 	}
@@ -96,10 +97,10 @@ func TestUnescapeUnicodeStr(t *testing.T) {
 		t.Run(testName, func(t *testing.T) {
 			str, err := UnescapeUnicodeStr([]byte(testCase.Input))
 			if !test.IsSameError(err, testCase.Err) {
-				t.Errorf("Expected err = %q BUT got %q\n", testCase.Err, err)
+				t.Error(test.QuotedErrorMsg("error", testCase.Err, err))
 			}
 			if str != testCase.Expect {
-				t.Errorf("Expected unescaped unicode str = %q but got %q\n", testCase.Expect, str)
+				t.Error(test.QuotedErrorMsg("unescaped unicode string", testCase.Expect, str))
 			}
 		})
 	}

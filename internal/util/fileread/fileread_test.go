@@ -25,7 +25,7 @@ func TestJSON(t *testing.T) {
 			data, err := JSON[map[string][]map[string]any](testCase.Input)
 
 			if !test.IsSameError(err, testCase.Err) {
-				t.Errorf("Expected err = %q but got %q", testCase.Err, err)
+				t.Error(test.QuotedErrorMsg("error", testCase.Err, err))
 			}
 			if !cmp.Equal(testCase.Expect, data) {
 				t.Error(test.ErrorMsg("data", testCase.Expect, data))
@@ -51,10 +51,10 @@ func TestText(t *testing.T) {
 			data, err := Text(testCase.Input)
 
 			if !test.IsSameError(err, testCase.Err) {
-				t.Errorf("Expected err = %q but got %q", testCase.Err, err)
+				t.Error(test.QuotedErrorMsg("error", testCase.Err, err))
 			}
 			if data != testCase.Expect {
-				t.Errorf("Expected text = %q but got %q", testCase.Expect, data)
+				t.Error(test.QuotedErrorMsg("text", testCase.Expect, data))
 			}
 		})
 	}

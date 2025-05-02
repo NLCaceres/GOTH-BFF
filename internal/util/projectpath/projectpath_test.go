@@ -1,6 +1,7 @@
 package projectpath
 
 import (
+	"github.com/NLCaceres/goth-example/internal/util/test"
 	"github.com/joho/godotenv"
 	"strings"
 	"testing"
@@ -27,7 +28,7 @@ func TestProjectPath(t *testing.T) {
 		// THEN `filePath` should be properly appended to the Project's root folder path
 		expectedFilePath := expectedRoot + "/" + strings.TrimLeft(filePath, "/")
 		if !strings.HasSuffix(actualFilePath, expectedFilePath) {
-			t.Errorf("Expected file path = %q but got %q\n", expectedFilePath, actualFilePath)
+			t.Error(test.QuotedErrorMsg("file path", expectedFilePath, actualFilePath))
 		}
 	}
 }

@@ -24,8 +24,7 @@ func TestForEach(t *testing.T) {
 				t.Error(test.ErrorMsg("new list", testCase.Expect, actual))
 			}
 			if !test.IsSameError(err, testCase.Err) {
-				t.Errorf("Expected Error = %q but got %q\n", testCase.Err, err)
-
+				t.Error(test.QuotedErrorMsg("error", testCase.Err, err))
 			}
 		})
 	}
