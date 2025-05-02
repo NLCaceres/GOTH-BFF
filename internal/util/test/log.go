@@ -8,7 +8,7 @@ import "fmt"
 // Uses the "%v" default formatting verb via fmt.Sprintf.
 // Name is optional, and the blankspace it would create is removed.
 // No newline required since testing.T.Error automatically appends a newline
-func ErrorMsg[T any](name string, expect, actual T) string {
+func ErrorMsg(name string, expect, actual any) string {
 	if name == "" {
 		return fmt.Sprintf("Expected = %v but got %v", expect, actual)
 	} else {
