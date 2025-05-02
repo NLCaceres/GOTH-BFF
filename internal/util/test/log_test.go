@@ -25,6 +25,7 @@ func TestErrorMsg(t *testing.T) {
 		"Struct arg": {
 			"", struct{ A, B int }{1, 2}, struct{ A, B int }{1, 2}, "Expected = {1 2} but got {1 2}",
 		},
+		"Nil arg": {"", struct{ A, B int }{1, 2}, nil, "Expected = {1 2} but got <nil>"},
 		"Pointer arg": {
 			"", &struct{ A int }{1}, &struct{ A int }{1}, "Expected = &{1} but got &{1}",
 		},
@@ -63,6 +64,9 @@ func TestQuotedErrorMsg(t *testing.T) {
 		"Struct arg": {
 			"", struct{ A, B string }{"A", "B"}, struct{ A, B string }{"A", "B"},
 			`Expected = {"A" "B"} but got {"A" "B"}`,
+		},
+		"Nil arg": { // Nil values end up with similar odd formatting like bools
+			"", struct{ A string }{"A"}, nil, `Expected = {"A"} but got %!q(<nil>)`,
 		},
 		"Pointer arg": {
 			"", &struct{ A string }{"A"}, &struct{ A string }{"A"}, `Expected = &{"A"} but got &{"A"}`,
