@@ -1,6 +1,7 @@
 package route
 
 import (
+	"github.com/NLCaceres/goth-example/internal/util/test"
 	"github.com/google/go-cmp/cmp"
 	"testing"
 )
@@ -39,7 +40,7 @@ func TestMapFromString(t *testing.T) {
 			output := mapFromString(testCase.Input)
 
 			if !cmp.Equal(testCase.Expect, output) {
-				t.Errorf("Expected map = %v but got %v\n", testCase.Expect, output)
+				t.Error(test.ErrorMsg("map", testCase.Expect, output))
 			}
 		})
 	}

@@ -1,6 +1,7 @@
 package list
 
 import (
+	"github.com/NLCaceres/goth-example/internal/util/test"
 	"github.com/google/go-cmp/cmp"
 	"strings"
 	"testing"
@@ -23,7 +24,7 @@ func TestFilter(t *testing.T) {
 		t.Run(testName, func(t *testing.T) {
 			actual := Filter(testCase.Input, testCase.FilterFunc)
 			if !cmp.Equal(testCase.Expect, actual) {
-				t.Errorf("Expected new list = %v but got %v\n", testCase.Expect, actual)
+				t.Error(test.ErrorMsg("new list", testCase.Expect, actual))
 			}
 		})
 	}
@@ -49,7 +50,7 @@ func TestDistinctBy(t *testing.T) {
 		t.Run(testName, func(t *testing.T) {
 			actual := DistinctBy(testCase.Input, testCase.SelectorFunc)
 			if !cmp.Equal(testCase.Expect, actual) {
-				t.Errorf("Expected new list = %v but got %v\n", testCase.Expect, actual)
+				t.Error(test.ErrorMsg("new list", testCase.Expect, actual))
 			}
 		})
 	}

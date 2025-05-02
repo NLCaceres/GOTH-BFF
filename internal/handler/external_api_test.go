@@ -46,10 +46,10 @@ func TestApiPostRequest(t *testing.T) {
 			os.Setenv("FILTER_REPLACEMENTS", testCase.Filters)
 			ApiPostRequest(c)
 			if rec.Code != testCase.ExpectedStatusCode {
-				t.Errorf("Expected response = %v but got %v\n", testCase.ExpectedStatusCode, rec.Code)
+				t.Error(test.ErrorMsg("response", testCase.ExpectedStatusCode, rec.Code))
 			}
 			if strings.TrimSpace(rec.Body.String()) != testCase.ExpectedResponse {
-				t.Errorf("Expected response = %v but got %v\n", testCase.ExpectedResponse, rec.Body.String())
+				t.Error(test.ErrorMsg("response", testCase.ExpectedResponse, rec.Body.String()))
 			}
 		})
 	}
@@ -85,7 +85,7 @@ func TestSetFilters(t *testing.T) {
 			err := setFilters(jsonObj)
 			finalFilter := jsonObj["filter_by"]
 			if finalFilter != testCase.Expect {
-				t.Errorf("Expected filter = %v but got %v\n", testCase.Expect, finalFilter)
+				t.Error(test.ErrorMsg("filter", testCase.Expect, finalFilter))
 			}
 			if !test.IsSameError(err, testCase.Err) {
 				t.Errorf("Expected error = %q but got %q\n", testCase.Err, err)

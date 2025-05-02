@@ -69,7 +69,7 @@ func TestPostJSON(t *testing.T) {
 			requestBody := bytes.NewBuffer([]byte(`{"foo":"bar"}`))
 			responseData, err := PostJSON(serverURL, requestBody)
 			if !cmp.Equal(testCase.Expect, responseData) {
-				t.Errorf("Expected response data = %v but got %v\n", testCase.Expect, responseData)
+				t.Error(test.ErrorMsg("response data", testCase.Expect, responseData))
 			}
 			if !test.IsSameError(err, testCase.Err) {
 				t.Errorf("Expected err = %q but got %q\n", testCase.Err, err)

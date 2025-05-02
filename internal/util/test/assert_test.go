@@ -109,7 +109,7 @@ func TestIsSameError(t *testing.T) {
 	for testName, testCase := range tests {
 		t.Run(testName, func(t *testing.T) {
 			if IsSameError(testCase.Err, testCase.Msg) != testCase.Expect {
-				t.Errorf("Expected errors the same = '%v' BUT got '%v'\n", testCase.Expect, !testCase.Expect)
+				t.Error(ErrorMsg("errors the same", testCase.Expect, !testCase.Expect))
 			}
 		})
 	}

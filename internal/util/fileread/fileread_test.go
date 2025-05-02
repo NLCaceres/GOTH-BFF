@@ -28,7 +28,7 @@ func TestJSON(t *testing.T) {
 				t.Errorf("Expected err = %q but got %q", testCase.Err, err)
 			}
 			if !cmp.Equal(testCase.Expect, data) {
-				t.Errorf("Expected data = %v but got %v", testCase.Expect, data)
+				t.Error(test.ErrorMsg("data", testCase.Expect, data))
 			}
 		})
 	}

@@ -21,7 +21,7 @@ func TestForEach(t *testing.T) {
 		t.Run(testName, func(t *testing.T) {
 			actual, err := ForEach(testCase.Input, mapper)
 			if !cmp.Equal(testCase.Expect, actual) {
-				t.Errorf("Expected new list = %v but got %v\n", testCase.Expect, actual)
+				t.Error(test.ErrorMsg("new list", testCase.Expect, actual))
 			}
 			if !test.IsSameError(err, testCase.Err) {
 				t.Errorf("Expected Error = %q but got %q\n", testCase.Err, err)

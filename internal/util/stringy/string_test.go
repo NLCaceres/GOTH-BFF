@@ -68,7 +68,7 @@ func TestFindDunderVars(t *testing.T) {
 			}
 
 			if !cmp.Equal(testCase.Expect, matches, cmpopts.EquateEmpty()) {
-				t.Errorf("Expected matches = %v but got %v\n", testCase.Expect, matches)
+				t.Error(test.ErrorMsg("matches", testCase.Expect, matches))
 			}
 		})
 	}
