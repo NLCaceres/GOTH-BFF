@@ -27,21 +27,27 @@ func ErrorMsg(name string, expect, actual any) string {
 // Name is optional and the blankspace it would create is removed.
 // No newline required since testing.T.Error automatically appends a newline
 func QuotedErrorMsg(name string, expect, actual any) string {
-	expectStr := expect
-	if _, ok := expect.(bool); ok {
-		expectStr = fmt.Sprintf("%v", expect)
-	} else if expect == nil {
-		expectStr = strings.Trim(fmt.Sprintf("%v", expect), "<>")
+	var expectValue any
+	switch t := expect.(type) {
+	case bool:
+		expectValue = fmt.Sprintf("%v", t)
+	case nil:
+		expectValue = strings.Trim(fmt.Sprintf("%v", t), "<>")
+	default:
+		expectValue = expect
 	}
-	actualStr := actual
-	if _, ok := actual.(bool); ok {
-		actualStr = fmt.Sprintf("%v", actual)
-	} else if actual == nil {
-		actualStr = strings.Trim(fmt.Sprintf("%v", actual), "<>")
+	var actualValue any
+	switch t := actual.(type) {
+	case bool:
+		actualValue = fmt.Sprintf("%v", t)
+	case nil:
+		actualValue = strings.Trim(fmt.Sprintf("%v", t), "<>")
+	default:
+		actualValue = actual
 	}
 	if name == "" {
-		return fmt.Sprintf("Expected = %q but got %q", expectStr, actualStr)
+		return fmt.Sprintf("Expected = %q but got %q", expectValue, actualValue)
 	} else {
-		return fmt.Sprintf("Expected %v = %q but got %q", name, expectStr, actualStr)
+		return fmt.Sprintf("Expected %v = %q but got %q", name, expectValue, actualValue)
 	}
 }
