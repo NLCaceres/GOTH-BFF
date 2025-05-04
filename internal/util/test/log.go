@@ -1,6 +1,9 @@
 package test
 
-import "fmt"
+import (
+	"fmt"
+	"strings"
+)
 
 // Creates a consistent error message for use by testing.T.Error to output in testing logs,
 // improving readability and ease of diagnosing issues.
@@ -24,9 +27,21 @@ func ErrorMsg(name string, expect, actual any) string {
 // Name is optional and the blankspace it would create is removed.
 // No newline required since testing.T.Error automatically appends a newline
 func QuotedErrorMsg(name string, expect, actual any) string {
+	expectStr := expect
+	if _, ok := expect.(bool); ok {
+		expectStr = fmt.Sprintf("%v", expect)
+	} else if expect == nil {
+		expectStr = strings.Trim(fmt.Sprintf("%v", expect), "<>")
+	}
+	actualStr := actual
+	if _, ok := actual.(bool); ok {
+		actualStr = fmt.Sprintf("%v", actual)
+	} else if actual == nil {
+		actualStr = strings.Trim(fmt.Sprintf("%v", actual), "<>")
+	}
 	if name == "" {
-		return fmt.Sprintf("Expected = %q but got %q", expect, actual)
+		return fmt.Sprintf("Expected = %q but got %q", expectStr, actualStr)
 	} else {
-		return fmt.Sprintf("Expected %v = %q but got %q", name, expect, actual)
+		return fmt.Sprintf("Expected %v = %q but got %q", name, expectStr, actualStr)
 	}
 }

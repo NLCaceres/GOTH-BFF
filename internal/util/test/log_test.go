@@ -48,8 +48,8 @@ func TestQuotedErrorMsg(t *testing.T) {
 		Expect    string
 	}{
 		"String Arg": {"Foo", "Bar", "Fizz", `Expected Foo = "Bar" but got "Fizz"`},
-		// Bools cannot be used with the %q fmt verb, outputting the following odd message
-		"Bool Arg": {"bool", true, false, "Expected bool = %!q(bool=true) but got %!q(bool=false)"},
+		// Bools CAN'T be used with the %q fmt verb, so original output is altered
+		"Bool Arg": {"bool", true, false, `Expected bool = "true" but got "false"`},
 		"Slice Arg": { // Ints get converted to a character literal
 			"a", []int{1, 2, 3}, []int{1, 2},
 			"Expected a = ['\\x01' '\\x02' '\\x03'] but got ['\\x01' '\\x02']",
@@ -66,7 +66,7 @@ func TestQuotedErrorMsg(t *testing.T) {
 			`Expected = {"A" "B"} but got {"A" "B"}`,
 		},
 		"Nil arg": { // Nil values end up with similar odd formatting like bools
-			"", struct{ A string }{"A"}, nil, `Expected = {"A"} but got %!q(<nil>)`,
+			"", struct{ A string }{"A"}, nil, `Expected = {"A"} but got "nil"`,
 		},
 		"Pointer arg": {
 			"", &struct{ A string }{"A"}, &struct{ A string }{"A"}, `Expected = &{"A"} but got &{"A"}`,
