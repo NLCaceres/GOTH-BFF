@@ -28,20 +28,20 @@ func ErrorMsg(name string, expect, actual any) string {
 // No newline required since testing.T.Error automatically appends a newline
 func QuotedErrorMsg(name string, expect, actual any) string {
 	var expectValue any
-	switch t := expect.(type) {
+	switch expect.(type) {
 	case bool:
-		expectValue = fmt.Sprintf("%v", t)
+		expectValue = fmt.Sprintf("%v", expect)
 	case nil:
-		expectValue = strings.Trim(fmt.Sprintf("%v", t), "<>")
+		expectValue = strings.Trim(fmt.Sprintf("%v", expect), "<>")
 	default:
 		expectValue = expect
 	}
 	var actualValue any
-	switch t := actual.(type) {
+	switch actual.(type) {
 	case bool:
-		actualValue = fmt.Sprintf("%v", t)
+		actualValue = fmt.Sprintf("%v", actual)
 	case nil:
-		actualValue = strings.Trim(fmt.Sprintf("%v", t), "<>")
+		actualValue = strings.Trim(fmt.Sprintf("%v", actual), "<>")
 	default:
 		actualValue = actual
 	}
