@@ -13,11 +13,6 @@ type HttpMock struct { // Lowercased Struct fields ARE package private!
 	ResponseHeaders map[string]string
 }
 
-// TODO: Notable Go Convention fixes to check and make:
-// - Drop `New/Get` prefixes from `NewTestHandlerFunc` & `GetProjectFile`
-// - Replace `reflect.DeepEquals` with `cmp.Equals` in tests
-// - Embrace zero initialiers (string's "", int's 0, bool's false, etc)
-// like `new(SomeStruct)` over `&SomeStruct{}` if initial values aren't important
 func HttpHandlerFunc(t *testing.T, mock HttpMock) http.HandlerFunc {
 	return func(rw http.ResponseWriter, r *http.Request) {
 		if r.Method != mock.RequestMethod {
