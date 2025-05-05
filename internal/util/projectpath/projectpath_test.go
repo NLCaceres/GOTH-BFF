@@ -19,7 +19,7 @@ func TestProjectPath(t *testing.T) {
 	expectedRoot := testEnv["EXPECTED_ROOT"] // Expected root folder name (not full path)
 	// WHEN getting `Root`, THEN expect it to end with the project root folder name
 	if !strings.HasSuffix(Root, expectedRoot) {
-		t.Errorf("Expected root path = %q but got %q\n", expectedRoot, Root)
+		t.Error(test.QuotedErrorMsg("root path", expectedRoot, Root))
 	}
 
 	for _, filePath := range [3]string{"foobar", "/fizz", "//buzz"} {
