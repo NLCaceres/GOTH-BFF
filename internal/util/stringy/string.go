@@ -24,6 +24,23 @@ func FindDunderVars(str string) ([]string, error) {
 	return re.FindAllString(str, -1), nil
 }
 
+// Converts a string with pairs separated by commas and pair key separated from its
+// value by colons into a map[string]string.
+//
+// Ex: "foo:bar,fizz:buzz" -> map[string]string{"foo":"bar", "fizz":"buzz"}
+func Map(formattedString string) map[string]string {
+	newMap := make(map[string]string)
+	//NOTE: Golang ISN'T functional so no `map`, `filter`, etc. There's only `for`
+	for _, keyValPair := range strings.Split(formattedString, ",") {
+		splitKeyVal := strings.Split(keyValPair, ":") // [key, value]
+		if len(splitKeyVal) > 1 {
+			key, value := splitKeyVal[0], splitKeyVal[1]
+			newMap[key] = value
+		}
+	}
+	return newMap
+}
+
 // Converts a string containing Unicode representations of characters
 // like "&" or accented letters like in "está" into readable when printed strings.
 // Ex: "c\u00f3mo est\u00e1s" -> "cómo estás"
