@@ -115,7 +115,7 @@ func TestMap(t *testing.T) {
 	}
 }
 
-func TestUnescapeUnicodeStr(t *testing.T) {
+func TestUnescapedUnicode(t *testing.T) {
 	tests := map[string]struct {
 		Input  string
 		Expect string
@@ -135,7 +135,7 @@ func TestUnescapeUnicodeStr(t *testing.T) {
 
 	for testName, testCase := range tests {
 		t.Run(testName, func(t *testing.T) {
-			str, err := UnescapeUnicodeStr([]byte(testCase.Input))
+			str, err := UnescapedUnicode([]byte(testCase.Input))
 			if !test.IsSameError(err, testCase.Err) {
 				t.Error(test.QuotedErrorMsg("error", testCase.Err, err))
 			}
