@@ -117,6 +117,28 @@ func TestMap(t *testing.T) {
 	}
 }
 
+func TestPresenterMapValue(t *testing.T) {
+	tests := map[string]struct {
+		InputMap map[string]string
+		InputKey string
+		Expect   string
+	}{
+		"Value missing in map":    {map[string]string{}, "foo", "Foo"},
+		"Unfindable value in map": {map[string]string{"fizz": "Fizzy"}, "FooBar", "Foobar"},
+		"Value in map":            {map[string]string{"fizz": "Fizzy Buzz"}, "fizz", "Fizzy Buzz"},
+	}
+
+	for testName, testCase := range tests {
+		t.Run(testName, func(t *testing.T) {
+			output := PresenterMapValue(testCase.InputMap, testCase.InputKey)
+
+			if output != testCase.Expect {
+				t.Error(test.QuotedErrorMsg("presentable value", testCase.Expect, output))
+			}
+		})
+	}
+}
+
 func TestUnescapedUnicode(t *testing.T) {
 	tests := map[string]struct {
 		Input  string

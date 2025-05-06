@@ -41,6 +41,19 @@ func Map(formattedString string) map[string]string {
 	return newMap
 }
 
+// Takes a map and a key that should point to a human-readable UI-ready string value.
+// If the value does not exist in the map for the input key, then the key is returned
+// as a TitleCased string for presentation in a UI.
+func PresenterMapValue(presenter map[string]string, key string) string {
+	var presentableValue string
+	if presenterValue, ok := presenter[key]; ok { // `ok` = true if value is in map
+		presentableValue = presenterValue // No formatting needed for existing readable version
+	} else {
+		presentableValue = TitleCase(key)
+	}
+	return presentableValue
+}
+
 // Converts a string containing Unicode representations of characters
 // like "&" or accented letters like in "está" into readable when printed strings.
 //
