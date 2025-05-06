@@ -15,6 +15,8 @@ func TestTitleCase(t *testing.T) {
 		"An empty string stays empty":     {"", ""},
 		"foo becomes Foo":                 {"foo", "Foo"},
 		"fOO becomes Foo":                 {"fOO", "Foo"},
+		"foobar becomes Foobar":           {"foobar", "Foobar"},
+		"fizzBuzz becomes Fizzbuzz":       {"fizzBuzz", "Fizzbuzz"},
 		"'foo bar' becomes 'Foo Bar'":     {"foo bar", "Foo Bar"},
 		"'Foo Bar' STAYS 'Foo Bar'":       {"Foo Bar", "Foo Bar"},
 		"'fIzz buZZ' becomes 'Fizz Buzz'": {"fIzz buZZ", "Fizz Buzz"},
