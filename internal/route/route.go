@@ -14,31 +14,12 @@ func Routes(app *echo.Echo) {
 	app.GET("/", handler.RenderView)
 
 	apiRoutes := strings.Split(os.Getenv("APP_ROUTES"), ",") // Get comma-delim'd route paths
-	routeMap := mapFromString(os.Getenv("ROUTE_MAP"))
+	routeMap := stringy.Map(os.Getenv("ROUTE_MAP"))
 	for _, route := range apiRoutes {
 		routePath := "/" + route
-		var routeFormatted string
-		if routeReadable, ok := routeMap[route]; ok { // `ok` = true if value is in map
-			routeFormatted = routeReadable // No formatting needed for existing readable version
-		} else {
-			routeFormatted = stringy.TitleCase(route)
-		}
-		routeFormattedPath := "/" + routeFormatted
+		routeFormattedPath := "/" + stringy.PresenterMapValue(routeMap, route)
 
 		app.GET(routePath, handler.ApiPostRequest)
 		app.GET(routeFormattedPath, handler.ApiPostRequest)
 	}
-}
-
-func mapFromString(mapString string) map[string]string {
-	newMap := make(map[string]string)
-	//NOTE: Golang ISN'T functional so no `map`, `filter`, etc. There's only `for`
-	for _, keyValPair := range strings.Split(mapString, ",") {
-		splitKeyVal := strings.Split(keyValPair, ":") // [key, value]
-		if len(splitKeyVal) > 1 {
-			key, value := splitKeyVal[0], splitKeyVal[1]
-			newMap[key] = value
-		}
-	}
-	return newMap
 }
