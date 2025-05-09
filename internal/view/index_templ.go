@@ -83,7 +83,7 @@ func navbar(navItems []string) templ.Component {
 			return templ_7745c5c3_Err
 		}
 		routeMap := stringy.Map(os.Getenv("ROUTE_MAP"))
-		for _, item := range list.DistinctBy(navItems, func(str string) string { return strings.ToLower(str) }) {
+		for _, item := range list.DistinctBy(navItems, strings.ToLower) {
 			if !strings.Contains(item, "-") {
 				templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 4, "<a href=\"")
 				if templ_7745c5c3_Err != nil {

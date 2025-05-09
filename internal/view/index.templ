@@ -19,7 +19,7 @@ templ head(title string) {
 templ navbar(navItems []string) {
 	<nav>
 		{{ routeMap := stringy.Map(os.Getenv("ROUTE_MAP")) }}
-		for _, item := range list.DistinctBy(navItems, func(str string) string { return strings.ToLower(str) }) {
+		for _, item := range list.DistinctBy(navItems, strings.ToLower) {
 			if !strings.Contains(item, "-") {
 				<a href={ templ.URL("/" + item) } style="padding-right:1rem;">
 					{ stringy.PresenterMapValue(routeMap, item) }
