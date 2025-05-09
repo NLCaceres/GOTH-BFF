@@ -82,6 +82,7 @@ func navbar(navItems []string) templ.Component {
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
+		routeMap := stringy.Map(os.Getenv("ROUTE_MAP"))
 		for _, item := range list.DistinctBy(navItems, func(str string) string { return strings.ToLower(str) }) {
 			if !strings.Contains(item, "-") {
 				templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 4, "<a href=\"")
@@ -98,9 +99,9 @@ func navbar(navItems []string) templ.Component {
 					return templ_7745c5c3_Err
 				}
 				var templ_7745c5c3_Var5 string
-				templ_7745c5c3_Var5, templ_7745c5c3_Err = templ.JoinStringErrs(stringy.TitleCase(item))
+				templ_7745c5c3_Var5, templ_7745c5c3_Err = templ.JoinStringErrs(stringy.PresenterMapValue(routeMap, item))
 				if templ_7745c5c3_Err != nil {
-					return templ.Error{Err: templ_7745c5c3_Err, FileName: `internal/view/index.templ`, Line: 24, Col: 30}
+					return templ.Error{Err: templ_7745c5c3_Err, FileName: `internal/view/index.templ`, Line: 25, Col: 48}
 				}
 				_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var5))
 				if templ_7745c5c3_Err != nil {
