@@ -44,6 +44,7 @@ of the page routing
 - `go get <github-url>` - Install new dependency
   - `go get <github-url>@none` - Removes dependency
   - `go get .` - Finds external dependencies in current package files to install
+  - `go get -u ./...` - Updates dependencies to latest versions
   - `go get -tool <github-url>` - Installs tool dependencies
     - Adds `tool` directive to `go.mod` for pkgs like linters/formatters/builders
     - Pre-Go v1.24 tool dependencies could be split off into a `/internal/tools`
@@ -53,8 +54,9 @@ of the page routing
   - Run in root folder to set up dependency tracking creating `go.mod`, i.e.
   `go mod init github.com/NLCaceres/goth-example` sets up a "goth-example" module
 - `go mod tidy` - Clean up and optimize dependencies in `go.mod` and `go.sum` files
-  - VERY useful since it can it act similarly to `go get .` and help install dependencies
-  you may have missed, remove unused dependencies, downgrade or upgrade them, etc.
+  - Very useful since it acts a bit like `go get .`, adding direct and indirect
+  dependencies to `go.mod` & `go.sum` as well as updating indirect dependencies or
+  removing unneeded ones, making it important after any dependency changes & updates
 - `go run cmd/main.go` - Runs `main()` inside the cmd folder's `main.go` file
   - To run the module with live reloading, install `github.com/bokwoon95/wgo`
   and convert `go run` to `wgo run`
