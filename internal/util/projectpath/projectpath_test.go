@@ -21,14 +21,50 @@ func TestProjectPath(t *testing.T) {
 	if !strings.HasSuffix(Root, expectedRoot) {
 		t.Error(test.QuotedErrorMsg("root path", expectedRoot, Root))
 	}
+}
 
-	for _, filePath := range [3]string{"foobar", "/fizz", "//buzz"} {
-		// WHEN trying to get some Project File's path, regardless of leading "/" added
-		actualFilePath := File(filePath)
-		// THEN `filePath` should be properly appended to the Project's root folder path
-		expectedFilePath := expectedRoot + "/" + strings.TrimLeft(filePath, "/")
-		if !strings.HasSuffix(actualFilePath, expectedFilePath) {
-			t.Error(test.QuotedErrorMsg("file path", expectedFilePath, actualFilePath))
-		}
+func TestFile(t *testing.T) {
+	expectPath := func(s string) string { return Root + "/" + strings.TrimLeft(s, "/") }
+	tests := map[string]struct {
+		Input  string
+		Expect string
+		Err    error
+	}{
+		"Random path":                {"foobar", "", errFileNotFound},
+		"Actual path":                {"go.sum", expectPath("go.sum"), nil},
+		"Path with slash handled":    {"/go.sum", expectPath("go.sum"), nil},
+		"Path with multiple slashes": {"////go.sum", expectPath("go.sum"), nil},
+	}
+
+	for testName, testCase := range tests {
+		t.Run(testName, func(t *testing.T) {
+			actual, err := File(testCase.Input)
+			if testCase.Err != err {
+				t.Error(test.ErrorMsg("error", testCase.Err, err))
+			}
+			if testCase.Expect != actual {
+				t.Error(test.ErrorMsg("path", testCase.Expect, actual))
+			}
+		})
+	}
+}
+
+func TestFileExists(t *testing.T) {
+	tests := map[string]struct {
+		Input  string
+		Expect bool
+	}{
+		"File does not exist":    {"/foobar", false},
+		"File exists":            {Root + "/go.sum", true},
+		"File exists with issue": {"\000x", false}, // May exist BUT maybe a permission or name issue
+	}
+
+	for testName, testCase := range tests {
+		t.Run(testName, func(t *testing.T) {
+			actual := fileExists(testCase.Input)
+			if testCase.Expect != actual {
+				t.Error(test.ErrorMsg("file exists", testCase.Expect, actual))
+			}
+		})
 	}
 }
