@@ -26,14 +26,10 @@ func findRoot() string {
 var errFileNotFound = errors.New("File not found")
 
 // Takes the path of a file relative to the project root folder
-// and returns the expected concatenated path as a string ready for use
-// by funcs like `Open` or `ReadFile` UNLESS the file DOESN'T exist in the project
-func File(filePath string) (string, error) {
-	fullPath := filepath.Join(Root, filePath)
-	if !fileExists(fullPath) {
-		return "", errFileNotFound
-	}
-	return fullPath, nil
+// and returns the concatenated path as a string ready for use
+// by funcs like `Open` or `ReadFile`
+func File(filePath string) string {
+	return filepath.Join(Root, filePath)
 }
 
 func fileExists(filePath string) bool {

@@ -18,12 +18,8 @@ func JSON[T any](filePath string) (T, error) {
 	if !strings.HasSuffix(filePath, ".json") {
 		return jsonMap, errors.New("Incorrect File Type: Expected \".json\" file")
 	}
-	file, err := projectpath.File(filePath)
-	if err != nil {
-		return jsonMap, err
-	}
 	// Using ReadFile handles Opening, Closing and Reading the file directly into []byte
-	fileBytes, err := os.ReadFile(file)
+	fileBytes, err := os.ReadFile(projectpath.File(filePath))
 	if err != nil {
 		return jsonMap, err
 	}
@@ -39,11 +35,7 @@ func JSON[T any](filePath string) (T, error) {
 func Text(filePath string) (string, error) {
 	var queryObj string
 
-	file, err := projectpath.File(filePath)
-	if err != nil {
-		return queryObj, err
-	}
-	fileBytes, err := os.ReadFile(file)
+	fileBytes, err := os.ReadFile(projectpath.File(filePath))
 	if err != nil {
 		return queryObj, err
 	}
