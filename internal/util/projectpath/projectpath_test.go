@@ -3,6 +3,7 @@ package projectpath
 import (
 	"github.com/NLCaceres/goth-example/internal/util/test"
 	"github.com/joho/godotenv"
+	"os"
 	"strings"
 	"testing"
 )
@@ -16,7 +17,10 @@ func TestProjectPath(t *testing.T) {
 		t.Error("Test Env failed to load")
 	}
 
-	expectedRoot := testEnv["EXPECTED_ROOT"] // Expected root folder name (not full path)
+	expectedRoot := testEnv["EXPECTED_ROOT"]
+	if os.Getenv("IS_CI") == "true" {
+		expectedRoot = os.Getenv("EXPECTED_ROOT")
+	}
 	// WHEN getting `Root`, THEN expect it to end with the project root folder name
 	if !strings.HasSuffix(Root, expectedRoot) {
 		t.Error(test.QuotedErrorMsg("root path", expectedRoot, Root))

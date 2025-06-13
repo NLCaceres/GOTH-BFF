@@ -29,3 +29,6 @@ jobs:
         run: go get ./...
       - name: Test via Go CLI
         run: go test -v ./...
+        env:
+          IS_CI: "true"
+          EXPECTED_ROOT: "/GOTH-BFF/GOTH-BFF"
