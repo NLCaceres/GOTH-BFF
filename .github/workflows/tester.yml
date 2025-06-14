@@ -30,7 +30,7 @@ jobs:
       - name: Build project
         run: go build -v ./...
       - name: Test via Go CLI
-        run: go test -v ./...
+        run: go test -v
         env:
           IS_CI: "true"
           EXPECTED_ROOT: "/GOTH-BFF/GOTH-BFF"
