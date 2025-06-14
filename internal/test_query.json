@@ -1,0 +1,9 @@
+{
+  "searches": [
+    {
+      "filter_by": "a:=[`quark`] && b:=[`buzz`]",
+      "q": "some kind of query"
+    }
+  ]
+}
+

@@ -25,10 +25,10 @@ func TestApiPostRequest(t *testing.T) {
 			httpMock(badData), "internal/util/test/bad_typing.json", "", 501, "",
 		},
 		"Error from inside PostJSON": {
-			httpMock(badData), "internal/long_query.json", "foo|bar|fi", 502, "",
+			httpMock(badData), "internal/test_query.json", "foo|bar|fi", 502, "",
 		},
 		"Successfully POSTed to external API": {
-			httpMock(successData), "internal/long_query.json", "foo|bar|fi", 200, successData,
+			httpMock(successData), "internal/test_query.json", "foo|bar|fi", 200, successData,
 		},
 	}
 	for testName, testCase := range tests {
