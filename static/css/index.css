@@ -14,6 +14,15 @@ body {
   justify-content: center;
   height: 100%;
 }
+.slides-up {
+  transform: translateY(25%);
+}
+.slides-up:hover {
+  transform: translateY(0%);
+}
+.transitionable {
+  transition: all 1s;
+}
 
 h1 {
   color: white;
