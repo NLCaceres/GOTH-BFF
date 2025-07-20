@@ -5,7 +5,7 @@ import "github.com/NLCaceres/goth-example/internal/model"
 templ Path(title string, items []model.Item) {
 	<div>
 		<h1>
-			{ title }
+			{ title } - Normal Links
 		</h1>
 		<p>Links that simply take the user to the URL provided by the Item struct</p>
 		<ol>
@@ -15,7 +15,39 @@ templ Path(title string, items []model.Item) {
 					<a href={ link }>
 						{ item.Name }
 						<br/>
-						<div style="margin-left: 1.33rem;">- Link: { "/" + link }</div>
+						<div style="margin-left: 1.33rem;">- Link = { "/" + link }</div>
+					</a>
+				</li>
+			}
+		</ol>
+		<h1>
+			{ title } - Traditional Hashed Same Page Links
+		</h1>
+		<p>Links that link to the same page by appending a hash and the section name to the URL</p>
+		<ol>
+			for _, item := range items {
+				<li>
+					{{ link := templ.URL("#" + item.URL) }}
+					<a href={ link }>
+						{ item.Name }
+						<br/>
+						<div style="margin-left: 1.33rem;">- Link =: { "/" + item.Name + string(link) }</div>
+					</a>
+				</li>
+			}
+		</ol>
+		<h1>
+			{ title } - Modern Slashed then Hashed Same Page Links
+		</h1>
+		<p>Links that append a slash before appending the usual hash and section name to the URL</p>
+		<ol>
+			for _, item := range items {
+				<li>
+					{{ link := templ.URL(item.Name + "/#" + item.URL) }}
+					<a href={ link }>
+						{ item.Name }
+						<br/>
+						<div style="margin-left: 1.33rem;">- Link =: { "/" + link }</div>
 					</a>
 				</li>
 			}
