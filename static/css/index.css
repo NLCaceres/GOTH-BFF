@@ -1,3 +1,7 @@
+:root {
+  --spacing: 0.25rem;
+}
+
 body {
   margin: 0;
   padding: 0;
@@ -7,21 +11,6 @@ body {
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   background-color: #262626;
-}
-
-.centered {
-  display: flex;
-  justify-content: center;
-  height: 100%;
-}
-.slides-up {
-  transform: translateY(25%);
-}
-.slides-up:hover {
-  transform: translateY(0%);
-}
-.transitionable {
-  transition: all 1s;
 }
 
 h1 {
@@ -35,4 +24,22 @@ li {
 }
 a {
   color: chartreuse;
+}
+
+.centered {
+  display: flex;
+  justify-content: center;
+  height: 100%;
+}
+.ml-4 {
+  margin-left: calc(var(--spacing) * 4);
+}
+.slides-up {
+  transform: translateY(25%);
+}
+.slides-up:hover {
+  transform: translateY(0%);
+}
+.transitionable {
+  transition: all 1s;
 }
