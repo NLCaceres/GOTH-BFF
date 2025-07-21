@@ -2,7 +2,9 @@ package route
 
 import (
 	"github.com/NLCaceres/goth-example/internal/handler"
+	"github.com/NLCaceres/goth-example/internal/model"
 	"github.com/NLCaceres/goth-example/internal/util/stringy"
+	"github.com/NLCaceres/goth-example/internal/view"
 	"github.com/labstack/echo/v4"
 	"os"
 	"strings"
@@ -12,6 +14,12 @@ import (
 
 func Routes(app *echo.Echo) {
 	app.GET("/", handler.RenderView)
+	app.GET("/:name", func(c echo.Context) error {
+		name := c.Param("name")
+		return handler.RenderHTMLView(
+			c, view.Path(name, []model.Item{{Name: "Foo", URL: "Bar"}, {Name: "Fi", URL: "Bu"}}), name,
+		)
+	})
 
 	apiRoutes := strings.Split(os.Getenv("APP_ROUTES"), ",") // Get comma-delim'd route paths
 	routeMap := stringy.Map(os.Getenv("ROUTE_MAP"))
