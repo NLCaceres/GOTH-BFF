@@ -48,6 +48,10 @@ a {
 .centered {
   display: flex;
   justify-content: center;
+}
+
+/* Size helpers */
+.h-100 {
   height: 100%;
 }
 
