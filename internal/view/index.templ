@@ -1,45 +1,45 @@
 package view
 
 import (
-	"os"
-	"strings"
-	"github.com/NLCaceres/goth-example/internal/util/stringy"
-	"github.com/NLCaceres/goth-example/internal/util/list"
+  "os"
+  "strings"
+  "github.com/NLCaceres/goth-example/internal/util/stringy"
+  "github.com/NLCaceres/goth-example/internal/util/list"
 )
 
 templ head(title string) {
-	<head>
-		<title>{ title }</title>
-		<meta charset="UTF-8"/>
-		<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-		<link rel="stylesheet" crossorigin href="css/index.css"/>
-	</head>
+  <head>
+    <title>{ title }</title>
+    <meta charset="UTF-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <link rel="stylesheet" crossorigin href="css/index.css"/>
+  </head>
 }
 
 templ navbar(navItems []string) {
-	<nav>
-		{{ routeMap := stringy.Map(os.Getenv("ROUTE_MAP")) }}
-		for _, item := range list.DistinctBy(navItems, strings.ToLower) {
-			if !strings.Contains(item, "-") {
-				<a href={ templ.URL("/" + item) } style="padding-right:1rem;">
-					{ stringy.PresenterMapValue(routeMap, item) }
-				</a>
-			}
-		}
-	</nav>
+  <nav>
+    {{ routeMap := stringy.Map(os.Getenv("ROUTE_MAP")) }}
+    for _, item := range list.DistinctBy(navItems, strings.ToLower) {
+      if !strings.Contains(item, "-") {
+        <a href={ templ.URL("/" + item) } style="padding-right:1rem;">
+          { stringy.PresenterMapValue(routeMap, item) }
+        </a>
+      }
+    }
+  </nav>
 }
 
 templ footer() {
-	<footer></footer>
+  <footer></footer>
 }
 
 templ HTMLIndex(contents templ.Component, title string) {
-	@head(title)
-	<body>
-		@navbar(strings.Split(os.Getenv("APP_ROUTES"), ","))
-		<main class="centered">
-			@contents
-		</main>
-		@footer()
-	</body>
+  @head(title)
+  <body>
+    @navbar(strings.Split(os.Getenv("APP_ROUTES"), ","))
+    <main class="centered">
+      @contents
+    </main>
+    @footer()
+  </body>
 }
