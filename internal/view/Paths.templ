@@ -27,20 +27,23 @@ templ Path(title string, items []model.Item) {
 templ itemList(
   items []model.Item, urlGenerator func(model.Item) string, expectedLink func(model.Item) string,
 ) {
-  <ol>
-    for _, item := range items {
+  <ul>
+    for i, item := range items {
       <li class="grid listItem">
         <div class="itemName centered cross-centered bg-gray-700">
-          <p>{ item.Name }</p>
+          <p>{ i + 1 }</p>
         </div>
         {{ link := templ.URL(urlGenerator(item)) }}
         <div class="itemLink centered cross-centered bg-gray-700">
-          <a href={ link }>Links to: { `"` + expectedLink(item) + `"` }</a>
+          <a href={ link }>
+            <p>{ item.Name }</p>
+            <p>Links to: { `"` + expectedLink(item) + `"` }</p>
+          </a>
         </div>
         <div class="itemButton centered cross-centered bg-gray-700">
           <button type="button" class="h-80">Done?</button>
         </div>
       </li>
     }
-  </ol>
+  </ul>
 }
