@@ -30,14 +30,14 @@ templ itemList(
   <ol>
     for _, item := range items {
       <li class="grid listItem">
-        <div class="itemName centered cross-centered">
+        <div class="itemName centered cross-centered bg-gray-700">
           <p>{ item.Name }</p>
         </div>
         {{ link := templ.URL(urlGenerator(item)) }}
-        <div class="itemLink centered cross-centered">
+        <div class="itemLink centered cross-centered bg-gray-700">
           <a href={ link }>Links to: { `"` + expectedLink(item) + `"` }</a>
         </div>
-        <div class="itemButton centered cross-centered">
+        <div class="itemButton centered cross-centered bg-gray-700">
           <button type="button" class="h-80">Done?</button>
         </div>
       </li>
