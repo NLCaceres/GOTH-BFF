@@ -36,8 +36,8 @@ templ itemList(
         {{ link := templ.URL(urlGenerator(item)) }}
         <div class="itemLink centered cross-centered bg-gray-700">
           <a href={ link }>
-            <p class="m-0">{ item.Name }</p>
-            <p class="mt-1">
+            <p class="m-0 text-bright-green">{ item.Name }</p>
+            <p class="mt-1 text-white">
               Links to: { `"` + expectedLink(item) + `"` }
             </p>
           </a>

@@ -76,6 +76,14 @@ a {
   margin-left: calc(var(--spacing) * 4);
 }
 
+/* Typography */
+.text-bright-green {
+  color: chartreuse;
+}
+.text-white {
+  color: white;
+}
+
 /* Animation helpers */
 .slides-up {
   transform: translateY(25%);
