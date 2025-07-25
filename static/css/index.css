@@ -49,6 +49,9 @@ a {
   display: flex;
   justify-content: center;
 }
+.cross-centered {
+  align-items: center;
+}
 
 /* Size helpers */
 .h-100 {
