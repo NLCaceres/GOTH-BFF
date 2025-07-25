@@ -29,7 +29,6 @@ a {
 /* App-specific styles */
 .listItem {
   grid-template-columns: [name] 1fr [link] 2fr [button] 1fr 7fr;
-  column-gap: 1rem;
 }
 .itemName {
   grid-column: name;
