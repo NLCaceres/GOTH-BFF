@@ -154,7 +154,7 @@ func itemList(
 				return templ_7745c5c3_Err
 			}
 			link := templ.URL(urlGenerator(item))
-			templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 11, "<div class=\"itemLink centered cross-centered bg-gray-700\"><a href=\"")
+			templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 11, "<div class=\"itemLink grid centered cross-centered bg-gray-700\"><a href=\"")
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
@@ -167,7 +167,7 @@ func itemList(
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
-			templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 12, "\">")
+			templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 12, "\" class=\"itemTitle\">")
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
@@ -180,7 +180,7 @@ func itemList(
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
-			templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 13, "</a><p class=\"mt-1 text-white\">Links to: ")
+			templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 13, "</a><p class=\"itemDescription mt-1 text-white\">Links to: ")
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
