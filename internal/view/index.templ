@@ -37,7 +37,7 @@ templ HTMLIndex(contents templ.Component, title string) {
   @head(title)
   <body>
     @navbar(strings.Split(os.Getenv("APP_ROUTES"), ","))
-    <main class="centered h-100">
+    <main class="flex centered h-100">
       @contents
     </main>
     @footer()

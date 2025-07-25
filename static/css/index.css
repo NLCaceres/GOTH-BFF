@@ -44,8 +44,10 @@ a {
 .grid {
   display: grid;
 }
-.centered {
+.flex {
   display: flex;
+}
+.centered {
   justify-content: center;
 }
 .cross-centered {
