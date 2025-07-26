@@ -34,11 +34,11 @@ templ itemList(
           <p>{ i + 1 }</p>
         </div>
         {{ link := templ.URL(urlGenerator(item)) }}
-        <div class="itemLink grid centered cross-centered bg-gray-700">
-          <a href={ link } class="itemTitle">
+        <div class="itemLink flex flex-column bg-gray-700">
+          <a href={ link }>
             { item.Name }
           </a>
-          <p class="itemDescription mt-1 text-white">
+          <p class="mt-1 text-white">
             Links to: { `"` + expectedLink(item) + `"` }
           </p>
         </div>
