@@ -82,6 +82,9 @@ a {
 }
 
 /* Typography */
+.text-xl {
+  font-size: 1.5rem;
+}
 .text-bright-green {
   color: chartreuse;
 }

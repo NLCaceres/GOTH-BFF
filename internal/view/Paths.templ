@@ -35,7 +35,7 @@ templ itemList(
         </div>
         {{ link := templ.URL(urlGenerator(item)) }}
         <div class="itemLink flex flex-column bg-gray-700">
-          <a href={ link }>
+          <a href={ link } class="text-xl">
             { item.Name }
           </a>
           <p class="mt-1 text-white">
