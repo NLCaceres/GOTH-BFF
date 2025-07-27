@@ -15,9 +15,9 @@ import (
 func Routes(app *echo.Echo) {
 	app.GET("/", handler.RenderView)
 	app.GET("/:name", func(c echo.Context) error {
-		name := c.Param("name")
+		n := c.Param("name")
 		return handler.RenderHTMLView(
-			c, view.Path(name, []model.Item{{Name: "Foo", URL: "Bar"}, {Name: "Fi", URL: "Bu"}}), name,
+			c, view.Path(n, []model.Item{{Name: "Fo", URL: "Ba"}, {Name: "Fi", URL: "Bu"}}), n,
 		)
 	})
 
