@@ -49,8 +49,7 @@ func Path(title string, items []model.Item) templ.Component {
 			return templ_7745c5c3_Err
 		}
 		url := func(i model.Item) string { return i.URL }
-		expectedLink := func(i model.Item) string { return "/" + i.URL }
-		templ_7745c5c3_Err = itemList(items, url, expectedLink).Render(ctx, templ_7745c5c3_Buffer)
+		templ_7745c5c3_Err = itemList(items, url).Render(ctx, templ_7745c5c3_Buffer)
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
@@ -61,7 +60,7 @@ func Path(title string, items []model.Item) templ.Component {
 		var templ_7745c5c3_Var3 string
 		templ_7745c5c3_Var3, templ_7745c5c3_Err = templ.JoinStringErrs(title)
 		if templ_7745c5c3_Err != nil {
-			return templ.Error{Err: templ_7745c5c3_Err, FileName: `internal/view/Paths.templ`, Line: 13, Col: 15}
+			return templ.Error{Err: templ_7745c5c3_Err, FileName: `internal/view/Paths.templ`, Line: 12, Col: 15}
 		}
 		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var3))
 		if templ_7745c5c3_Err != nil {
@@ -72,8 +71,7 @@ func Path(title string, items []model.Item) templ.Component {
 			return templ_7745c5c3_Err
 		}
 		hashURL := func(i model.Item) string { return "#" + i.URL }
-		hashExpectedLink := func(i model.Item) string { return "/" + i.Name + "#" + i.URL }
-		templ_7745c5c3_Err = itemList(items, hashURL, hashExpectedLink).Render(ctx, templ_7745c5c3_Buffer)
+		templ_7745c5c3_Err = itemList(items, hashURL).Render(ctx, templ_7745c5c3_Buffer)
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
@@ -84,7 +82,7 @@ func Path(title string, items []model.Item) templ.Component {
 		var templ_7745c5c3_Var4 string
 		templ_7745c5c3_Var4, templ_7745c5c3_Err = templ.JoinStringErrs(title)
 		if templ_7745c5c3_Err != nil {
-			return templ.Error{Err: templ_7745c5c3_Err, FileName: `internal/view/Paths.templ`, Line: 19, Col: 15}
+			return templ.Error{Err: templ_7745c5c3_Err, FileName: `internal/view/Paths.templ`, Line: 17, Col: 15}
 		}
 		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var4))
 		if templ_7745c5c3_Err != nil {
@@ -95,8 +93,7 @@ func Path(title string, items []model.Item) templ.Component {
 			return templ_7745c5c3_Err
 		}
 		slashHashURL := func(i model.Item) string { return i.Name + "/#" + i.URL }
-		slashHashExpectedLink := func(i model.Item) string { return "/" + i.Name + "/#" + i.URL }
-		templ_7745c5c3_Err = itemList(items, slashHashURL, slashHashExpectedLink).Render(ctx, templ_7745c5c3_Buffer)
+		templ_7745c5c3_Err = itemList(items, slashHashURL).Render(ctx, templ_7745c5c3_Buffer)
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
@@ -108,9 +105,7 @@ func Path(title string, items []model.Item) templ.Component {
 	})
 }
 
-func itemList(
-	items []model.Item, urlGenerator func(model.Item) string, expectedLink func(model.Item) string,
-) templ.Component {
+func itemList(items []model.Item, urlGenerator func(model.Item) string) templ.Component {
 	return templruntime.GeneratedTemplate(func(templ_7745c5c3_Input templruntime.GeneratedComponentInput) (templ_7745c5c3_Err error) {
 		templ_7745c5c3_W, ctx := templ_7745c5c3_Input.Writer, templ_7745c5c3_Input.Context
 		if templ_7745c5c3_CtxErr := ctx.Err(); templ_7745c5c3_CtxErr != nil {
@@ -143,62 +138,57 @@ func itemList(
 			var templ_7745c5c3_Var6 string
 			templ_7745c5c3_Var6, templ_7745c5c3_Err = templ.JoinStringErrs(i + 1)
 			if templ_7745c5c3_Err != nil {
-				return templ.Error{Err: templ_7745c5c3_Err, FileName: `internal/view/Paths.templ`, Line: 34, Col: 20}
+				return templ.Error{Err: templ_7745c5c3_Err, FileName: `internal/view/Paths.templ`, Line: 29, Col: 20}
 			}
 			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var6))
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
-			templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 10, "</p></div>")
-			if templ_7745c5c3_Err != nil {
-				return templ_7745c5c3_Err
-			}
-			link := templ.URL(urlGenerator(item))
-			templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 11, "<div class=\"itemLink flex flex-column bg-gray-700\"><a href=\"")
+			templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 10, "</p></div><div class=\"itemLink flex flex-column bg-gray-700\"><a href=\"")
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
 			var templ_7745c5c3_Var7 templ.SafeURL
-			templ_7745c5c3_Var7, templ_7745c5c3_Err = templ.JoinURLErrs(link)
+			templ_7745c5c3_Var7, templ_7745c5c3_Err = templ.JoinURLErrs(urlGenerator(item))
 			if templ_7745c5c3_Err != nil {
-				return templ.Error{Err: templ_7745c5c3_Err, FileName: `internal/view/Paths.templ`, Line: 38, Col: 24}
+				return templ.Error{Err: templ_7745c5c3_Err, FileName: `internal/view/Paths.templ`, Line: 32, Col: 38}
 			}
 			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var7))
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
-			templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 12, "\" class=\"text-xl\">")
+			templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 11, "\" class=\"text-xl\">")
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
 			var templ_7745c5c3_Var8 string
 			templ_7745c5c3_Var8, templ_7745c5c3_Err = templ.JoinStringErrs(item.Name)
 			if templ_7745c5c3_Err != nil {
-				return templ.Error{Err: templ_7745c5c3_Err, FileName: `internal/view/Paths.templ`, Line: 39, Col: 23}
+				return templ.Error{Err: templ_7745c5c3_Err, FileName: `internal/view/Paths.templ`, Line: 33, Col: 23}
 			}
 			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var8))
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
-			templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 13, "</a><p class=\"mt-1 text-white\">Links to: ")
+			templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 12, "</a><p class=\"mt-1 text-white\">")
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
 			var templ_7745c5c3_Var9 string
-			templ_7745c5c3_Var9, templ_7745c5c3_Err = templ.JoinStringErrs(`"` + expectedLink(item) + `"`)
+			templ_7745c5c3_Var9, templ_7745c5c3_Err = templ.JoinStringErrs(item.Description)
 			if templ_7745c5c3_Err != nil {
-				return templ.Error{Err: templ_7745c5c3_Err, FileName: `internal/view/Paths.templ`, Line: 42, Col: 54}
+				return templ.Error{Err: templ_7745c5c3_Err, FileName: `internal/view/Paths.templ`, Line: 36, Col: 30}
 			}
 			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var9))
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
-			templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 14, "</p></div><div class=\"itemButton flex centered cross-centered bg-gray-700\"><button type=\"button\" class=\"h-80\">Done?</button></div></li>")
+			templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 13, "</p></div><div class=\"itemButton flex centered cross-centered bg-gray-700\"><button type=\"button\" class=\"h-80\">Done?</button></div></li>")
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
 		}
-		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 15, "</ul>")
+		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 14, "</ul>")
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}

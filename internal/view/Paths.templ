@@ -7,39 +7,33 @@ templ Path(title string, items []model.Item) {
     <h1>{ title } - Normal Links</h1>
     <p>Links that simply take the user to the URL provided by the Item struct</p>
     {{ url := func(i model.Item) string { return i.URL } }}
-    {{ expectedLink := func(i model.Item) string { return "/" + i.URL } }}
-    @itemList(items, url, expectedLink)
+    @itemList(items, url)
 
     <h1>{ title } - Traditional Hashed Same Page Links</h1>
     <p>Links that link to the same page by appending a hash and the section name to the URL</p>
     {{ hashURL := func(i model.Item) string { return "#" + i.URL } }}
-    {{ hashExpectedLink := func(i model.Item) string { return "/" + i.Name + "#" + i.URL } }}
-    @itemList(items, hashURL, hashExpectedLink)
+    @itemList(items, hashURL)
 
     <h1>{ title } - Modern Slashed then Hashed Same Page Links</h1>
     <p>Links that append a slash before appending the usual hash and section name to the URL</p>
     {{ slashHashURL := func(i model.Item) string { return i.Name + "/#" + i.URL } }}
-    {{ slashHashExpectedLink := func(i model.Item) string { return "/" + i.Name + "/#" + i.URL } }}
-    @itemList(items, slashHashURL, slashHashExpectedLink)
+    @itemList(items, slashHashURL)
   </div>
 }
 
-templ itemList(
-  items []model.Item, urlGenerator func(model.Item) string, expectedLink func(model.Item) string,
-) {
+templ itemList(items []model.Item, urlGenerator func(model.Item) string) {
   <ul>
     for i, item := range items {
       <li class="grid listItem">
         <div class="itemName flex centered cross-centered bg-gray-700">
           <p>{ i + 1 }</p>
         </div>
-        {{ link := templ.URL(urlGenerator(item)) }}
         <div class="itemLink flex flex-column bg-gray-700">
-          <a href={ link } class="text-xl">
+          <a href={ urlGenerator(item) } class="text-xl">
             { item.Name }
           </a>
           <p class="mt-1 text-white">
-            Links to: { `"` + expectedLink(item) + `"` }
+            { item.Description }
           </p>
         </div>
         <div class="itemButton flex centered cross-centered bg-gray-700">
