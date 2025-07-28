@@ -17,11 +17,11 @@ templ head(title string) {
 }
 
 templ navbar(navItems []string) {
-  <nav>
+  <nav class="my-4 ml-4">
     {{ routeMap := stringy.Map(os.Getenv("ROUTE_MAP")) }}
     for _, navItem := range list.DistinctBy(navItems, strings.ToLower) {
       if !strings.Contains(navItem, "-") {
-        <a href={ navItem } style="padding-right:1rem;">
+        <a href={ navItem } class="mx-4">
           { stringy.PresenterMapValue(routeMap, navItem) }
         </a>
       }
