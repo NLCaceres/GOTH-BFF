@@ -1,27 +1,33 @@
 package view
 
-import "github.com/NLCaceres/goth-example/internal/model"
+import (
+  "github.com/NLCaceres/goth-example/internal/model"
+  "github.com/NLCaceres/goth-example/internal/util/list"
+)
 
 templ Path(title string, items []model.Item) {
   <div class="slides-up transitionable">
     <h1>{ title } - Normal Links</h1>
     <p>Links that simply take the user to the URL provided by the Item struct</p>
-    {{ url := func(i model.Item) string { return i.URL } }}
-    @itemList(items, url)
+    @itemList(items)
 
     <h1>{ title } - Traditional Hashed Same Page Links</h1>
     <p>Links that link to the same page by appending a hash and the section name to the URL</p>
-    {{ hashURL := func(i model.Item) string { return "#" + i.URL } }}
-    @itemList(items, hashURL)
+    {{ hashItems, _ := list.ForEach(items, func(i model.Item) (model.Item, error) {
+      i.URL = "#" + i.URL; return i, nil
+    })}}
+    @itemList(hashItems)
 
     <h1>{ title } - Modern Slashed then Hashed Same Page Links</h1>
     <p>Links that append a slash before appending the usual hash and section name to the URL</p>
-    {{ slashHashURL := func(i model.Item) string { return i.Name + "/#" + i.URL } }}
-    @itemList(items, slashHashURL)
+    {{ slashHashItems, _ := list.ForEach(items, func(i model.Item) (model.Item, error) {
+      i.URL = i.Name + "/#" + i.URL; return i, nil
+    })}}
+    @itemList(slashHashItems)
   </div>
 }
 
-templ itemList(items []model.Item, urlGenerator func(model.Item) string) {
+templ itemList(items []model.Item) {
   <ul>
     for i, item := range items {
       <li class="grid listItem">
@@ -29,7 +35,7 @@ templ itemList(items []model.Item, urlGenerator func(model.Item) string) {
           <p>{ i + 1 }</p>
         </div>
         <div class="itemLink flex flex-column bg-gray-700">
-          <a href={ urlGenerator(item) } class="text-xl">
+          <a href={ item.URL } class="text-xl">
             { item.Name }
           </a>
           <p class="mt-1 text-white">
