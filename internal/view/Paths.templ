@@ -12,18 +12,25 @@ templ Path(title string, items []model.Item) {
     @itemList(items)
 
     <h1>{ title } - Traditional Hashed Same Page Links</h1>
-    <p>Links that link to the same page by appending a hash and the section name to the URL</p>
+    <p>Links to sections on the same page made by appending a hash and section name</p>
     {{ hashItems, _ := list.ForEach(items, func(i model.Item) (model.Item, error) {
       i.URL = "#" + i.URL; return i, nil
     })}}
     @itemList(hashItems)
 
     <h1>{ title } - Modern Slashed then Hashed Same Page Links</h1>
-    <p>Links that append a slash before appending the usual hash and section name to the URL</p>
+    <p>Links that append a slash then a hash-prefixed section name to current page path</p>
     {{ slashHashItems, _ := list.ForEach(items, func(i model.Item) (model.Item, error) {
-      i.URL = i.Name + "/#" + i.URL; return i, nil
+      i.URL = title + "/#" + i.URL; return i, nil
     })}}
     @itemList(slashHashItems)
+
+    <h1>{ title } - Modern Slashed then Hashed Other Page Links</h1>
+    <p>Links that go to other pages with an appended slash then hash-prefixed section</p>
+    {{ outSlashHashItems, _ := list.ForEach(items, func(i model.Item) (model.Item, error) {
+      i.URL = i.Name + "/#" + i.URL; return i, nil
+    })}}
+    @itemList(outSlashHashItems)
   </div>
 }
 
