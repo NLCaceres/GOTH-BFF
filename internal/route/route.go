@@ -16,7 +16,7 @@ func Routes(app *echo.Echo) {
 	app.GET("/", handler.RenderView)
 	app.GET("/:name", func(c echo.Context) error {
 		n := c.Param("name")
-		return handler.RenderHTMLView(c, view.Path(n, model.MockItems()), n)
+		return handler.RenderHTMLView(c, view.Path(model.MockItems()), n)
 	})
 
 	apiRoutes := strings.Split(os.Getenv("APP_ROUTES"), ",") // Get comma-delim'd route paths
