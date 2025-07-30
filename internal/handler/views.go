@@ -14,8 +14,9 @@ func RenderView(c echo.Context) error {
 
 func RenderHTMLView(c echo.Context, page templ.Component, title string) error {
 	component := view.HTMLIndex(page, title)
-	ctx := context.WithValue(c.Request().Context(), "param", c.Param("name"))
-	htmlStr, err := templ.ToGoHTML(ctx, component)
+	newCtx := context.WithValue(c.Request().Context(), "param", c.Param("name"))
+	c.SetRequest(c.Request().WithContext(newCtx))
+	htmlStr, err := templ.ToGoHTML(c.Request().Context(), component)
 	if err != nil {
 		return c.NoContent(404)
 	}
