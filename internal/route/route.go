@@ -1,6 +1,7 @@
 package route
 
 import (
+	"context"
 	"github.com/NLCaceres/goth-example/internal/handler"
 	"github.com/NLCaceres/goth-example/internal/model"
 	"github.com/NLCaceres/goth-example/internal/util/stringy"
@@ -15,8 +16,10 @@ import (
 func Routes(app *echo.Echo) {
 	app.GET("/", handler.RenderView)
 	app.GET("/:name", func(c echo.Context) error {
-		n := c.Param("name")
-		return handler.RenderHTMLView(c, view.Path(model.MockItems()), n)
+		name := c.Param("name")
+		newCtx := context.WithValue(c.Request().Context(), "param", name)
+		c.SetRequest(c.Request().WithContext(newCtx))
+		return handler.RenderHTMLView(c, view.Path(model.MockItems()), name)
 	})
 
 	apiRoutes := strings.Split(os.Getenv("APP_ROUTES"), ",") // Get comma-delim'd route paths
