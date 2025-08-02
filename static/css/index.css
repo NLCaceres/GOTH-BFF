@@ -29,6 +29,7 @@ a {
 /* App-specific styles */
 .listItem {
   grid-template-columns: [name] 1fr [link] 2fr [button] 1fr 7fr;
+  grid-template-rows: 75px;
 }
 .itemName {
   grid-column: name;
