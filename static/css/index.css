@@ -29,7 +29,7 @@ a {
 /* App-specific styles */
 .listItem {
   grid-template-columns: [name] 1fr [link] 2fr [button] 1fr 7fr;
-  grid-template-rows: 75px;
+  grid-template-rows: 1fr;
 }
 .itemName {
   grid-column: name;
@@ -93,6 +93,14 @@ a {
 /* Typography */
 .text-xl {
   font-size: 1.5rem;
+}
+.text-line-3 {
+  display: -webkit-box;
+  -webkit-line-clamp: 3;
+  -webkit-box-orient: vertical;
+}
+.hide-overflow {
+  overflow: hidden;
 }
 .text-bright-green {
   color: chartreuse;
