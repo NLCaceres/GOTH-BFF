@@ -38,7 +38,7 @@ templ Path(items []model.Item) {
 templ itemList(items []model.Item) {
   <ul>
     for i, item := range items {
-      <li class="grid listItem">
+      <li class="grid listItem grid-transition">
         <div class="itemName flex centered cross-centered bg-gray-700">
           <p>{ i + 1 }</p>
         </div>
@@ -46,7 +46,7 @@ templ itemList(items []model.Item) {
           <a href={ item.URL } class="text-xl">
             { item.Name }
           </a>
-          <p class="mt-1 text-white">
+          <p class="m-0 mt-1 text-white">
             { item.Description }
           </p>
         </div>

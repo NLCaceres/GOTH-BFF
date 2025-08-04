@@ -169,7 +169,7 @@ func itemList(items []model.Item) templ.Component {
 			return templ_7745c5c3_Err
 		}
 		for i, item := range items {
-			templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 12, "<li class=\"grid listItem\"><div class=\"itemName flex centered cross-centered bg-gray-700\"><p>")
+			templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 12, "<li class=\"grid listItem grid-transition\"><div class=\"itemName flex centered cross-centered bg-gray-700\"><p>")
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
@@ -208,7 +208,7 @@ func itemList(items []model.Item) templ.Component {
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
-			templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 15, "</a><p class=\"mt-1 text-white\">")
+			templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 15, "</a><p class=\"m-0 mt-1 text-white\">")
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}

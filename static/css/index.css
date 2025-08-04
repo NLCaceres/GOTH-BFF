@@ -29,6 +29,9 @@ a {
 /* App-specific styles */
 .listItem {
   grid-template-columns: [name] 1fr [link] 2fr [button] 1fr 7fr;
+  grid-template-rows: 0fr;
+}
+.listItem:hover {
   grid-template-rows: 1fr;
 }
 .itemName {
@@ -36,6 +39,13 @@ a {
 }
 .itemLink {
   grid-column: link;
+  /* Min-height should = space needed for url + description + margins/spacing */
+  min-height: calc(1.5rem + (2 * 17px * 1.2) + (2 * 0.25rem))
+}
+.listItem:hover .itemLink {
+  display: flex;
+  -webkit-line-clamp: none;
+  -webkit-box-orient: inline-axis;
 }
 .itemButton {
   grid-column: button;
@@ -118,4 +128,7 @@ a {
 }
 .transitionable {
   transition: all 1s;
+}
+.grid-transition {
+  transition: grid-template-rows 1s;
 }
