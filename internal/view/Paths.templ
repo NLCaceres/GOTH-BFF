@@ -38,12 +38,12 @@ templ Path(items []model.Item) {
     let entered = false;
     const transitionStarter = (event) => {
       if (entered) {
-        event.srcElement.querySelector(".itemLink").classList.add("no-ellipsis");
+        event.target.querySelector(".itemLink").classList.add("no-ellipsis");
       }
     }
     const transitionEnder = (event) => {
       if (!entered) {
-        event.srcElement.querySelector(".itemLink").classList.remove("no-ellipsis");
+        event.target.querySelector(".itemLink").classList.remove("no-ellipsis");
       }
     }
     for (const elem of elems) {
