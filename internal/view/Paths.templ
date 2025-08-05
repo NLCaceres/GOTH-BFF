@@ -33,6 +33,27 @@ templ Path(items []model.Item) {
     })}}
     @itemList(outSlashHashItems)
   </div>
+  <script>
+    const elems = document.getElementsByClassName("listItem");
+    let entered = false;
+    const transitionStarter = (event) => {
+      if (entered) {
+        event.srcElement.querySelector(".itemLink").classList.add("no-ellipsis");
+      }
+    }
+    const transitionEnder = (event) => {
+      if (!entered) {
+        event.srcElement.querySelector(".itemLink").classList.remove("no-ellipsis");
+      }
+    }
+    for (const elem of elems) {
+      const link = elem.querySelector(".itemLink");
+      link.onmouseenter = () => { entered = true; };
+      link.onmouseleave = () => { entered = false; };
+      elem.ontransitionstart = transitionStarter;
+      elem.ontransitionend = transitionEnder;
+    }
+  </script>
 }
 
 templ itemList(items []model.Item) {

@@ -42,7 +42,7 @@ a {
   /* Min-height should = space needed for url + description + margins/spacing */
   min-height: calc(1.5rem + (2 * 17px * 1.2) + (2 * 0.25rem))
 }
-.itemLink:hover {
+.listItem > .no-ellipsis {
   display: flex;
   -webkit-line-clamp: none;
   -webkit-box-orient: inline-axis;
