@@ -35,21 +35,22 @@ templ Path(items []model.Item) {
   </div>
   <script>
     const elems = document.getElementsByClassName("listItem");
-    let entered = false;
     const transitionStarter = (event) => {
-      if (entered) {
-        event.target.querySelector(".itemLink").classList.add("no-ellipsis");
+      const link = event.target.querySelector(".itemLink");
+      if (link.dataset.hovering === "true") {
+        link.classList.add("no-ellipsis");
       }
     }
     const transitionEnder = (event) => {
-      if (!entered) {
-        event.target.querySelector(".itemLink").classList.remove("no-ellipsis");
+      const link = event.target.querySelector(".itemLink");
+      if (link.dataset.hovering === "false") {
+        link.classList.remove("no-ellipsis");
       }
     }
     for (const elem of elems) {
       const link = elem.querySelector(".itemLink");
-      link.onmouseenter = () => { entered = true; };
-      link.onmouseleave = () => { entered = false; };
+      link.onmouseenter = (e) => { e.target.dataset.hovering = true };
+      link.onmouseleave = (e) => { e.target.dataset.hovering = false };
       elem.ontransitionstart = transitionStarter;
       elem.ontransitionend = transitionEnder;
     }
