@@ -35,8 +35,8 @@ templ Path(items []model.Item) {
   </div>
   <script>
     const elems = document.getElementsByClassName("listItem");
-    const mouseEntered = (e) => { e.target.dataset.expanding = true };
-    const mouseLeft = (e) => { e.target.dataset.expanding = false };
+    const mouseEntered = (e) => { e.target.dataset.expanding = true; delete e.target.dataset.closed };
+    const mouseLeft = (e) => { e.target.dataset.closed = true; delete e.target.dataset.expanding };
     const transitionStarted = (event) => {
       const link = event.target.querySelector(".itemLink");
       if (link.dataset.expanding === "true") {
@@ -45,7 +45,7 @@ templ Path(items []model.Item) {
     }
     const transitionEnded = (event) => {
       const link = event.target.querySelector(".itemLink");
-      if (link.dataset.expanding === "false") {
+      if (link.dataset.closed === "true") {
         link.classList.remove("no-ellipsis");
       }
     }
