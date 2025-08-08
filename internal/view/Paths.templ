@@ -35,24 +35,26 @@ templ Path(items []model.Item) {
   </div>
   <script>
     const elems = document.getElementsByClassName("listItem");
-    const transitionStarter = (event) => {
+    const mouseEntered = (e) => { e.target.dataset.expanding = true };
+    const mouseLeft = (e) => { e.target.dataset.expanding = false };
+    const transitionStarted = (event) => {
       const link = event.target.querySelector(".itemLink");
-      if (link.dataset.hovering === "true") {
+      if (link.dataset.expanding === "true") {
         link.classList.add("no-ellipsis");
       }
     }
-    const transitionEnder = (event) => {
+    const transitionEnded = (event) => {
       const link = event.target.querySelector(".itemLink");
-      if (link.dataset.hovering === "false") {
+      if (link.dataset.expanding === "false") {
         link.classList.remove("no-ellipsis");
       }
     }
     for (const elem of elems) {
       const link = elem.querySelector(".itemLink");
-      link.onmouseenter = (e) => { e.target.dataset.hovering = true };
-      link.onmouseleave = (e) => { e.target.dataset.hovering = false };
-      elem.ontransitionstart = transitionStarter;
-      elem.ontransitionend = transitionEnder;
+      link.onmouseenter = mouseEntered;
+      link.onmouseleave = mouseLeft;
+      elem.ontransitionstart = transitionStarted;
+      elem.ontransitionend = transitionEnded;
     }
   </script>
 }
