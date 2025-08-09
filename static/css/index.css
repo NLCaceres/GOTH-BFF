@@ -2,6 +2,7 @@
   --spacing: 0.25rem;
 }
 
+/* Normal HTML tag styling */
 body {
   margin: 0;
   padding: 0;
@@ -16,12 +17,15 @@ body {
 h1 {
   color: white;
 }
+
 p {
   color: white;
 }
+
 li {
   color: white;
 }
+
 a {
   color: chartreuse;
 }
@@ -31,22 +35,28 @@ a {
   grid-template-columns: [name] 1fr [link] 2fr [button] 1fr 7fr;
   grid-template-rows: 0fr;
 }
+
 .listItem:has(.itemLink:hover) {
   grid-template-rows: 1fr;
 }
+
 .itemName {
   grid-column: name;
 }
+
 .itemLink {
   grid-column: link;
   /* Min-height should = space needed for url + description + margins/spacing */
   min-height: calc(1.5rem + (2 * 17px * 1.2) + (2 * 0.25rem))
 }
-.listItem > .no-ellipsis {
+
+.listItem>.no-ellipsis {
   display: flex;
+  line-clamp: none;
   -webkit-line-clamp: none;
   -webkit-box-orient: inline-axis;
 }
+
 .itemButton {
   grid-column: button;
 }
@@ -55,15 +65,19 @@ a {
 .grid {
   display: grid;
 }
+
 .flex {
   display: flex;
 }
+
 .centered {
   justify-content: center;
 }
+
 .cross-centered {
   align-items: center;
 }
+
 .flex-column {
   flex-direction: column;
 }
@@ -77,6 +91,7 @@ a {
 .h-80 {
   height: 80%;
 }
+
 .h-100 {
   height: 100%;
 }
@@ -85,16 +100,20 @@ a {
 .m-0 {
   margin: calc(var(--spacing) * 0);
 }
+
 .mt-1 {
   margin-top: calc(var(--spacing) * 1);
 }
+
 .ml-4 {
   margin-left: calc(var(--spacing) * 4);
 }
+
 .my-4 {
   margin-top: calc(var(--spacing) * 4);
   margin-bottom: calc(var(--spacing) * 4);
 }
+
 .mx-4 {
   margin-left: calc(var(--spacing) * 4);
   margin-right: calc(var(--spacing) * 4);
@@ -104,17 +123,22 @@ a {
 .text-xl {
   font-size: 1.5rem;
 }
+
 .text-line-3 {
   display: -webkit-box;
+  line-clamp: 3;
   -webkit-line-clamp: 3;
   -webkit-box-orient: vertical;
 }
+
 .hide-overflow {
   overflow: hidden;
 }
+
 .text-bright-green {
   color: chartreuse;
 }
+
 .text-white {
   color: white;
 }
@@ -123,12 +147,15 @@ a {
 .slides-up {
   transform: translateY(25%);
 }
+
 .slides-up:hover {
   transform: translateY(0%);
 }
+
 .transitionable {
   transition: all 1s;
 }
+
 .grid-transition {
   transition: grid-template-rows 1s;
 }
