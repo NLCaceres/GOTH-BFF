@@ -51,10 +51,10 @@ templ Path(items []model.Item) {
     }
     for (const elem of elems) {
       const link = elem.querySelector(".itemLink");
-      link.addEventListener("mouseenter", mouseEntered);
-      link.addEventListener("mouseleave", mouseLeft);
-      elem.addEventListener("transitionstart", transitionStarted);
-      elem.addEventListener("transitionend", transitionEnded);
+      link.addEventListener("mouseenter", mouseEntered, false);
+      link.addEventListener("mouseleave", mouseLeft, false);
+      elem.addEventListener("transitionstart", transitionStarted, false);
+      elem.addEventListener("transitionend", transitionEnded, false);
     }
   </script>
 }
