@@ -34,7 +34,7 @@ templ Path(items []model.Item) {
     @itemList(outSlashHashItems)
   </div>
   <script>
-    const elems = document.getElementsByClassName("listItem");
+    //const elems = document.getElementsByClassName("listItem");
     const mouseEntered = (e) => { e.target.dataset.expanding = true; delete e.target.dataset.closed };
     const mouseLeft = (e) => { e.target.dataset.closed = true; delete e.target.dataset.expanding };
     const transitionStarted = (event) => {
@@ -49,18 +49,44 @@ templ Path(items []model.Item) {
         link.classList.remove("no-ellipsis");
       }
     }
-    for (const elem of elems) {
-      const link = elem.querySelector(".itemLink");
-      link.addEventListener("mouseenter", mouseEntered, false);
-      link.addEventListener("mouseleave", mouseLeft, false);
-      elem.addEventListener("transitionstart", transitionStarted, false);
-      elem.addEventListener("transitionend", transitionEnded, false);
+    for (const item of document.getElementsByClassName("items")) {
+      item.addEventListener("mouseenter", function (e) {
+        if (e.target.tagName != "DIV" || !e.target.classList.contains("itemLink")) {
+          return;
+        }
+        mouseEntered(e);
+      }, true);
+      item.addEventListener("mouseleave", function (e) {
+        if (e.target.tagName != "DIV" || !e.target.classList.contains("itemLink")) {
+          return;
+        }
+        mouseLeft(e);
+      }, true);
+      item.addEventListener("transitionstart", function (e) {
+        if (e.target.tagName != "LI" || !e.target.classList.contains("listItem")) {
+          return;
+        }
+        transitionStarted(e);
+      }, true);
+      item.addEventListener("transitionend", function (e) {
+        if (e.target.tagName != "LI" || !e.target.classList.contains("listItem")) {
+          return;
+        }
+        transitionEnded(e);
+      }, true);
     }
+    //for (const elem of elems) {
+    //  const link = elem.querySelector(".itemLink");
+    //  link.addEventListener("mouseenter", mouseEntered, false);
+    //  link.addEventListener("mouseleave", mouseLeft, false);
+    //  elem.addEventListener("transitionstart", transitionStarted, false);
+    //  elem.addEventListener("transitionend", transitionEnded, false);
+    //}
   </script>
 }
 
 templ itemList(items []model.Item) {
-  <ul>
+  <ul class="items">
     for i, item := range items {
       <li class="grid listItem grid-transition">
         <div class="itemName flex centered cross-centered bg-gray-700">
