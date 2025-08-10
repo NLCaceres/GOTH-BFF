@@ -35,6 +35,8 @@ templ Path(items []model.Item) {
   </div>
   <script>
     //const elems = document.getElementsByClassName("listItem");
+    const elementIs = (element, name) => element.tagName == name;
+    const hasClass = (element, className) => element.classList.contains(className);
     const mouseEntered = (e) => { e.target.dataset.expanding = true; delete e.target.dataset.closed };
     const mouseLeft = (e) => { e.target.dataset.closed = true; delete e.target.dataset.expanding };
     const transitionStarted = (event) => {
@@ -51,27 +53,19 @@ templ Path(items []model.Item) {
     }
     for (const item of document.getElementsByClassName("items")) {
       item.addEventListener("mouseenter", function (e) {
-        if (e.target.tagName != "DIV" || !e.target.classList.contains("itemLink")) {
-          return;
-        }
+        if (!elementIs(e.target, "DIV") || !hasClass(e.target, "itemLink")) { return }
         mouseEntered(e);
       }, true);
       item.addEventListener("mouseleave", function (e) {
-        if (e.target.tagName != "DIV" || !e.target.classList.contains("itemLink")) {
-          return;
-        }
+        if (!elementIs(e.target, "DIV") || !hasClass(e.target, "itemLink")) { return }
         mouseLeft(e);
       }, true);
       item.addEventListener("transitionstart", function (e) {
-        if (e.target.tagName != "LI" || !e.target.classList.contains("listItem")) {
-          return;
-        }
+        if (!elementIs(e.target, "LI") || !hasClass(e.target, "listItem")) { return }
         transitionStarted(e);
       }, true);
       item.addEventListener("transitionend", function (e) {
-        if (e.target.tagName != "LI" || !e.target.classList.contains("listItem")) {
-          return;
-        }
+        if (!elementIs(e.target, "LI") || !hasClass(e.target, "listItem")) { return }
         transitionEnded(e);
       }, true);
     }
