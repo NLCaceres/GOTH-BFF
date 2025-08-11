@@ -39,37 +39,35 @@ templ Path(items []model.Item) {
     const hasClass = (element, className) => element.classList.contains(className);
     const elementWithClass = (element, name, className) =>
       elementIs(element, name) && hasClass(element, className);
-    const mouseEntered = (e) => { e.target.dataset.expanding = true; delete e.target.dataset.closed };
-    const mouseLeft = (e) => { e.target.dataset.closed = true; delete e.target.dataset.expanding };
-    const transitionStarted = (event) => {
+    function mouseEntered(event) {
+      if (!elementWithClass(event.target, "DIV", "itemLink")) { return }
+      event.target.dataset.expanding = true;
+      delete event.target.dataset.closed;
+    }
+    function mouseLeft(event) {
+      if (!elementWithClass(event.target, "DIV", "itemLink")) { return }
+      event.target.dataset.closed = true;
+      delete event.target.dataset.expanding;
+    }
+    function transitionStarted(event) {
+      if (!elementWithClass(event.target, "LI", "listItem")) { return }
       const link = event.target.querySelector(".itemLink");
       if (link.dataset.expanding === "true") {
         link.classList.add("no-ellipsis");
       }
     }
-    const transitionEnded = (event) => {
+    function transitionEnded(event) {
+      if (!elementWithClass(event.target, "LI", "listItem")) { return }
       const link = event.target.querySelector(".itemLink");
       if (link.dataset.closed === "true") {
         link.classList.remove("no-ellipsis");
       }
     }
     for (const item of document.getElementsByClassName("items")) {
-      item.addEventListener("mouseenter", function (e) {
-        if (!elementWithClass(e.target, "DIV", "itemLink")) { return }
-        mouseEntered(e);
-      }, true);
-      item.addEventListener("mouseleave", function (e) {
-        if (!elementWithClass(e.target, "DIV", "itemLink")) { return }
-        mouseLeft(e);
-      }, true);
-      item.addEventListener("transitionstart", function (e) {
-        if (!elementWithClass(e.target, "LI", "listItem")) { return }
-        transitionStarted(e);
-      }, true);
-      item.addEventListener("transitionend", function (e) {
-        if (!elementWithClass(e.target, "LI", "listItem")) { return }
-        transitionEnded(e);
-      }, true);
+      item.addEventListener("mouseenter", mouseEntered, true);
+      item.addEventListener("mouseleave", mouseLeft, true);
+      item.addEventListener("transitionstart", transitionStarted, true);
+      item.addEventListener("transitionend", transitionEnded, true);
     }
     //for (const elem of elems) {
     //  const link = elem.querySelector(".itemLink");

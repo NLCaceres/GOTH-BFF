@@ -135,7 +135,7 @@ func Path(items []model.Item) templ.Component {
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
-		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 10, "</div><script>\n    //const elems = document.getElementsByClassName(\"listItem\");\n    const elementIs = (element, name) => element.tagName == name;\n    const hasClass = (element, className) => element.classList.contains(className);\n    const elementWithClass = (element, name, className) =>\n      elementIs(element, name) && hasClass(element, className);\n    const mouseEntered = (e) => { e.target.dataset.expanding = true; delete e.target.dataset.closed };\n    const mouseLeft = (e) => { e.target.dataset.closed = true; delete e.target.dataset.expanding };\n    const transitionStarted = (event) => {\n      const link = event.target.querySelector(\".itemLink\");\n      if (link.dataset.expanding === \"true\") {\n        link.classList.add(\"no-ellipsis\");\n      }\n    }\n    const transitionEnded = (event) => {\n      const link = event.target.querySelector(\".itemLink\");\n      if (link.dataset.closed === \"true\") {\n        link.classList.remove(\"no-ellipsis\");\n      }\n    }\n    for (const item of document.getElementsByClassName(\"items\")) {\n      item.addEventListener(\"mouseenter\", function (e) {\n        if (!elementWithClass(e.target, \"DIV\", \"itemLink\")) { return }\n        mouseEntered(e);\n      }, true);\n      item.addEventListener(\"mouseleave\", function (e) {\n        if (!elementWithClass(e.target, \"DIV\", \"itemLink\")) { return }\n        mouseLeft(e);\n      }, true);\n      item.addEventListener(\"transitionstart\", function (e) {\n        if (!elementWithClass(e.target, \"LI\", \"listItem\")) { return }\n        transitionStarted(e);\n      }, true);\n      item.addEventListener(\"transitionend\", function (e) {\n        if (!elementWithClass(e.target, \"LI\", \"listItem\")) { return }\n        transitionEnded(e);\n      }, true);\n    }\n    //for (const elem of elems) {\n    //  const link = elem.querySelector(\".itemLink\");\n    //  link.addEventListener(\"mouseenter\", mouseEntered, false);\n    //  link.addEventListener(\"mouseleave\", mouseLeft, false);\n    //  elem.addEventListener(\"transitionstart\", transitionStarted, false);\n    //  elem.addEventListener(\"transitionend\", transitionEnded, false);\n    //}\n  </script>")
+		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 10, "</div><script>\n    //const elems = document.getElementsByClassName(\"listItem\");\n    const elementIs = (element, name) => element.tagName == name;\n    const hasClass = (element, className) => element.classList.contains(className);\n    const elementWithClass = (element, name, className) =>\n      elementIs(element, name) && hasClass(element, className);\n    function mouseEntered(event) {\n      if (!elementWithClass(event.target, \"DIV\", \"itemLink\")) { return }\n      event.target.dataset.expanding = true;\n      delete event.target.dataset.closed;\n    }\n    function mouseLeft(event) {\n      if (!elementWithClass(event.target, \"DIV\", \"itemLink\")) { return }\n      event.target.dataset.closed = true;\n      delete event.target.dataset.expanding;\n    }\n    function transitionStarted(event) {\n      if (!elementWithClass(event.target, \"LI\", \"listItem\")) { return }\n      const link = event.target.querySelector(\".itemLink\");\n      if (link.dataset.expanding === \"true\") {\n        link.classList.add(\"no-ellipsis\");\n      }\n    }\n    function transitionEnded(event) {\n      if (!elementWithClass(event.target, \"LI\", \"listItem\")) { return }\n      const link = event.target.querySelector(\".itemLink\");\n      if (link.dataset.closed === \"true\") {\n        link.classList.remove(\"no-ellipsis\");\n      }\n    }\n    for (const item of document.getElementsByClassName(\"items\")) {\n      item.addEventListener(\"mouseenter\", mouseEntered, true);\n      item.addEventListener(\"mouseleave\", mouseLeft, true);\n      item.addEventListener(\"transitionstart\", transitionStarted, true);\n      item.addEventListener(\"transitionend\", transitionEnded, true);\n    }\n    //for (const elem of elems) {\n    //  const link = elem.querySelector(\".itemLink\");\n    //  link.addEventListener(\"mouseenter\", mouseEntered, false);\n    //  link.addEventListener(\"mouseleave\", mouseLeft, false);\n    //  elem.addEventListener(\"transitionstart\", transitionStarted, false);\n    //  elem.addEventListener(\"transitionend\", transitionEnded, false);\n    //}\n  </script>")
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
@@ -176,7 +176,7 @@ func itemList(items []model.Item) templ.Component {
 			var templ_7745c5c3_Var7 string
 			templ_7745c5c3_Var7, templ_7745c5c3_Err = templ.JoinStringErrs(i + 1)
 			if templ_7745c5c3_Err != nil {
-				return templ.Error{Err: templ_7745c5c3_Err, FileName: `internal/view/Paths.templ`, Line: 89, Col: 20}
+				return templ.Error{Err: templ_7745c5c3_Err, FileName: `internal/view/Paths.templ`, Line: 87, Col: 20}
 			}
 			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var7))
 			if templ_7745c5c3_Err != nil {
@@ -189,7 +189,7 @@ func itemList(items []model.Item) templ.Component {
 			var templ_7745c5c3_Var8 templ.SafeURL
 			templ_7745c5c3_Var8, templ_7745c5c3_Err = templ.JoinURLErrs(item.URL)
 			if templ_7745c5c3_Err != nil {
-				return templ.Error{Err: templ_7745c5c3_Err, FileName: `internal/view/Paths.templ`, Line: 92, Col: 28}
+				return templ.Error{Err: templ_7745c5c3_Err, FileName: `internal/view/Paths.templ`, Line: 90, Col: 28}
 			}
 			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var8))
 			if templ_7745c5c3_Err != nil {
@@ -202,7 +202,7 @@ func itemList(items []model.Item) templ.Component {
 			var templ_7745c5c3_Var9 string
 			templ_7745c5c3_Var9, templ_7745c5c3_Err = templ.JoinStringErrs(item.Name)
 			if templ_7745c5c3_Err != nil {
-				return templ.Error{Err: templ_7745c5c3_Err, FileName: `internal/view/Paths.templ`, Line: 93, Col: 23}
+				return templ.Error{Err: templ_7745c5c3_Err, FileName: `internal/view/Paths.templ`, Line: 91, Col: 23}
 			}
 			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var9))
 			if templ_7745c5c3_Err != nil {
@@ -215,7 +215,7 @@ func itemList(items []model.Item) templ.Component {
 			var templ_7745c5c3_Var10 string
 			templ_7745c5c3_Var10, templ_7745c5c3_Err = templ.JoinStringErrs(item.Description)
 			if templ_7745c5c3_Err != nil {
-				return templ.Error{Err: templ_7745c5c3_Err, FileName: `internal/view/Paths.templ`, Line: 96, Col: 30}
+				return templ.Error{Err: templ_7745c5c3_Err, FileName: `internal/view/Paths.templ`, Line: 94, Col: 30}
 			}
 			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var10))
 			if templ_7745c5c3_Err != nil {
