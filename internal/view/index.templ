@@ -35,6 +35,8 @@ templ footer() {
 }
 
 templ HTMLIndex(contents templ.Component, title string) {
+<!DOCTYPE html>
+<html>
   @head(title)
   <body>
     @navbar(strings.Split(os.Getenv("APP_ROUTES"), ","))
@@ -43,4 +45,5 @@ templ HTMLIndex(contents templ.Component, title string) {
     </main>
     @footer()
   </body>
+</html>
 }
