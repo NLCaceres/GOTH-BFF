@@ -34,7 +34,6 @@ templ Path(items []model.Item) {
     @itemList(outSlashHashItems)
   </div>
   <script>
-    //const elems = document.getElementsByClassName("listItem");
     const elementIs = (element, name) => element.tagName == name;
     const hasClass = (element, className) => element.classList.contains(className);
     const elementWithClass = (element, name, className) =>
@@ -69,13 +68,6 @@ templ Path(items []model.Item) {
       item.addEventListener("transitionstart", transitionStarted, true);
       item.addEventListener("transitionend", transitionEnded, true);
     }
-    //for (const elem of elems) {
-    //  const link = elem.querySelector(".itemLink");
-    //  link.addEventListener("mouseenter", mouseEntered, false);
-    //  link.addEventListener("mouseleave", mouseLeft, false);
-    //  elem.addEventListener("transitionstart", transitionStarted, false);
-    //  elem.addEventListener("transitionend", transitionEnded, false);
-    //}
   </script>
 }
 
