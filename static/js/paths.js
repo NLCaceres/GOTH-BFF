@@ -1,8 +1,4 @@
-/* Helper functions */
-const elementIs = (element, name) => element.tagName == name;
-const hasClass = (element, className) => element.classList.contains(className);
-const elementWithClass = (element, name, className) =>
-  elementIs(element, name) && hasClass(element, className);
+import { elementWithClass } from "./helpers.js";
 
 /* Mouse event handlers to simulate a CSS hover effect */
 function mouseEntered(event) {
