@@ -135,7 +135,7 @@ func Path(items []model.Item) templ.Component {
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
-		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 10, "</div><script>\n    const elementIs = (element, name) => element.tagName == name;\n    const hasClass = (element, className) => element.classList.contains(className);\n    const elementWithClass = (element, name, className) =>\n      elementIs(element, name) && hasClass(element, className);\n    function mouseEntered(event) {\n      if (!elementWithClass(event.target, \"DIV\", \"itemLink\")) { return }\n      event.target.dataset.expanding = true;\n      delete event.target.dataset.closed;\n    }\n    function mouseLeft(event) {\n      if (!elementWithClass(event.target, \"DIV\", \"itemLink\")) { return }\n      event.target.dataset.closed = true;\n      delete event.target.dataset.expanding;\n    }\n    function transitionStarted(event) {\n      if (!elementWithClass(event.target, \"LI\", \"listItem\")) { return }\n      const link = event.target.querySelector(\".itemLink\");\n      if (link.dataset.expanding === \"true\") {\n        link.classList.add(\"no-ellipsis\");\n      }\n    }\n    function transitionEnded(event) {\n      if (!elementWithClass(event.target, \"LI\", \"listItem\")) { return }\n      const link = event.target.querySelector(\".itemLink\");\n      if (link.dataset.closed === \"true\") {\n        link.classList.remove(\"no-ellipsis\");\n      }\n    }\n    for (const item of document.getElementsByClassName(\"items\")) {\n      item.addEventListener(\"mouseenter\", mouseEntered, true);\n      item.addEventListener(\"mouseleave\", mouseLeft, true);\n      item.addEventListener(\"transitionstart\", transitionStarted, true);\n      item.addEventListener(\"transitionend\", transitionEnded, true);\n    }\n  </script>")
+		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 10, "</div><script type=\"text/javascript\" src=\"js/paths.js\"></script>")
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
@@ -176,7 +176,7 @@ func itemList(items []model.Item) templ.Component {
 			var templ_7745c5c3_Var7 string
 			templ_7745c5c3_Var7, templ_7745c5c3_Err = templ.JoinStringErrs(i + 1)
 			if templ_7745c5c3_Err != nil {
-				return templ.Error{Err: templ_7745c5c3_Err, FileName: `internal/view/Paths.templ`, Line: 79, Col: 20}
+				return templ.Error{Err: templ_7745c5c3_Err, FileName: `internal/view/Paths.templ`, Line: 44, Col: 20}
 			}
 			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var7))
 			if templ_7745c5c3_Err != nil {
@@ -189,7 +189,7 @@ func itemList(items []model.Item) templ.Component {
 			var templ_7745c5c3_Var8 templ.SafeURL
 			templ_7745c5c3_Var8, templ_7745c5c3_Err = templ.JoinURLErrs(item.URL)
 			if templ_7745c5c3_Err != nil {
-				return templ.Error{Err: templ_7745c5c3_Err, FileName: `internal/view/Paths.templ`, Line: 82, Col: 28}
+				return templ.Error{Err: templ_7745c5c3_Err, FileName: `internal/view/Paths.templ`, Line: 47, Col: 28}
 			}
 			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var8))
 			if templ_7745c5c3_Err != nil {
@@ -202,7 +202,7 @@ func itemList(items []model.Item) templ.Component {
 			var templ_7745c5c3_Var9 string
 			templ_7745c5c3_Var9, templ_7745c5c3_Err = templ.JoinStringErrs(item.Name)
 			if templ_7745c5c3_Err != nil {
-				return templ.Error{Err: templ_7745c5c3_Err, FileName: `internal/view/Paths.templ`, Line: 83, Col: 23}
+				return templ.Error{Err: templ_7745c5c3_Err, FileName: `internal/view/Paths.templ`, Line: 48, Col: 23}
 			}
 			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var9))
 			if templ_7745c5c3_Err != nil {
@@ -215,7 +215,7 @@ func itemList(items []model.Item) templ.Component {
 			var templ_7745c5c3_Var10 string
 			templ_7745c5c3_Var10, templ_7745c5c3_Err = templ.JoinStringErrs(item.Description)
 			if templ_7745c5c3_Err != nil {
-				return templ.Error{Err: templ_7745c5c3_Err, FileName: `internal/view/Paths.templ`, Line: 86, Col: 30}
+				return templ.Error{Err: templ_7745c5c3_Err, FileName: `internal/view/Paths.templ`, Line: 51, Col: 30}
 			}
 			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var10))
 			if templ_7745c5c3_Err != nil {
