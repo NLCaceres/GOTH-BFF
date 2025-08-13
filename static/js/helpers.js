@@ -1,7 +1,8 @@
 /** Takes a HTML element and matches the `name` arg with the element's `tagName`
  * @param {string} name - The expected HTML `tagName`, always in all upper-case form
  * @return {boolean} `true` if the `tagName` matches the input `name` */
-export const elementIs = (element, name) => element.tagName == name;
+export const elementIs = (element, name) =>
+  element.tagName == name.toUpperCase();
 
 /** Takes a HTML element and checks its CSS `classList` for a matching `className`
  * @param {string} className - CSS class name
