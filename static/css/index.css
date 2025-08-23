@@ -40,6 +40,18 @@ a {
   font-size: 1rem;
 }
 
+@media (max-width: 575px) {
+  .navListItem {
+    width: 25%;
+  }
+}
+
+@media (max-width: 768px) {
+  .navListItem {
+    font-size: 1.5rem;
+  }
+}
+
 .listItem {
   grid-template-columns: [name] 1fr [link] 2fr [button] 1fr 7fr;
   grid-template-rows: 0fr;
