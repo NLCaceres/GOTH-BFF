@@ -20,13 +20,17 @@ templ head(title string) {
 templ navbar(navItems []string) {
   <nav class="my-4 ml-4">
     {{ routeMap := stringy.Map(os.Getenv("ROUTE_MAP")) }}
-    for _, navItem := range list.DistinctBy(navItems, strings.ToLower) {
-      if !strings.Contains(navItem, "-") {
-        <a href={ navItem } class="mx-4">
-          { stringy.PresenterMapValue(routeMap, navItem) }
-        </a>
+    <ul class="navList flex">
+      for _, navItem := range list.DistinctBy(navItems, strings.ToLower) {
+        if !strings.Contains(navItem, "-") {
+          <li class="navListItem">
+            <a href={ navItem } class="mx-4">
+              { stringy.PresenterMapValue(routeMap, navItem) }
+            </a>
+          </li>
+        }
       }
-    }
+    </ul>
   </nav>
 }
 
