@@ -79,6 +79,10 @@ a {
   display: flex;
 }
 
+.row-wrap {
+  flex-flow: wrap;
+}
+
 .centered {
   justify-content: center;
 }
