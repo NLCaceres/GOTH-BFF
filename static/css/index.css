@@ -117,6 +117,10 @@ a {
   flex-flow: wrap;
 }
 
+.flex-grow {
+  flex-grow: 1;
+}
+
 .centered {
   justify-content: center;
 }

@@ -23,8 +23,8 @@ templ navbar(navItems []string) {
     <ul class="navList flex row-wrap">
       for _, navItem := range list.DistinctBy(navItems, strings.ToLower) {
         if !strings.Contains(navItem, "-") {
-          <li class="navListItem mt-4 text-center">
-            <a href={ navItem } class="mx-4">
+          <li class="navListItem mt-4 px-4 flex-grow text-center">
+            <a href={ navItem }>
               { stringy.PresenterMapValue(routeMap, navItem) }
             </a>
           </li>
