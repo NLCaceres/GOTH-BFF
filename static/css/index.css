@@ -68,6 +68,12 @@ a {
   }
 }
 
+@media (min-width: 576px) {
+  .items {
+    column-count: 2;
+  }
+}
+
 .listItem {
   grid-template-columns: [name] 1fr [link] 2fr [button] 1fr 7fr;
   grid-template-rows: 0fr;
