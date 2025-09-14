@@ -14,5 +14,11 @@ func MockItems() []Item {
 			Name: "Za", URL: "Ze",
 			Description: "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusm",
 		},
+		{Name: "Do", URL: "Re", Description: "Lorem ipsum dolor sit amet, consectetur elit a"},
+		{Name: "Mi", URL: "Fa", Description: "Lorem ipsum dolor sit amet, sed do eiusmod"},
+		{
+			Name: "So", URL: "La",
+			Description: "Lorem ipsum dolor sit amet, sed do eiusmod tempor incididunt",
+		},
 	}
 }
