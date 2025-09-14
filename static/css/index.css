@@ -85,7 +85,7 @@ a {
 
 .listItem {
   grid-template-columns: [name] 1fr [link] 4fr [button] 1.25fr;
-  grid-template-rows: 0fr;
+  grid-template-rows: [item] 0fr;
 }
 
 @media (width <=768px) {
@@ -94,16 +94,20 @@ a {
   }
 }
 
+.listItem:nth-child(odd) {
+  grid-template-areas: "button link name";
+}
+
 .listItem:has(.itemLink:hover) {
-  grid-template-rows: 1fr;
+  grid-template-rows: [item] 1fr;
 }
 
 .itemName {
-  grid-column: name;
+  grid-area: item / name;
 }
 
 .itemLink {
-  grid-column: link;
+  grid-area: item / link;
   /* Min-height should = space needed for url + description + margins/spacing */
   min-height: calc(1.5rem + (2 * 17px * 1.2) + (2 * 0.25rem))
 }
@@ -116,7 +120,7 @@ a {
 }
 
 .itemButton {
-  grid-column: button;
+  grid-area: item / button;
 }
 
 /* Commonly grouped Grid & Flexbox stylings */
