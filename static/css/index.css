@@ -75,6 +75,13 @@ a {
   }
 }
 
+@media (width >=1200px) {
+  .items {
+    column-count: 3;
+  }
+}
+
+
 .listItem {
   grid-template-columns: [name] 1fr [link] 4fr [button] 1fr 2fr;
   grid-template-rows: 0fr;
