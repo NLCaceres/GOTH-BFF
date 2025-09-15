@@ -1,3 +1,5 @@
+@import "./animation.css";
+
 *,
 :after,
 :before {
@@ -255,21 +257,4 @@ a {
 
 .text-white {
   color: white;
-}
-
-/* Animation helpers */
-.slides-up {
-  transform: translateY(25%);
-}
-
-.slides-up:hover {
-  transform: translateY(0%);
-}
-
-.transitionable {
-  transition: all 1s;
-}
-
-.grid-transition {
-  transition: grid-template-rows 1s;
 }
