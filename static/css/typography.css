@@ -1,0 +1,30 @@
+.text-xl {
+  font-size: 1.5rem;
+}
+
+.text-center {
+  text-align: center;
+}
+
+.text-end {
+  text-align: end;
+}
+
+.text-line-3 {
+  display: -webkit-box;
+  line-clamp: 3;
+  -webkit-line-clamp: 3;
+  -webkit-box-orient: vertical;
+}
+
+.hide-overflow {
+  overflow: hidden;
+}
+
+.text-bright-green {
+  color: chartreuse;
+}
+
+.text-white {
+  color: white;
+}
