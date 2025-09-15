@@ -43,7 +43,10 @@ templ itemList(items []model.Item) {
         <div class="itemName flex centered cross-centered bg-gray-700">
           <p>{ i + 1 }</p>
         </div>
-        <div class="itemLink flex flex-column bg-gray-700 hide-overflow text-line-3">
+        <div class={
+          "itemLink flex flex-column bg-gray-700 hide-overflow text-line-3",
+          templ.KV("text-end", i % 2 != 0)
+        }>
           <a href={ item.URL } class="text-xl">
             { item.Name }
           </a>
@@ -58,3 +61,4 @@ templ itemList(items []model.Item) {
     }
   </ul>
 }
+

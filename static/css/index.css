@@ -234,6 +234,10 @@ a {
   text-align: center;
 }
 
+.text-end {
+  text-align: end;
+}
+
 .text-line-3 {
   display: -webkit-box;
   line-clamp: 3;
