@@ -1,0 +1,32 @@
+/* Common Grid & Flexbox style properties, some of which overlap */
+
+/* CSS Grid specific styles */
+.grid {
+  display: grid;
+}
+
+/* CSS Flexbox specific styles */
+.flex {
+  display: flex;
+}
+
+.flex-column {
+  flex-direction: column;
+}
+
+.row-wrap {
+  flex-flow: wrap;
+}
+
+.flex-grow {
+  flex-grow: 1;
+}
+
+/* Styles that overlap and can work with either CSS Grid or Flexbox */
+.centered {
+  justify-content: center;
+}
+
+.cross-centered {
+  align-items: center;
+}

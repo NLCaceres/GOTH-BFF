@@ -1,0 +1,5 @@
+/* Convenient color helpers particular to the app & its theming */
+
+.bg-gray-700 {
+  background-color: #374151;
+}

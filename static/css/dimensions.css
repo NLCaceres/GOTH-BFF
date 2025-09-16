@@ -1,0 +1,9 @@
+/* Helpers to directly modify the height and width of elements */
+
+.h-80 {
+  height: 80%;
+}
+
+.h-100 {
+  height: 100%;
+}
