@@ -1,0 +1,49 @@
+/* Normal HTML tag styling */
+
+*,
+:after,
+:before {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+  vertical-align: baseline
+}
+
+:root {
+  --spacing: 0.25rem;
+}
+
+html {
+  margin: 0;
+  padding: 0;
+  min-height: 100%;
+}
+
+body {
+  min-height: 100%;
+  overflow-x: hidden;
+  margin: 0;
+  padding: 0;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto", "Oxygen",
+    "Ubuntu", "Cantarell", "Fira Sans", "Droid Sans", "Helvetica Neue",
+    sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  background-color: #262626;
+}
+
+h1 {
+  color: white;
+}
+
+p {
+  color: white;
+}
+
+li {
+  color: white;
+}
+
+a {
+  color: chartreuse;
+}
