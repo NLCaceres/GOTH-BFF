@@ -19,7 +19,7 @@ func Routes(app *echo.Echo) {
 		name := c.Param("name")
 		newCtx := context.WithValue(c.Request().Context(), "param", name)
 		c.SetRequest(c.Request().WithContext(newCtx))
-		return handler.RenderHTMLView(c, view.Path(model.MockItems()), name)
+		return handler.RenderHTMLView(c, view.Path(model.MockItems()), name, view.IndexStyle())
 	})
 
 	apiRoutes := strings.Split(os.Getenv("APP_ROUTES"), ",") // Get comma-delim'd route paths

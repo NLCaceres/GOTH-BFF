@@ -7,7 +7,7 @@ import (
   "github.com/NLCaceres/goth-example/internal/util/list"
 )
 
-templ head(title string) {
+templ head(title string, pageStyle templ.Component) {
   <head>
     <title>{ title }</title>
 
@@ -17,6 +17,9 @@ templ head(title string) {
     <link rel="icon" href="data:;base64,=">
 
     @BaseStyle()
+    if pageStyle != nil {
+      @pageStyle
+    }
   </head>
 }
 
@@ -41,10 +44,10 @@ templ footer() {
   <footer></footer>
 }
 
-templ HTMLIndex(contents templ.Component, title string) {
+templ HTMLIndex(contents templ.Component, title string, pageStyle templ.Component) {
 <!DOCTYPE html>
 <html>
-  @head(title)
+  @head(title, pageStyle)
   <body>
     @navbar(strings.Split(os.Getenv("APP_ROUTES"), ","))
     <main class="flex centered h-100 mx-4 md:mx-8">
