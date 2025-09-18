@@ -20,7 +20,7 @@ func Routes(app *echo.Echo) {
 		newCtx := context.WithValue(c.Request().Context(), "param", name)
 		c.SetRequest(c.Request().WithContext(newCtx))
 		return handler.RenderHTMLView(
-			c, view.Path(model.MockItems()), name, view.IndexStyle("css/index.css"),
+			c, view.Path(model.MockItems()), name, []string{"css/index.css"},
 		)
 	})
 

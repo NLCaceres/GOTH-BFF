@@ -15,7 +15,7 @@ import (
 	"strings"
 )
 
-func head(title string, pageStyle templ.Component) templ.Component {
+func head(title string, cssPaths []string) templ.Component {
 	return templruntime.GeneratedTemplate(func(templ_7745c5c3_Input templruntime.GeneratedComponentInput) (templ_7745c5c3_Err error) {
 		templ_7745c5c3_W, ctx := templ_7745c5c3_Input.Writer, templ_7745c5c3_Input.Context
 		if templ_7745c5c3_CtxErr := ctx.Err(); templ_7745c5c3_CtxErr != nil {
@@ -57,8 +57,8 @@ func head(title string, pageStyle templ.Component) templ.Component {
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
-		if pageStyle != nil {
-			templ_7745c5c3_Err = pageStyle.Render(ctx, templ_7745c5c3_Buffer)
+		for _, cssPath := range cssPaths {
+			templ_7745c5c3_Err = StyleLink(cssPath).Render(ctx, templ_7745c5c3_Buffer)
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
@@ -172,7 +172,7 @@ func footer() templ.Component {
 	})
 }
 
-func HTMLIndex(contents templ.Component, title string, pageStyle templ.Component) templ.Component {
+func HTMLIndex(contents templ.Component, title string, cssPaths []string) templ.Component {
 	return templruntime.GeneratedTemplate(func(templ_7745c5c3_Input templruntime.GeneratedComponentInput) (templ_7745c5c3_Err error) {
 		templ_7745c5c3_W, ctx := templ_7745c5c3_Input.Writer, templ_7745c5c3_Input.Context
 		if templ_7745c5c3_CtxErr := ctx.Err(); templ_7745c5c3_CtxErr != nil {
@@ -197,7 +197,7 @@ func HTMLIndex(contents templ.Component, title string, pageStyle templ.Component
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
-		templ_7745c5c3_Err = head(title, pageStyle).Render(ctx, templ_7745c5c3_Buffer)
+		templ_7745c5c3_Err = head(title, cssPaths).Render(ctx, templ_7745c5c3_Buffer)
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}

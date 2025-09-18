@@ -7,12 +7,12 @@ import (
 )
 
 func RenderView(c echo.Context) error {
-	component := view.HTMLIndex(view.Home(), "Home", view.IndexStyle("css/index.css"))
+	component := view.HTMLIndex(view.Home(), "Home", []string{"css/index.css"})
 	return component.Render(c.Request().Context(), c.Response().Writer)
 }
 
-func RenderHTMLView(c echo.Context, page templ.Component, title string, pageStyle templ.Component) error {
-	component := view.HTMLIndex(page, title, pageStyle)
+func RenderHTMLView(c echo.Context, page templ.Component, title string, cssPaths []string) error {
+	component := view.HTMLIndex(page, title, cssPaths)
 	htmlStr, err := templ.ToGoHTML(c.Request().Context(), component)
 	if err != nil {
 		return c.NoContent(404)
