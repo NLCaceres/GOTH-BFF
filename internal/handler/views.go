@@ -7,7 +7,7 @@ import (
 )
 
 func RenderView(c echo.Context) error {
-	component := view.HTMLIndex(view.Home(), "Home", view.IndexStyle())
+	component := view.HTMLIndex(view.Home(), "Home", view.IndexStyle("css/index.css"))
 	return component.Render(c.Request().Context(), c.Response().Writer)
 }
 

@@ -29,7 +29,7 @@ func BaseStyle() templ.Component {
 			templ_7745c5c3_Var1 = templ.NopComponent
 		}
 		ctx = templ.ClearChildren(ctx)
-		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 1, "<style>\n  @import \"css/animation.css\";\n  @import \"css/colors.css\";\n  @import \"css/dimensions.css\";\n  @import \"css/elements.css\";\n  @import \"css/flex_grid.css\";\n  @import \"css/spacing.css\";\n  @import \"css/typography.css\";\n</style>")
+		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 1, "<link rel=\"stylesheet\" crossorigin href=\"css/animation.css\"><link rel=\"stylesheet\" crossorigin href=\"css/colors.css\"><link rel=\"stylesheet\" crossorigin href=\"css/dimensions.css\"><link rel=\"stylesheet\" crossorigin href=\"css/elements.css\"><link rel=\"stylesheet\" crossorigin href=\"css/flex_grid.css\"><link rel=\"stylesheet\" crossorigin href=\"css/spacing.css\"><link rel=\"stylesheet\" crossorigin href=\"css/typography.css\">")
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
@@ -37,7 +37,7 @@ func BaseStyle() templ.Component {
 	})
 }
 
-func IndexStyle() templ.Component {
+func IndexStyle(stylePath string) templ.Component {
 	return templruntime.GeneratedTemplate(func(templ_7745c5c3_Input templruntime.GeneratedComponentInput) (templ_7745c5c3_Err error) {
 		templ_7745c5c3_W, ctx := templ_7745c5c3_Input.Writer, templ_7745c5c3_Input.Context
 		if templ_7745c5c3_CtxErr := ctx.Err(); templ_7745c5c3_CtxErr != nil {
@@ -58,7 +58,20 @@ func IndexStyle() templ.Component {
 			templ_7745c5c3_Var2 = templ.NopComponent
 		}
 		ctx = templ.ClearChildren(ctx)
-		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 2, "<style>\n  @import \"css/index.css\";\n</style>")
+		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 2, "<link rel=\"stylesheet\" crossorigin href=\"")
+		if templ_7745c5c3_Err != nil {
+			return templ_7745c5c3_Err
+		}
+		var templ_7745c5c3_Var3 string
+		templ_7745c5c3_Var3, templ_7745c5c3_Err = templ.JoinStringErrs(stylePath)
+		if templ_7745c5c3_Err != nil {
+			return templ.Error{Err: templ_7745c5c3_Err, FileName: `internal/view/BaseStyle.templ`, Line: 14, Col: 52}
+		}
+		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var3))
+		if templ_7745c5c3_Err != nil {
+			return templ_7745c5c3_Err
+		}
+		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 3, "\">")
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}

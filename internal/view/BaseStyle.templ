@@ -1,19 +1,15 @@
 package view
 
 templ BaseStyle() {
-<style>
-  @import "css/animation.css";
-  @import "css/colors.css";
-  @import "css/dimensions.css";
-  @import "css/elements.css";
-  @import "css/flex_grid.css";
-  @import "css/spacing.css";
-  @import "css/typography.css";
-</style>
+  <link rel="stylesheet" crossorigin href="css/animation.css"/>
+  <link rel="stylesheet" crossorigin href="css/colors.css"/>
+  <link rel="stylesheet" crossorigin href="css/dimensions.css"/>
+  <link rel="stylesheet" crossorigin href="css/elements.css"/>
+  <link rel="stylesheet" crossorigin href="css/flex_grid.css"/>
+  <link rel="stylesheet" crossorigin href="css/spacing.css"/>
+  <link rel="stylesheet" crossorigin href="css/typography.css"/>
 }
 
-templ IndexStyle() {
-<style>
-  @import "css/index.css";
-</style>
+templ IndexStyle(stylePath string) {
+  <link rel="stylesheet" crossorigin href={stylePath}/>
 }
