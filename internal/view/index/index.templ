@@ -16,7 +16,7 @@ templ head(title string, cssPaths []string) {
 
     <link rel="icon" href="data:;base64,=">
 
-    @BaseStyle()
+    @StyleLinks()
     for _, cssPath := range cssPaths {
       @StyleLink(cssPath)
     }
