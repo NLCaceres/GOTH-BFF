@@ -1,13 +1,13 @@
 package index
 
 templ StyleLinks() {
-  <link rel="stylesheet" crossorigin href="css/animation.css"/>
-  <link rel="stylesheet" crossorigin href="css/colors.css"/>
-  <link rel="stylesheet" crossorigin href="css/dimensions.css"/>
-  <link rel="stylesheet" crossorigin href="css/elements.css"/>
-  <link rel="stylesheet" crossorigin href="css/flex_grid.css"/>
-  <link rel="stylesheet" crossorigin href="css/spacing.css"/>
-  <link rel="stylesheet" crossorigin href="css/typography.css"/>
+  @StyleLink("css/animation.css")
+  @StyleLink("css/colors.css")
+  @StyleLink("css/dimensions.css")
+  @StyleLink("css/elements.css")
+  @StyleLink("css/flex_grid.css")
+  @StyleLink("css/spacing.css")
+  @StyleLink("css/typography.css")
 }
 
 templ StyleLink(stylePath string) {
