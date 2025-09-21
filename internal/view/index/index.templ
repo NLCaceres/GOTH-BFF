@@ -3,26 +3,7 @@ package index
 import (
   "os"
   "strings"
-  "github.com/NLCaceres/goth-example/internal/util/stringy"
-  "github.com/NLCaceres/goth-example/internal/util/list"
 )
-
-templ navbar(navItems []string) {
-  <nav class="px-4 pb-8">
-    {{ routeMap := stringy.Map(os.Getenv("ROUTE_MAP")) }}
-    <ul class="navList flex row-wrap">
-      for _, navItem := range list.DistinctBy(navItems, strings.ToLower) {
-        if !strings.Contains(navItem, "-") {
-          <li class="navListItem mt-4 px-4 flex-grow text-center">
-            <a href={ navItem }>
-              { stringy.PresenterMapValue(routeMap, navItem) }
-            </a>
-          </li>
-        }
-      }
-    </ul>
-  </nav>
-}
 
 templ footer() {
   <footer></footer>
