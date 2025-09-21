@@ -1,0 +1,59 @@
+@media (min-width: 576px) {
+  .items {
+    column-count: 2;
+    column-gap: 5rem;
+  }
+}
+
+@media (width >=1200px) {
+  .items {
+    column-count: 3;
+  }
+}
+
+.listItem {
+  grid-template-columns: [name] 1fr [link] 4fr [button] 1.25fr;
+  grid-template-rows: [item] 0fr;
+}
+
+@media (width <=768px) {
+  .listItem {
+    grid-template-columns: [name] 1fr [link] 3fr [button] 1.5fr;
+  }
+}
+
+.listItem:nth-child(odd) {
+  grid-template-areas: "button link name";
+  grid-template-columns: [name] 1.25fr [link] 4fr [button] 1fr
+}
+
+@media (width <=768px) {
+  .listItem:nth-child(odd) {
+    grid-template-columns: [name] 1.5fr [link] 3fr [button] 1fr;
+  }
+}
+
+.listItem:has(.itemLink:hover) {
+  grid-template-rows: [item] 1fr;
+}
+
+.itemName {
+  grid-area: item / name;
+}
+
+.itemLink {
+  grid-area: item / link;
+  /* Min-height should = space needed for url + description + margins/spacing */
+  min-height: calc(1.5rem + (2 * 17px * 1.2) + (2 * 0.25rem))
+}
+
+.listItem>.no-ellipsis {
+  display: flex;
+  line-clamp: none;
+  -webkit-line-clamp: none;
+  -webkit-box-orient: inline-axis;
+}
+
+.itemButton {
+  grid-area: item / button;
+}
