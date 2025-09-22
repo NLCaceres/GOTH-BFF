@@ -5,10 +5,10 @@ import (
   "strings"
 )
 
-templ HTML(contents templ.Component, title string, cssPaths []string) {
+templ HTML(contents templ.Component, vm ViewModel) {
 <!DOCTYPE html>
 <html>
-  @head(title, cssPaths)
+  @head(vm.Title, vm.CssPaths)
   <body>
     @navbar(strings.Split(os.Getenv("APP_ROUTES"), ","))
     <main class="flex centered h-100 mx-4 md:mx-8">

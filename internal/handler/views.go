@@ -7,13 +7,12 @@ import (
 )
 
 func RenderView(c echo.Context) error {
-	component := index.HTML(index.Home(), "Home", nil)
+	component := index.HTML(index.Home(), index.ViewModel{Title: "Home", CssPaths: nil})
 	return component.Render(c.Request().Context(), c.Response().Writer)
 }
 
-func RenderHTMLView(c echo.Context, page templ.Component, title string, cssPaths []string) error {
-	component := index.HTML(page, title, cssPaths)
-	htmlStr, err := templ.ToGoHTML(c.Request().Context(), component)
+func RenderHTMLView(c echo.Context, page templ.Component, vm index.ViewModel) error {
+	htmlStr, err := templ.ToGoHTML(c.Request().Context(), index.HTML(page, vm))
 	if err != nil {
 		return c.NoContent(404)
 	}
