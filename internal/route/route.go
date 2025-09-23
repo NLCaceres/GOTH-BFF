@@ -5,8 +5,8 @@ import (
 	"github.com/NLCaceres/goth-example/internal/handler"
 	"github.com/NLCaceres/goth-example/internal/model"
 	"github.com/NLCaceres/goth-example/internal/util/stringy"
-	"github.com/NLCaceres/goth-example/internal/view"
 	"github.com/NLCaceres/goth-example/internal/view/index"
+	"github.com/NLCaceres/goth-example/internal/view/items"
 	"github.com/labstack/echo/v4"
 	"os"
 	"strings"
@@ -21,7 +21,7 @@ func Routes(app *echo.Echo) {
 		newCtx := context.WithValue(c.Request().Context(), "param", name)
 		c.SetRequest(c.Request().WithContext(newCtx))
 		vm := index.ViewModel{Title: name, CssPaths: []string{"css/item_list.css"}}
-		return handler.RenderHTMLView(c, view.Path(model.MockItems()), vm)
+		return handler.RenderHTMLView(c, items.Path(model.MockItems()), vm)
 	})
 
 	apiRoutes := strings.Split(os.Getenv("APP_ROUTES"), ",") // Get comma-delim'd route paths
