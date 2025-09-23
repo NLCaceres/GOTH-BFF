@@ -1,4 +1,4 @@
-package list
+package slice
 
 import (
 	"github.com/NLCaceres/goth-example/internal/util/test"

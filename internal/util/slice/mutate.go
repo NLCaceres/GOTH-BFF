@@ -1,4 +1,4 @@
-package list
+package slice
 
 // Transform each element of an array/slice via mapping function, then insert them into
 // a new slice. If the mapper fails, returns an empty slice with the mapping function error

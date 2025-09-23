@@ -1,4 +1,4 @@
-package list
+package slice
 
 // Keep elements based on validation function and return these elements in new slice
 func Filter[T any](list []T, valid func(T) bool) []T {

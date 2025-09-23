@@ -9,7 +9,7 @@ import "github.com/a-h/templ"
 import templruntime "github.com/a-h/templ/runtime"
 
 import (
-	"github.com/NLCaceres/goth-example/internal/util/list"
+	"github.com/NLCaceres/goth-example/internal/util/slice"
 	"github.com/NLCaceres/goth-example/internal/util/stringy"
 	"os"
 	"strings"
@@ -45,7 +45,7 @@ func navbar(navItems []string) templ.Component {
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
-		for _, navItem := range list.DistinctBy(navItems, strings.ToLower) {
+		for _, navItem := range slice.DistinctBy(navItems, strings.ToLower) {
 			if !strings.Contains(navItem, "-") {
 				templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 3, "<li class=\"navListItem mt-4 px-4 flex-grow text-center\"><a href=\"")
 				if templ_7745c5c3_Err != nil {

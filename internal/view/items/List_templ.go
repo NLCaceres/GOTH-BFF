@@ -10,7 +10,7 @@ import templruntime "github.com/a-h/templ/runtime"
 
 import (
 	"github.com/NLCaceres/goth-example/internal/model"
-	"github.com/NLCaceres/goth-example/internal/util/list"
+	"github.com/NLCaceres/goth-example/internal/util/slice"
 )
 
 func ListPage(items []model.Item) templ.Component {
@@ -77,7 +77,7 @@ func ListPage(items []model.Item) templ.Component {
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
-		hashItems, _ := list.ForEach(items, func(i model.Item) (model.Item, error) {
+		hashItems, _ := slice.ForEach(items, func(i model.Item) (model.Item, error) {
 			i.URL = "#" + i.URL
 			return i, nil
 		})
@@ -102,7 +102,7 @@ func ListPage(items []model.Item) templ.Component {
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
-		slashHashItems, _ := list.ForEach(items, func(i model.Item) (model.Item, error) {
+		slashHashItems, _ := slice.ForEach(items, func(i model.Item) (model.Item, error) {
 			i.URL = path + "/#" + i.URL
 			return i, nil
 		})
@@ -127,7 +127,7 @@ func ListPage(items []model.Item) templ.Component {
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
-		outSlashHashItems, _ := list.ForEach(items, func(i model.Item) (model.Item, error) {
+		outSlashHashItems, _ := slice.ForEach(items, func(i model.Item) (model.Item, error) {
 			i.URL = i.Name + "/#" + i.URL
 			return i, nil
 		})
