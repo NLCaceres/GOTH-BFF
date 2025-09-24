@@ -56,7 +56,7 @@ func ListPage(items []model.Item) templ.Component {
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
-		templ_7745c5c3_Err = itemList(items).Render(ctx, templ_7745c5c3_Buffer)
+		templ_7745c5c3_Err = list(items).Render(ctx, templ_7745c5c3_Buffer)
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
@@ -81,7 +81,7 @@ func ListPage(items []model.Item) templ.Component {
 			i.URL = "#" + i.URL
 			return i, nil
 		})
-		templ_7745c5c3_Err = itemList(hashItems).Render(ctx, templ_7745c5c3_Buffer)
+		templ_7745c5c3_Err = list(hashItems).Render(ctx, templ_7745c5c3_Buffer)
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
@@ -106,7 +106,7 @@ func ListPage(items []model.Item) templ.Component {
 			i.URL = path + "/#" + i.URL
 			return i, nil
 		})
-		templ_7745c5c3_Err = itemList(slashHashItems).Render(ctx, templ_7745c5c3_Buffer)
+		templ_7745c5c3_Err = list(slashHashItems).Render(ctx, templ_7745c5c3_Buffer)
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
@@ -131,7 +131,7 @@ func ListPage(items []model.Item) templ.Component {
 			i.URL = i.Name + "/#" + i.URL
 			return i, nil
 		})
-		templ_7745c5c3_Err = itemList(outSlashHashItems).Render(ctx, templ_7745c5c3_Buffer)
+		templ_7745c5c3_Err = list(outSlashHashItems).Render(ctx, templ_7745c5c3_Buffer)
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
@@ -143,7 +143,7 @@ func ListPage(items []model.Item) templ.Component {
 	})
 }
 
-func itemList(items []model.Item) templ.Component {
+func list(items []model.Item) templ.Component {
 	return templruntime.GeneratedTemplate(func(templ_7745c5c3_Input templruntime.GeneratedComponentInput) (templ_7745c5c3_Err error) {
 		templ_7745c5c3_W, ctx := templ_7745c5c3_Input.Writer, templ_7745c5c3_Input.Context
 		if templ_7745c5c3_CtxErr := ctx.Err(); templ_7745c5c3_CtxErr != nil {
