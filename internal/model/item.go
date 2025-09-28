@@ -22,3 +22,11 @@ func MockItems() []Item {
 		},
 	}
 }
+
+func ManyMockItems(copyFactor int) []Item {
+	items := make([]Item, 0, 6*copyFactor)
+	for range copyFactor {
+		items = append(items, MockItems()...)
+	}
+	return items
+}
