@@ -1,6 +1,7 @@
 package slice
 
 import (
+	"fmt"
 	"github.com/NLCaceres/goth-example/internal/util/test"
 	"github.com/google/go-cmp/cmp"
 	"strconv"
@@ -25,6 +26,27 @@ func TestForEach(t *testing.T) {
 			}
 			if !test.IsSameError(err, testCase.Err) {
 				t.Error(test.QuotedErrorMsg("error", testCase.Err, err))
+			}
+		})
+	}
+}
+
+func TestDuplicate(t *testing.T) {
+	tests := map[string]struct {
+		InputSlice  []any
+		InputFactor int
+		Expect      []any
+	}{
+		"String array duplicated":      {[]any{"a", "b"}, 2, []any{"a", "b", "a", "b"}},
+		"Int array duplicated 3 times": {[]any{1, 2}, 3, []any{1, 2, 1, 2, 1, 2}},
+	}
+	for testName, testCase := range tests {
+		t.Run(testName, func(t *testing.T) {
+			actual := Duplicate(testCase.InputSlice, testCase.InputFactor)
+			if !cmp.Equal(testCase.Expect, actual) {
+				t.Error(test.ErrorMsg(
+					fmt.Sprint("list duplicated by ", testCase.InputFactor), testCase.Expect, actual,
+				))
 			}
 		})
 	}

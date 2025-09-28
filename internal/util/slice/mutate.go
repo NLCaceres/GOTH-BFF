@@ -13,3 +13,11 @@ func ForEach[T any, U any](list []T, mapper func(T) (U, error)) ([]U, error) {
 	}
 	return newList, nil
 }
+
+func Duplicate[T any](s []T, copyFactor int) []T {
+	list := make([]T, 0, len(s)*copyFactor)
+	for range copyFactor {
+		list = append(list, s...)
+	}
+	return list
+}
