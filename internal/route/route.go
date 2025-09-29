@@ -21,7 +21,7 @@ func Routes(app *echo.Echo) {
 		newCtx := context.WithValue(c.Request().Context(), "param", name)
 		c.SetRequest(c.Request().WithContext(newCtx))
 		vm := index.ViewModel{Title: name, CssPaths: []string{"css/item_list.css"}}
-		return handler.RenderHTMLView(c, items.ListPage(model.ManyMockItems(6)), vm)
+		return handler.RenderHTMLView(c, items.ListPage(model.ManyMockItems()), vm)
 	})
 
 	apiRoutes := strings.Split(os.Getenv("APP_ROUTES"), ",") // Get comma-delim'd route paths
