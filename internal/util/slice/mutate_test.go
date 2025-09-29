@@ -39,6 +39,10 @@ func TestDuplicate(t *testing.T) {
 	}{
 		"String array duplicated":      {[]any{"a", "b"}, 2, []any{"a", "b", "a", "b"}},
 		"Int array duplicated 3 times": {[]any{1, 2}, 3, []any{1, 2, 1, 2, 1, 2}},
+		"Nil array duplicated":         {nil, 3, []any{}},
+		"Int array duplicated by 1":    {[]any{1, 2}, 1, []any{1, 2}},
+		"Int array duplicated by 0":    {[]any{1, 2}, 0, []any{1, 2}},
+		"Int array duplicated by -1":   {[]any{1, 2}, -1, []any{1, 2}},
 	}
 	for testName, testCase := range tests {
 		t.Run(testName, func(t *testing.T) {
