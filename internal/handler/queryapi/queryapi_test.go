@@ -1,4 +1,4 @@
-package handler
+package queryapi
 
 import (
 	"github.com/NLCaceres/goth-example/internal/util/test"

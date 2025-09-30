@@ -3,6 +3,7 @@ package route
 import (
 	"context"
 	"github.com/NLCaceres/goth-example/internal/handler"
+	"github.com/NLCaceres/goth-example/internal/handler/queryapi"
 	"github.com/NLCaceres/goth-example/internal/model"
 	"github.com/NLCaceres/goth-example/internal/util/stringy"
 	"github.com/NLCaceres/goth-example/internal/view/index"
@@ -30,7 +31,7 @@ func Routes(app *echo.Echo) {
 		routePath := "/" + route
 		routeFormattedPath := "/" + stringy.PresenterMapValue(routeMap, route)
 
-		app.GET(routePath, handler.ApiPostRequest)
-		app.GET(routeFormattedPath, handler.ApiPostRequest)
+		app.GET(routePath, queryapi.ApiPostRequest)
+		app.GET(routeFormattedPath, queryapi.ApiPostRequest)
 	}
 }
