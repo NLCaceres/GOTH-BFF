@@ -10,7 +10,7 @@ import (
 	"testing"
 )
 
-func TestApiPostRequest(t *testing.T) {
+func TestNewQuery(t *testing.T) {
 	badData := `"foo":"bar"`
 	successData := "{" + badData + "}"
 	tests := map[string]struct {
@@ -44,7 +44,7 @@ func TestApiPostRequest(t *testing.T) {
 
 			os.Setenv("QUERY_FILE", testCase.QueryFile)
 			os.Setenv("FILTER_REPLACEMENTS", testCase.Filters)
-			ApiPostRequest(c)
+			NewQuery(c)
 			if rec.Code != testCase.ExpectedStatusCode {
 				t.Error(test.ErrorMsg("response", testCase.ExpectedStatusCode, rec.Code))
 			}
