@@ -3,8 +3,6 @@ package queryapi
 import (
 	"bytes"
 	"encoding/json"
-	"errors"
-	"fmt"
 	"github.com/NLCaceres/goth-example/internal/util/fileread"
 	"github.com/NLCaceres/goth-example/internal/util/proxy"
 	"github.com/NLCaceres/goth-example/internal/util/stringy"
@@ -18,20 +16,19 @@ import (
 // POSTs pre-formatted JSON to an API after dynamically updating the JSON string's
 // key-value pair corresponding to the search value
 func NewQuery(c echo.Context) error {
-	queryMap, err := fileread.JSON[map[string][]map[string]any](os.Getenv("QUERY_FILE"))
+	queryReq, err := fileread.JSON[Request](os.Getenv("QUERY_FILE"))
 	if err != nil {
 		log.Printf("Issue getting formatted JSON query map due to: %s\n", err)
 		return c.NoContent(500) // Internal issue
 	}
 
-	queries := queryMap["searches"]
-	queries[len(queries)-1]["q"] = c.Path()[1:] // Drop 1st "/". No Unicode in URLs so OK
-	if err := setFilters(queries[len(queries)-1]); err != nil {
+	queryReq.Terms[len(queryReq.Terms)-1].Q = c.Path()[1:] // Drop 1st "/"
+	if err := setFilters(&queryReq.Terms[len(queryReq.Terms)-1]); err != nil {
 		log.Print("Issue setting filters due to:", err)
 		return c.NoContent(501) // Implementation issue
 	}
 
-	jsonBytes, err := json.MarshalIndent(queryMap, "", "  ")
+	jsonBytes, err := json.MarshalIndent(queryReq, "", "  ")
 	if err != nil { // Unclear if Marshal can even fail since it parses already parsed JSON
 		log.Printf("Issue parsing JSON map into a []byte due to: %s\n", err)
 		return c.NoContent(400) // Bad request probably due to changes in JSON map
@@ -46,13 +43,8 @@ func NewQuery(c echo.Context) error {
 	return c.JSON(http.StatusOK, res)
 }
 
-func setFilters(jsonObj map[string]any) error {
-	filter, ok := jsonObj["filter_by"].(string) // Type coercion
-	if !ok {
-		errMsg := fmt.Sprintf("Issue coercing JSON filter value %v to string", jsonObj["filter_by"])
-		return errors.New(errMsg)
-	}
-	matches, err := stringy.FindDunderVars(filter)
+func setFilters(s *Search) error {
+	matches, err := stringy.FindDunderVars(s.FilterBy)
 	if err != nil {
 		return err
 	}
@@ -60,8 +52,7 @@ func setFilters(jsonObj map[string]any) error {
 	replacements := strings.Split(os.Getenv("FILTER_REPLACEMENTS"), "|")
 	//NOTE: Similar to how Python's Zip() Works, choose the shortest list to match
 	for i := range min(len(replacements), len(matches)) { // values until it runs out
-		filter = strings.Replace(filter, matches[i], replacements[i], 1)
+		s.FilterBy = strings.Replace(s.FilterBy, matches[i], replacements[i], 1)
 	}
-	jsonObj["filter_by"] = filter
 	return nil
 }
