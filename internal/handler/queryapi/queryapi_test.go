@@ -80,12 +80,11 @@ func TestSetFilters(t *testing.T) {
 	}
 	for testName, testCase := range tests {
 		t.Run(testName, func(t *testing.T) {
-			jsonObj := map[string]any{"filter_by": testCase.Input}
+			search := Search{FilterBy: testCase.Input.(string)}
 			os.Setenv("FILTER_REPLACEMENTS", testCase.Replacement)
-			err := setFilters(jsonObj)
-			finalFilter := jsonObj["filter_by"]
-			if finalFilter != testCase.Expect {
-				t.Error(test.ErrorMsg("filter", testCase.Expect, finalFilter))
+			err := setFilters(&search)
+			if search.FilterBy != testCase.Expect {
+				t.Error(test.ErrorMsg("filter", testCase.Expect, search.FilterBy))
 			}
 			if !test.IsSameError(err, testCase.Err) {
 				t.Error(test.QuotedErrorMsg("error", testCase.Err, err))
