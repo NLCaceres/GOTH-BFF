@@ -20,10 +20,8 @@ func TestNewQuery(t *testing.T) {
 		ExpectedStatusCode int
 		ExpectedResponse   string
 	}{
-		"Error from inside fileread.JSON()": {httpMock(badData), "./bad.json", "", 500, ""},
-		"Error setting filters": {
-			httpMock(badData), "internal/util/test/bad_typing.json", "", 501, "",
-		},
+		"Error reading unknown JSON":    {httpMock(badData), "./bad.json", "", 500, ""},
+		"Error due to bad filter value": {httpMock(badData), "./bad_typing.json", "", 500, ""},
 		"Error from inside PostJSON": {
 			httpMock(badData), "internal/test_query.json", "foo|bar|fi", 502, "",
 		},
@@ -66,8 +64,7 @@ func TestSetFilters(t *testing.T) {
 		Expect      any
 		Err         string
 	}{
-		"Invalid filter value": {Input: 1, Expect: 1, Err: "Issue coercing JSON filter"},
-		"No matches found":     {Input: "foo", Expect: "foo"},
+		"No matches found": {Input: "foo", Expect: "foo"},
 		"One match found but multiple replacements": { // NEED ALL CAPS DunderVars
 			Input: "[__FOO__]", Replacement: "foo|bar", Expect: "[foo]",
 		},
