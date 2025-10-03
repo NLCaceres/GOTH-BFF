@@ -79,7 +79,7 @@ func TestSetFilters(t *testing.T) {
 		t.Run(testName, func(t *testing.T) {
 			search := Search{FilterBy: testCase.Input.(string)}
 			os.Setenv("FILTER_REPLACEMENTS", testCase.Replacement)
-			err := setFilters(&search)
+			err := search.setFilters(testCase.Replacement)
 			if search.FilterBy != testCase.Expect {
 				t.Error(test.ErrorMsg("filter", testCase.Expect, search.FilterBy))
 			}

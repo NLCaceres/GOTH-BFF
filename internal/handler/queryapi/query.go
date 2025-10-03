@@ -1,5 +1,10 @@
 package queryapi
 
+import (
+	"github.com/NLCaceres/goth-example/internal/util/stringy"
+	"strings"
+)
+
 type Search struct {
 	FilterBy string `json:"filter_by"`
 	Page     int    `json:"page"`
@@ -7,6 +12,18 @@ type Search struct {
 	Q        string `json:"q"`
 	SelectBy string `json:"query_by"`
 	SortBy   string `json:"sort_by"`
+}
+
+func (s *Search) setFilters(filters string) error {
+	matches, err := stringy.FindDunderVars(s.FilterBy)
+	if err != nil {
+		return err
+	}
+	replacements := strings.Split(filters, "|")
+	for i := range min(len(replacements), len(matches)) {
+		s.FilterBy = strings.Replace(s.FilterBy, matches[i], replacements[i], 1)
+	}
+	return nil
 }
 
 type Request struct {

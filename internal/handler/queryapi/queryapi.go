@@ -5,12 +5,10 @@ import (
 	"encoding/json"
 	"github.com/NLCaceres/goth-example/internal/util/fileread"
 	"github.com/NLCaceres/goth-example/internal/util/proxy"
-	"github.com/NLCaceres/goth-example/internal/util/stringy"
 	"github.com/labstack/echo/v4"
 	"log"
 	"net/http"
 	"os"
-	"strings"
 )
 
 // POSTs pre-formatted JSON to an API after dynamically updating the JSON string's
@@ -23,7 +21,7 @@ func NewQuery(c echo.Context) error {
 	}
 
 	queryReq.Terms[len(queryReq.Terms)-1].Q = c.Path()[1:] // Drop 1st "/"
-	if err := setFilters(&queryReq.Terms[len(queryReq.Terms)-1]); err != nil {
+	if err := queryReq.Terms[len(queryReq.Terms)-1].setFilters(os.Getenv("FILTER_REPLACEMENTS")); err != nil {
 		log.Print("Issue setting filters due to:", err)
 		return c.NoContent(501) // Implementation issue
 	}
@@ -41,18 +39,4 @@ func NewQuery(c echo.Context) error {
 	}
 
 	return c.JSON(http.StatusOK, res)
-}
-
-func setFilters(s *Search) error {
-	matches, err := stringy.FindDunderVars(s.FilterBy)
-	if err != nil {
-		return err
-	}
-
-	replacements := strings.Split(os.Getenv("FILTER_REPLACEMENTS"), "|")
-	//NOTE: Similar to how Python's Zip() Works, choose the shortest list to match
-	for i := range min(len(replacements), len(matches)) { // values until it runs out
-		s.FilterBy = strings.Replace(s.FilterBy, matches[i], replacements[i], 1)
-	}
-	return nil
 }
