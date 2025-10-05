@@ -45,8 +45,9 @@ func TestRequestLast(t *testing.T) {
 		Input  Request
 		Expect *Search
 	}{
-		"Returns only Search Term": {Request{[]Search{{Q: "Foo"}}}, &Search{Q: "Foo"}},
-		"Returns last Search Term": {Request{[]Search{{Q: "F"}, {Q: "B"}}}, &Search{Q: "B"}},
+		"Return nil if 0 Terms":   {Request{[]Search{}}, nil},
+		"Return only Search Term": {Request{[]Search{{Q: "Foo"}}}, &Search{Q: "Foo"}},
+		"Return last Search Term": {Request{[]Search{{Q: "F"}, {Q: "B"}}}, &Search{Q: "B"}},
 	}
 	for testName, testCase := range tests {
 		t.Run(testName, func(t *testing.T) {

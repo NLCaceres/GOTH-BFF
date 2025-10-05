@@ -31,5 +31,8 @@ type Request struct {
 }
 
 func (r Request) last() *Search {
+	if len(r.Terms) == 0 {
+		return nil
+	}
 	return &r.Terms[len(r.Terms)-1]
 }
