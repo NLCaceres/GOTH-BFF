@@ -2,6 +2,7 @@ package queryapi
 
 import (
 	"github.com/NLCaceres/goth-example/internal/util/test"
+	"github.com/google/go-cmp/cmp"
 	"os"
 	"testing"
 )
@@ -34,6 +35,23 @@ func TestSetFilters(t *testing.T) {
 			}
 			if !test.IsSameError(err, testCase.Err) {
 				t.Error(test.QuotedErrorMsg("error", testCase.Err, err))
+			}
+		})
+	}
+}
+
+func TestRequestLast(t *testing.T) {
+	tests := map[string]struct {
+		Input  Request
+		Expect *Search
+	}{
+		"Returns only Search Term": {Request{[]Search{{Q: "Foo"}}}, &Search{Q: "Foo"}},
+		"Returns last Search Term": {Request{[]Search{{Q: "F"}, {Q: "B"}}}, &Search{Q: "B"}},
+	}
+	for testName, testCase := range tests {
+		t.Run(testName, func(t *testing.T) {
+			if !cmp.Equal(testCase.Expect, testCase.Input.last()) {
+				t.Error(test.ErrorMsg("last search term", testCase.Expect, testCase.Input.last()))
 			}
 		})
 	}

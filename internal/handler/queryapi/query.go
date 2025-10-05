@@ -29,3 +29,7 @@ func (s *Search) setFilters(filters string) error {
 type Request struct {
 	Terms []Search `json:"searches"`
 }
+
+func (r Request) last() *Search {
+	return &r.Terms[len(r.Terms)-1]
+}
