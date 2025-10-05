@@ -20,8 +20,8 @@ func NewQuery(c echo.Context) error {
 		return c.NoContent(500) // Internal issue
 	}
 
-	queryReq.Terms[len(queryReq.Terms)-1].Q = c.Path()[1:] // Drop 1st "/"
-	if err := queryReq.Terms[len(queryReq.Terms)-1].setFilters(os.Getenv("FILTER_REPLACEMENTS")); err != nil {
+	queryReq.last().Q = c.Path()[1:] // Drop 1st "/"
+	if err := queryReq.last().setFilters(os.Getenv("FILTER_REPLACEMENTS")); err != nil {
 		log.Print("Issue setting filters due to:", err)
 		return c.NoContent(501) // Implementation issue
 	}
