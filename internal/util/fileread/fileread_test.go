@@ -12,9 +12,9 @@ func TestJSON(t *testing.T) {
 		Expect map[string][]map[string]any
 		Err    string
 	}{
-		"Unknown file":       {"internal/util/test/unknown_file.json", nil, "no such file"},
-		"Unmarshalable JSON": {"internal/util/test/bad.json", nil, "invalid character"},
-		"GraphQL in JSON":    {"internal/util/test/graphql_query.json", nil, "invalid character"},
+		"Unknown file":       {"internal/util/test/unknown_file.json", nil, "Unable to open"},
+		"Unmarshalable JSON": {"internal/util/test/bad.json", nil, "JSON malformed"},
+		"GraphQL in JSON":    {"internal/util/test/graphql_query.json", nil, "JSON malformed"},
 		"File is not JSON":   {"internal/util/test/json.go", nil, "Incorrect File Type"},
 		"Valid JSON": {
 			"internal/util/test/good.json", map[string][]map[string]any{"objs": {{"foo": "bar"}}}, "",

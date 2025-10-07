@@ -2,7 +2,6 @@ package fileread
 
 import (
 	"encoding/json"
-	"errors"
 	"github.com/NLCaceres/goth-example/internal/util/projectpath"
 	"os"
 	"strings"
@@ -16,16 +15,18 @@ func JSON[T any](filePath string) (T, error) {
 	var jsonMap T // This init helps for err returns to send back a default value
 
 	if !strings.HasSuffix(filePath, ".json") {
-		return jsonMap, errors.New("Incorrect File Type: Expected \".json\" file")
+		return jsonMap, WrongFileTypeError
 	}
 	// Using ReadFile handles Opening, Closing and Reading the file directly into []byte
 	fileBytes, err := os.ReadFile(projectpath.File(filePath))
-	if err != nil {
-		return jsonMap, err
+	if err != nil { // Err is a `os.PathError`
+		return jsonMap, FileNotFoundError{File: err.Error()}
 	}
 
+	// A `scanError` so sorta highlights lots of low-level Go libs return private errors
+	// that I should wrap for propagation or deal with immediately
 	if err := json.Unmarshal(fileBytes, &jsonMap); err != nil {
-		return jsonMap, err
+		return jsonMap, MalformedJsonError{Err: err.Error()}
 	}
 
 	return jsonMap, nil
