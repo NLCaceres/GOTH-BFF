@@ -1,6 +1,7 @@
 package fileread
 
 import (
+	"errors"
 	"github.com/NLCaceres/goth-example/internal/util/test"
 	"github.com/google/go-cmp/cmp"
 	"testing"
@@ -10,21 +11,21 @@ func TestJSON(t *testing.T) {
 	tests := map[string]struct {
 		Input  string
 		Expect map[string][]map[string]any
-		Err    string
+		Err    any
 	}{
-		"Unknown file":       {"internal/util/test/unknown_file.json", nil, "Unable to open"},
-		"Unmarshalable JSON": {"internal/util/test/bad.json", nil, "JSON malformed"},
-		"GraphQL in JSON":    {"internal/util/test/graphql_query.json", nil, "JSON malformed"},
-		"File is not JSON":   {"internal/util/test/json.go", nil, "Incorrect File Type"},
+		"Unknown file":       {"internal/util/test/unknown_file.json", nil, new(FileNotFoundError)},
+		"Unmarshalable JSON": {"internal/util/test/bad.json", nil, new(MalformedJsonError)},
+		"GraphQL in JSON":    {"internal/util/test/graphql_query.json", nil, new(MalformedJsonError)},
+		"File is not JSON":   {"internal/util/test/json.go", nil, WrongFileTypeError},
 		"Valid JSON": {
-			"internal/util/test/good.json", map[string][]map[string]any{"objs": {{"foo": "bar"}}}, "",
+			"internal/util/test/good.json", map[string][]map[string]any{"objs": {{"foo": "bar"}}}, nil,
 		},
 	}
 	for testName, testCase := range tests {
 		t.Run(testName, func(t *testing.T) {
 			data, err := JSON[map[string][]map[string]any](testCase.Input)
 
-			if !test.IsSameError(err, testCase.Err) {
+			if e, ok := testCase.Err.(error); ok && !errors.Is(err, e) && !errors.As(err, testCase.Err) {
 				t.Error(test.QuotedErrorMsg("error", testCase.Err, err))
 			}
 			if !cmp.Equal(testCase.Expect, data) {
