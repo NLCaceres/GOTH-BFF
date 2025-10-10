@@ -1,6 +1,7 @@
 package queryapi
 
 import (
+	"errors"
 	"github.com/NLCaceres/goth-example/internal/util/stringy"
 	"strings"
 )
@@ -14,10 +15,12 @@ type Search struct {
 	SortBy   string `json:"sort_by"`
 }
 
+var SearchSetterError = errors.New("Unable to set Search Filter Field")
+
 func (s *Search) setFilters(filters string) error {
 	matches, err := stringy.FindDunderVars(s.FilterBy)
 	if err != nil {
-		return err
+		return SearchSetterError
 	}
 	replacements := strings.Split(filters, "|")
 	for i := range min(len(replacements), len(matches)) {
