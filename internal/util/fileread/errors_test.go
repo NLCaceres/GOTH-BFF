@@ -2,44 +2,43 @@ package fileread
 
 import (
 	"errors"
+	"fmt"
 	"github.com/NLCaceres/goth-example/internal/util/test"
-	"strings"
 	"testing"
 )
 
 func TestFileReadError(t *testing.T) {
 	tests := map[string]struct {
-		Input  FileReadError
+		Input  error
 		Msg    string
-		Expect any
+		Expect bool
 	}{
-		"FileReadError has no children": {FileReadError{}, "FileRead Error: <nil>", nil},
-		"FileReadError wraps FileNotFound but checks for parent FileReadError": {
-			FileReadError{FileNotFoundError{}}, "FileRead Error: Unable to", FileReadError{},
+		"FileNotFoundError is FileReadError": {
+			FileNotFoundError{}, "FileRead Error: Unable to ", true,
 		},
-		"FileReadError wraps FileNotFound and checks for it": {
-			FileReadError{FileNotFoundError{}}, "FileRead Error: Unable to", FileNotFoundError{},
+		"FileNotFoundError is filled FileReadError": { // Checks `new(FileReadError)` can work
+			FileNotFoundError{File: "/foo"}, "FileRead Error: Unable to /foo", true,
 		},
-		"FileReadError CURRENTLY wraps any error": {
-			FileReadError{errors.New("Foo")}, "FileRead Error: Foo", errors.New("Foo"),
+		"MalformedJsonError is FileReadError": {
+			MalformedJsonError{}, `FileRead Error: JSON malformed due to ""`, true,
+		},
+		"Not all errors are FileReadErrors": {
+			errors.New("Foo"), "FileRead Error: Foo", false,
+		},
+		"Wrapped FileReadError": {
+			fmt.Errorf("Some err = %w", FileNotFoundError{}),
+			"FileRead Error: Some err = Unable to ", true,
 		},
 	}
-
 	for testName, testCase := range tests {
 		t.Run(testName, func(t *testing.T) {
-			if strings.TrimSpace(testCase.Input.Error()) != testCase.Msg {
-				t.Error(test.ErrorMsg(
-					"FileReadError message", testCase.Msg, testCase.Input.Error(),
-				))
+			var fileReadErr FileReadError // Alternative to an inline `new(FileReadError)`
+			if errors.As(testCase.Input, &fileReadErr) != testCase.Expect {
+				t.Error(test.ErrorMsg("Is FileReadErr", testCase.Input, testCase.Expect))
 			}
-			unwrapped := testCase.Input.Unwrap()
-			expected := testCase.Expect
-			if test.OnlyOneIsNil(expected, unwrapped) && !errors.As(unwrapped, &expected) {
-				t.Error(test.ErrorMsg(
-					"FileReadError unwrapped", testCase.Input.Unwrap(), testCase.Expect,
-				))
+			if e, ok := testCase.Input.(FileReadError); ok && e.FileReadError().Error() != testCase.Msg {
+				t.Error(test.ErrorMsg("FileReadErr msg", testCase.Msg, e.FileReadError().Error()))
 			}
-
 		})
 	}
 }
