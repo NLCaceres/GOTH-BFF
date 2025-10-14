@@ -28,6 +28,9 @@ func TestJSON(t *testing.T) {
 			if e, ok := testCase.Err.(error); ok && !errors.Is(err, e) && !errors.As(err, testCase.Err) {
 				t.Error(test.QuotedErrorMsg("error", testCase.Err, err))
 			}
+			if e, ok := err.(FileNotFoundError); ok && testCase.Input != e.File {
+				t.Error(test.QuotedErrorMsg("error file", testCase.Input, e.File))
+			}
 			if !cmp.Equal(testCase.Expect, data) {
 				t.Error(test.ErrorMsg("data", testCase.Expect, data))
 			}

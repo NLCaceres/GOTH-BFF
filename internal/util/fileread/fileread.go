@@ -20,7 +20,7 @@ func JSON[T any](filePath string) (T, error) {
 	// Using ReadFile handles Opening, Closing and Reading the file directly into []byte
 	fileBytes, err := os.ReadFile(projectpath.File(filePath))
 	if err != nil { // Err is a `os.PathError`
-		return jsonMap, FileNotFoundError{File: err.Error()}
+		return jsonMap, FileNotFoundError{File: filePath}
 	}
 
 	// A `scanError` so sorta highlights lots of low-level Go libs return private errors
