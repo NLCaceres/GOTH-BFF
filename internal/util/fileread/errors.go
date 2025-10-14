@@ -17,6 +17,7 @@ type FileReadError interface {
 	FileReadError() error
 }
 
+// An error when unable to find a particular file + implements `FileReadError`
 type FileNotFoundError struct {
 	File string
 }
@@ -28,6 +29,7 @@ func (e FileNotFoundError) FileReadError() error {
 	return fmt.Errorf("FileRead Error: %w", e)
 }
 
+// An error when a JSON file is improperly structured + implements `FileReadError`
 type MalformedJsonError struct {
 	Err string
 }
