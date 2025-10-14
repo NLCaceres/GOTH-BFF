@@ -31,11 +31,11 @@ func (e FileNotFoundError) FileReadError() error {
 
 // An error when a JSON file is improperly structured + implements `FileReadError`
 type MalformedJsonError struct {
-	Err string
+	Cause string
 }
 
 func (e MalformedJsonError) Error() string {
-	return fmt.Sprintf("JSON malformed due to %q", e.Err)
+	return fmt.Sprintf("JSON malformed due to %q", e.Cause)
 }
 func (e MalformedJsonError) FileReadError() error {
 	return fmt.Errorf("FileRead Error: %w", e)

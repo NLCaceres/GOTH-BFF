@@ -26,7 +26,7 @@ func JSON[T any](filePath string) (T, error) {
 	// A `scanError` so sorta highlights lots of low-level Go libs return private errors
 	// that I should wrap for propagation or deal with immediately
 	if err := json.Unmarshal(fileBytes, &jsonMap); err != nil {
-		return jsonMap, MalformedJsonError{Err: err.Error()}
+		return jsonMap, MalformedJsonError{Cause: err.Error()}
 	}
 
 	return jsonMap, nil
