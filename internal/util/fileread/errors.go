@@ -23,7 +23,7 @@ type FileNotFoundError struct {
 }
 
 func (e FileNotFoundError) Error() string {
-	return fmt.Sprintf("Unable to %v", e.File)
+	return fmt.Sprintf("File not found at %v", e.File)
 }
 func (e FileNotFoundError) FileReadError() error {
 	return fmt.Errorf("FileRead Error: %w", e)

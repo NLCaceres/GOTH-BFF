@@ -14,10 +14,10 @@ func TestFileReadError(t *testing.T) {
 		Expect bool
 	}{
 		"FileNotFoundError is FileReadError": {
-			FileNotFoundError{}, "FileRead Error: Unable to ", true,
+			FileNotFoundError{}, "FileRead Error: File not found at ", true,
 		},
 		"FileNotFoundError is filled FileReadError": { // Checks `new(FileReadError)` can work
-			FileNotFoundError{File: "/foo"}, "FileRead Error: Unable to /foo", true,
+			FileNotFoundError{File: "/foo"}, "FileRead Error: File not found at /foo", true,
 		},
 		"MalformedJsonError is FileReadError": {
 			MalformedJsonError{}, `FileRead Error: JSON malformed due to ""`, true,
@@ -27,7 +27,7 @@ func TestFileReadError(t *testing.T) {
 		},
 		"Wrapped FileReadError": {
 			fmt.Errorf("Some err = %w", FileNotFoundError{}),
-			"FileRead Error: Some err = Unable to ", true,
+			"FileRead Error: Some err = File not found at ", true,
 		},
 	}
 	for testName, testCase := range tests {
@@ -48,10 +48,10 @@ func TestFileNotFoundError(t *testing.T) {
 		Input  FileNotFoundError
 		Expect string
 	}{
-		"Appends file message to end of 'Unable to' prefix": {
-			FileNotFoundError{"Foo"}, "Unable to Foo",
+		"Appends file message to end of 'File not found at' prefix": {
+			FileNotFoundError{"Foo"}, "File not found at Foo",
 		},
-		"Missing file message": {FileNotFoundError{}, "Unable to "},
+		"Missing file message": {FileNotFoundError{}, "File not found at "},
 	}
 	for testName, testCase := range tests {
 		t.Run(testName, func(t *testing.T) {
