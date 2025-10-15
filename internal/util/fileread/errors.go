@@ -3,6 +3,7 @@ package fileread
 import (
 	"errors"
 	"fmt"
+	"strings"
 )
 
 var (
@@ -23,6 +24,9 @@ type FileNotFoundError struct {
 }
 
 func (e FileNotFoundError) Error() string {
+	if e.File == "" { // File will presumably NEVER be an empty whitespace string i.e. "  "
+		return "File missing"
+	}
 	return fmt.Sprintf("File not found at %v", e.File)
 }
 func (e FileNotFoundError) FileReadError() error {
@@ -35,6 +39,9 @@ type MalformedJsonError struct {
 }
 
 func (e MalformedJsonError) Error() string {
+	if strings.TrimSpace(e.Cause) == "" { // In case returned cause is unexpectedly empty
+		return "JSON unexpectedly malformed"
+	}
 	return fmt.Sprintf("JSON malformed due to %q", e.Cause)
 }
 func (e MalformedJsonError) FileReadError() error {

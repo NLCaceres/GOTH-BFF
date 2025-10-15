@@ -14,20 +14,20 @@ func TestFileReadError(t *testing.T) {
 		Expect bool
 	}{
 		"FileNotFoundError is FileReadError": {
-			FileNotFoundError{}, "FileRead Error: File not found at ", true,
+			FileNotFoundError{}, "FileRead Error: File missing", true,
 		},
 		"FileNotFoundError is filled FileReadError": { // Checks `new(FileReadError)` can work
 			FileNotFoundError{File: "/foo"}, "FileRead Error: File not found at /foo", true,
 		},
 		"MalformedJsonError is FileReadError": {
-			MalformedJsonError{}, `FileRead Error: JSON malformed due to ""`, true,
+			MalformedJsonError{}, "FileRead Error: JSON unexpectedly malformed", true,
 		},
 		"Not all errors are FileReadErrors": {
 			errors.New("Foo"), "FileRead Error: Foo", false,
 		},
 		"Wrapped FileReadError": {
 			fmt.Errorf("Some err = %w", FileNotFoundError{}),
-			"FileRead Error: Some err = File not found at ", true,
+			"FileRead Error: Some err = File missing", true,
 		},
 	}
 	for testName, testCase := range tests {
@@ -51,7 +51,7 @@ func TestFileNotFoundError(t *testing.T) {
 		"Appends file message to end of 'File not found at' prefix": {
 			FileNotFoundError{"Foo"}, "File not found at Foo",
 		},
-		"Missing file message": {FileNotFoundError{}, "File not found at "},
+		"Missing file message": {FileNotFoundError{}, "File missing"},
 	}
 	for testName, testCase := range tests {
 		t.Run(testName, func(t *testing.T) {
@@ -72,7 +72,7 @@ func TestMalformedJsonError(t *testing.T) {
 		"Appends cause message to 'JSON malformed' prefix": {
 			MalformedJsonError{"Foo"}, `JSON malformed due to "Foo"`,
 		},
-		"Missing cause message": {MalformedJsonError{}, `JSON malformed due to ""`},
+		"Missing cause message": {MalformedJsonError{}, "JSON unexpectedly malformed"},
 	}
 	for testName, testCase := range tests {
 		t.Run(testName, func(t *testing.T) {
