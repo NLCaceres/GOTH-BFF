@@ -41,8 +41,7 @@ func newQuery(path string) (*bytes.Buffer, error) {
 	}
 
 	jsonBytes, err := json.MarshalIndent(queryReq, "", "  ")
-	// Probably never getting an err since my JSON is already formatted
-	if err != nil { // BUT technically could get a `jsonErr` or `scanErr` if `Q` is poisoned
+	if err != nil { // CAN get a `jsonErr` or `scanErr` if `Q` is poisoned BUT unclear how
 		log.Printf("Issue parsing JSON map into a []byte due to: %s\n", err)
 		return nil, err
 	}

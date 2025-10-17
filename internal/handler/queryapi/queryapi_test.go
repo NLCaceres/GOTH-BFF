@@ -55,6 +55,33 @@ func TestNewQuery(t *testing.T) {
 	}
 }
 
+func TestNewquery(t *testing.T) {
+	tests := map[string]struct {
+		Input     string
+		QueryFile string
+		Err       any
+		Expect    string
+	}{
+		"Returns ready query":            {"foo", "internal/test_query.json", nil, "foo"},
+		"Empty path still returns query": {"", "internal/test_query.json", nil, ""},
+		"Fileread error":                 {"", "./bad.json", fileread.FileNotFoundError{}, ""},
+	} // Unsure how to get `Marshal` to fail so no test case for it
+	for testName, testCase := range tests {
+		t.Run(testName, func(t *testing.T) {
+			os.Setenv("QUERY_FILE", testCase.QueryFile)
+			query, err := newQuery(testCase.Input)
+			nilErr := testCase.Err == nil
+			if (!nilErr && !errors.As(err, &testCase.Err)) || (nilErr && err != nil) {
+				t.Error(test.ErrorMsg("error", testCase.Err, err))
+			}
+			expect := `"q": "` + testCase.Expect + `",`
+			if (nilErr && !strings.Contains(query.String(), expect)) || (!nilErr && query != nil) {
+				t.Error(test.ErrorMsg("Path input", testCase.Input, query))
+			}
+		})
+	}
+}
+
 func httpMock(data string) test.HttpMock {
 	return test.HttpMock{RequestMethod: "POST", ResponseStatus: 200, ResponseData: data}
 }
