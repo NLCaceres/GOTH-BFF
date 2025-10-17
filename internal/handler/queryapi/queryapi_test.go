@@ -12,7 +12,7 @@ import (
 	"testing"
 )
 
-func TestNewQuery(t *testing.T) {
+func TestCall(t *testing.T) {
 	badData := `"foo":"bar"`
 	successData := "{" + badData + "}"
 	tests := map[string]struct {
@@ -21,9 +21,8 @@ func TestNewQuery(t *testing.T) {
 		Filters            string
 		ExpectedStatusCode int
 		ExpectedResponse   string
-	}{
-		"Error reading unknown JSON":    {httpMock(badData), "./bad.json", "", 500, ""},
-		"Error due to bad filter value": {httpMock(badData), "./bad_typing.json", "", 500, ""},
+	}{ // Probably never will get 501 err from setter while building query
+		"Error building query": {httpMock(badData), "./bad.json", "", 500, ""},
 		"Error from inside PostJSON": {
 			httpMock(badData), "internal/test_query.json", "foo|bar|fi", 502, "",
 		},
@@ -44,7 +43,7 @@ func TestNewQuery(t *testing.T) {
 
 			os.Setenv("QUERY_FILE", testCase.QueryFile)
 			os.Setenv("FILTER_REPLACEMENTS", testCase.Filters)
-			NewQuery(c)
+			Call(c)
 			if rec.Code != testCase.ExpectedStatusCode {
 				t.Error(test.ErrorMsg("response", testCase.ExpectedStatusCode, rec.Code))
 			}
@@ -55,16 +54,17 @@ func TestNewQuery(t *testing.T) {
 	}
 }
 
-func TestNewquery(t *testing.T) {
+func TestNewQuery(t *testing.T) {
 	tests := map[string]struct {
 		Input     string
 		QueryFile string
 		Err       any
 		Expect    string
 	}{
-		"Returns ready query":            {"foo", "internal/test_query.json", nil, "foo"},
-		"Empty path still returns query": {"", "internal/test_query.json", nil, ""},
-		"Fileread error":                 {"", "./bad.json", fileread.FileNotFoundError{}, ""},
+		"Returns ready query":   {"foo", "internal/test_query.json", nil, "foo"},
+		"Empty query is empty":  {"", "internal/test_query.json", nil, ""},
+		"File not found error":  {"", "./bad.json", fileread.FileNotFoundError{}, ""},
+		"File formatting error": {"", "./bad_typing.json", fileread.MalformedJsonError{}, ""},
 	} // Unsure how to get `Marshal` to fail so no test case for it
 	for testName, testCase := range tests {
 		t.Run(testName, func(t *testing.T) {
