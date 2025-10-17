@@ -14,7 +14,7 @@ import (
 
 // POSTs pre-formatted JSON to an API after dynamically updating the JSON string's
 // key-value pair corresponding to the search value
-func NewQuery(c echo.Context) error {
+func Call(c echo.Context) error {
 	query, err := newQuery(os.Getenv("QUERY_FILE"))
 	if err != nil {
 		return c.NoContent(queryErrCode(err))
