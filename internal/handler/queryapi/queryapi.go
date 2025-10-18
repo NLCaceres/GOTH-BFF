@@ -22,7 +22,7 @@ func Call(c echo.Context) error {
 	res, err := proxy.PostJSON(os.Getenv("EXTERNAL_API_URL"), query)
 	if err != nil {
 		log.Printf("Issue making POST Request due to: %s\n", err)
-		return c.NoContent(502) // Gateway error due to upstream server issue
+		return c.NoContent(http.StatusBadGateway) // Error due to upstream server issue
 	}
 	return c.JSON(http.StatusOK, res)
 }
@@ -50,10 +50,10 @@ func newQuery(path string) (*bytes.Buffer, error) {
 
 func queryErrCode(e error) int {
 	if errors.As(e, new(fileread.FileReadError)) {
-		return 500 // Internal issue
+		return http.StatusInternalServerError
 	} else if errors.Is(e, SearchSetterError) {
-		return 501 // Implementation issue
+		return http.StatusNotImplemented
 	} else {
-		return 400 // Bad request
+		return http.StatusBadRequest
 	}
 }

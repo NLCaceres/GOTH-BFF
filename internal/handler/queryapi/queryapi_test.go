@@ -22,12 +22,14 @@ func TestCall(t *testing.T) {
 		ExpectedStatusCode int
 		ExpectedResponse   string
 	}{ // Probably never will get 501 err from setter while building query
-		"Error building query": {httpMock(badData), "./bad.json", "", 500, ""},
+		"Error building query": {
+			httpMock(badData), "./bad.json", "", http.StatusInternalServerError, "",
+		},
 		"Error from inside PostJSON": {
-			httpMock(badData), "internal/test_query.json", "foo|bar|fi", 502, "",
+			httpMock(badData), "internal/test_query.json", "foo|bar|fi", http.StatusBadGateway, "",
 		},
 		"Successfully POSTed to external API": {
-			httpMock(successData), "internal/test_query.json", "foo|bar|fi", 200, successData,
+			httpMock(successData), "internal/test_query.json", "foo|bar|fi", http.StatusOK, successData,
 		},
 	}
 	for testName, testCase := range tests {
@@ -83,7 +85,7 @@ func TestNewQuery(t *testing.T) {
 }
 
 func httpMock(data string) test.HttpMock {
-	return test.HttpMock{RequestMethod: "POST", ResponseStatus: 200, ResponseData: data}
+	return test.HttpMock{RequestMethod: "POST", ResponseStatus: http.StatusOK, ResponseData: data}
 }
 
 func TestQueryErrCode(t *testing.T) {
@@ -91,9 +93,15 @@ func TestQueryErrCode(t *testing.T) {
 		Err    error
 		Expect int
 	}{
-		"500 error code if FileReadError": {Err: fileread.FileNotFoundError{}, Expect: 500},
-		"501 error code if setter error":  {Err: SearchSetterError, Expect: 501},
-		"400 bad request by default":      {Err: errors.New("foo"), Expect: 400},
+		"500 error code if FileReadError": {
+			Err: fileread.FileNotFoundError{}, Expect: http.StatusInternalServerError,
+		},
+		"501 error code if setter error": {
+			Err: SearchSetterError, Expect: http.StatusNotImplemented,
+		},
+		"400 bad request by default": {
+			Err: errors.New("foo"), Expect: http.StatusBadRequest,
+		},
 	}
 	for testName, testCase := range tests {
 		t.Run(testName, func(t *testing.T) {
