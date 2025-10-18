@@ -12,7 +12,7 @@ func TestHttpHandlerFunc(t *testing.T) {
 		ExpectCount int // Tracks function calling like a test spy
 	}{
 		"Calls WriteHeader, Write & Header ONCE": {
-			httpMock(200, `{"foo":"bar"}`, map[string]string{"Content-Length": "1"}), 1,
+			httpMock(http.StatusOK, `{"foo":"bar"}`, map[string]string{"Content-Length": "1"}), 1,
 		},
 		"DOESN'T Call WriteHeader, Write, or Header": {
 			httpMock(0, ``, nil), 0,

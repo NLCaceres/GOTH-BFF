@@ -4,6 +4,7 @@ import (
 	"bytes"
 	"github.com/NLCaceres/goth-example/internal/util/test"
 	"github.com/google/go-cmp/cmp"
+	"net/http"
 	"net/http/httptest"
 	"testing"
 )
@@ -16,13 +17,13 @@ func TestPostRequest(t *testing.T) {
 		Err        string
 	}{
 		"Error within POST itself": { // ASCII Ctrl Char (DEL aka 177) breaks the Server URL
-			"/foo" + string([]byte{0x7f}), httpMock(403, `{"foo":"bar"}`, nil), "", "invalid control character",
+			"/foo" + string([]byte{0x7f}), httpMock(http.StatusForbidden, `{"foo":"bar"}`, nil), "", "invalid control character",
 		},
 		"Error Reading Response": { // Empty response w/ bad StatusCode & Content-Length == 1 to trigger error
 			"/foo", httpMock(0, ``, map[string]string{"Content-Length": "1"}), "", "unexpected EOF",
 		},
 		"Successfully POSTed": {
-			"/foo", httpMock(202, `{"foo":"bar"}`, nil), `{"foo":"bar"}`, "",
+			"/foo", httpMock(http.StatusAccepted, `{"foo":"bar"}`, nil), `{"foo":"bar"}`, "",
 		},
 	}
 
@@ -54,10 +55,10 @@ func TestPostJSON(t *testing.T) {
 			httpMock(0, ``, map[string]string{"Content-Length": "1"}), nil, "unexpected EOF",
 		},
 		"Error due to Malformed JSON Response": { // Missing brackets in JSON response to trigger err
-			httpMock(202, `"foo":"bar"`, nil), nil, "invalid character",
+			httpMock(http.StatusAccepted, `"foo":"bar"`, nil), nil, "invalid character",
 		},
 		"Successfully POSTed JSON": {
-			httpMock(202, `{"foo":"bar"}`, nil), map[string]any{"foo": "bar"}, "",
+			httpMock(http.StatusAccepted, `{"foo":"bar"}`, nil), map[string]any{"foo": "bar"}, "",
 		},
 	}
 	for testName, testCase := range tests {
