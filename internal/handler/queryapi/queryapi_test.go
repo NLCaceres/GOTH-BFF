@@ -4,6 +4,7 @@ import (
 	"errors"
 	"github.com/NLCaceres/goth-example/internal/util/fileread"
 	"github.com/NLCaceres/goth-example/internal/util/test"
+	"github.com/google/go-cmp/cmp"
 	"github.com/labstack/echo/v4"
 	"net/http"
 	"net/http/httptest"
@@ -16,20 +17,21 @@ func TestCall(t *testing.T) {
 	badData := `"foo":"bar"`
 	successData := "{" + badData + "}"
 	tests := map[string]struct {
-		Mock               test.HttpMock
-		QueryFile          string
-		Filters            string
-		ExpectedStatusCode int
-		ExpectedResponse   string
+		Mock      test.HttpMock
+		QueryFile string
+		Filters   string
+		Expect    map[string]any
+		Err       any
 	}{ // Probably never will get 501 err from setter while building query
 		"Error building query": {
-			httpMock(badData), "./bad.json", "", http.StatusInternalServerError, "",
+			httpMock(badData), "./bad.json", "", nil, new(fileread.FileReadError),
 		},
 		"Error from inside PostJSON": {
-			httpMock(badData), "internal/test_query.json", "foo|bar|fi", http.StatusBadGateway, "",
+			httpMock(badData), "internal/test_query.json", "foo|bar|fi", nil, new(error),
 		},
 		"Successfully POSTed to external API": {
-			httpMock(successData), "internal/test_query.json", "foo|bar|fi", http.StatusOK, successData,
+			httpMock(successData), "internal/test_query.json",
+			"foo|bar|fi", map[string]any{"foo": "bar"}, nil,
 		},
 	}
 	for testName, testCase := range tests {
@@ -45,12 +47,13 @@ func TestCall(t *testing.T) {
 
 			os.Setenv("QUERY_FILE", testCase.QueryFile)
 			os.Setenv("FILTER_REPLACEMENTS", testCase.Filters)
-			Call(c)
-			if rec.Code != testCase.ExpectedStatusCode {
-				t.Error(test.ErrorMsg("response", testCase.ExpectedStatusCode, rec.Code))
+			res, err := Call(c)
+			nilErr := testCase.Err == nil
+			if (nilErr && err != nil) || (!nilErr && !errors.As(err, &testCase.Err)) {
+				t.Error(test.ErrorMsg("error", testCase.Err, err))
 			}
-			if strings.TrimSpace(rec.Body.String()) != testCase.ExpectedResponse {
-				t.Error(test.ErrorMsg("response", testCase.ExpectedResponse, rec.Body.String()))
+			if !cmp.Equal(res, testCase.Expect) {
+				t.Error(test.ErrorMsg("response", testCase.Expect, res))
 			}
 		})
 	}

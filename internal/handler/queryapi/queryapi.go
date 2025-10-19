@@ -14,17 +14,17 @@ import (
 
 // POSTs pre-formatted JSON to an API after dynamically updating the JSON string's
 // key-value pair corresponding to the search value
-func Call(c echo.Context) error {
+func Call(c echo.Context) (map[string]any, error) {
 	query, err := newQuery(os.Getenv("QUERY_FILE"))
 	if err != nil {
-		return c.NoContent(queryErrCode(err))
+		return nil, err
 	}
 	res, err := proxy.PostJSON(os.Getenv("EXTERNAL_API_URL"), query)
 	if err != nil {
 		log.Printf("Issue making POST Request due to: %s\n", err)
-		return c.NoContent(http.StatusBadGateway) // Error due to upstream server issue
+		return nil, err
 	}
-	return c.JSON(http.StatusOK, res)
+	return res, nil
 }
 
 func newQuery(path string) (*bytes.Buffer, error) {
