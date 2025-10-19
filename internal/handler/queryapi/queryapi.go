@@ -3,12 +3,10 @@ package queryapi
 import (
 	"bytes"
 	"encoding/json"
-	"errors"
 	"github.com/NLCaceres/goth-example/internal/util/fileread"
 	"github.com/NLCaceres/goth-example/internal/util/proxy"
 	"github.com/labstack/echo/v4"
 	"log"
-	"net/http"
 	"os"
 )
 
@@ -46,14 +44,4 @@ func newQuery(path string) (*bytes.Buffer, error) {
 		return nil, err
 	}
 	return bytes.NewBuffer(jsonBytes), nil
-}
-
-func queryErrCode(e error) int {
-	if errors.As(e, new(fileread.FileReadError)) {
-		return http.StatusInternalServerError
-	} else if errors.Is(e, SearchSetterError) {
-		return http.StatusNotImplemented
-	} else {
-		return http.StatusBadRequest
-	}
 }
