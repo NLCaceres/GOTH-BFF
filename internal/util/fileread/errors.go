@@ -33,6 +33,20 @@ func (e FileNotFoundError) FileReadError() error {
 	return fmt.Errorf("FileRead Error: %w", e)
 }
 
+type InvalidFileTypeError struct {
+	Type string
+}
+
+func (e InvalidFileTypeError) Error() string {
+	if e.Type == "" {
+		return "Unexpected file type"
+	}
+	return fmt.Sprintf("Unexpected file type: %q", e.Type)
+}
+func (e InvalidFileTypeError) FileReadError() error {
+	return fmt.Errorf("FileRead Error: %w", e)
+}
+
 // An error when a JSON file is improperly structured + implements `FileReadError`
 type MalformedJsonError struct {
 	Cause string

@@ -19,6 +19,9 @@ func TestFileReadError(t *testing.T) {
 		"FileNotFoundError is filled FileReadError": { // Checks `new(FileReadError)` can work
 			FileNotFoundError{File: "/foo"}, "FileRead Error: File not found at /foo", true,
 		},
+		"InvalidFileTypeError is FileReadError": {
+			InvalidFileTypeError{}, "FileRead Error: Unexpected file type", true,
+		},
 		"MalformedJsonError is FileReadError": {
 			MalformedJsonError{}, "FileRead Error: JSON unexpectedly malformed", true,
 		},
@@ -58,6 +61,30 @@ func TestFileNotFoundError(t *testing.T) {
 			if testCase.Input.Error() != testCase.Expect {
 				t.Error(test.ErrorMsg(
 					"FileNotFoundError message", testCase.Expect, testCase.Input.Error(),
+				))
+			}
+		})
+	}
+}
+
+func TestInvalidFileTypeError(t *testing.T) {
+	tests := map[string]struct {
+		Input  InvalidFileTypeError
+		Expect string
+	}{
+		"Appends file type text to end of 'Unexpected file type:' prefix": {
+			InvalidFileTypeError{".Foo"}, `Unexpected file type: ".Foo"`,
+		},
+		"Doesn't append a leading dot or change case": {
+			InvalidFileTypeError{"bar"}, `Unexpected file type: "bar"`,
+		},
+		"Blank 'Type' field message": {InvalidFileTypeError{}, "Unexpected file type"},
+	}
+	for testName, testCase := range tests {
+		t.Run(testName, func(t *testing.T) {
+			if testCase.Input.Error() != testCase.Expect {
+				t.Error(test.ErrorMsg(
+					"InvalidFileTypeError message", testCase.Expect, testCase.Input.Error(),
 				))
 			}
 		})
