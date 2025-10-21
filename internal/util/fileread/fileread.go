@@ -15,7 +15,7 @@ func JSON[T any](filePath string) (T, error) {
 	var jsonMap T // This init helps for err returns to send back a default value
 
 	if !strings.HasSuffix(filePath, ".json") {
-		return jsonMap, WrongFileTypeError
+		return jsonMap, InvalidFileTypeError{filePath}
 	}
 	// Using ReadFile handles Opening, Closing and Reading the file directly into []byte
 	fileBytes, err := os.ReadFile(projectpath.File(filePath))

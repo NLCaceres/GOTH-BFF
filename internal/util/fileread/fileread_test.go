@@ -16,7 +16,7 @@ func TestJSON(t *testing.T) {
 		"Unknown file":       {"internal/util/test/unknown_file.json", nil, new(FileNotFoundError)},
 		"Unmarshalable JSON": {"internal/util/test/bad.json", nil, new(MalformedJsonError)},
 		"GraphQL in JSON":    {"internal/util/test/graphql_query.json", nil, new(MalformedJsonError)},
-		"File is not JSON":   {"internal/util/test/json.go", nil, WrongFileTypeError},
+		"File is not JSON":   {"internal/util/test/json.go", nil, new(InvalidFileTypeError)},
 		"Valid JSON": {
 			"internal/util/test/good.json", map[string][]map[string]any{"objs": {{"foo": "bar"}}}, nil,
 		},
@@ -30,6 +30,9 @@ func TestJSON(t *testing.T) {
 			}
 			if e, ok := err.(FileNotFoundError); ok && testCase.Input != e.File {
 				t.Error(test.QuotedErrorMsg("error file", testCase.Input, e.File))
+			}
+			if e, ok := err.(InvalidFileTypeError); ok && testCase.Input != e.Type {
+				t.Error(test.QuotedErrorMsg("error file type", testCase.Input, e.Type))
 			}
 			if !cmp.Equal(testCase.Expect, data) {
 				t.Error(test.ErrorMsg("data", testCase.Expect, data))
