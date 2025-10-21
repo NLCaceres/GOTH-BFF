@@ -29,14 +29,20 @@ func (e FileNotFoundError) FileReadError() error {
 }
 
 type InvalidFileTypeError struct {
-	Type string
+	FileType string
 }
 
 func (e InvalidFileTypeError) Error() string {
-	if e.Type == "" {
-		return "Unexpected file type"
+	blankTypeMsg := "Unexpected file type"
+	if e.FileType == "" {
+		return blankTypeMsg
 	}
-	return fmt.Sprintf("Unexpected file type: %q", e.Type)
+	dotIndex := strings.LastIndexByte(e.FileType, '.')
+	if dotIndex < 0 {
+		return fmt.Sprintf("%v: %q", blankTypeMsg, e.FileType)
+	}
+	fileSuffix := e.FileType[strings.LastIndexByte(e.FileType, '.'):]
+	return fmt.Sprintf("%v: %q", blankTypeMsg, fileSuffix)
 }
 func (e InvalidFileTypeError) FileReadError() error {
 	return fmt.Errorf("FileRead Error: %w", e)

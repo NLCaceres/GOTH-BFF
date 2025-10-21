@@ -32,8 +32,8 @@ func TestJSON(t *testing.T) {
 			if e, ok := err.(FileNotFoundError); ok && testCase.Input != e.File {
 				t.Error(test.QuotedErrorMsg("error file", testCase.Input, e.File))
 			}
-			if e, ok := err.(InvalidFileTypeError); ok && testCase.Input != e.Type {
-				t.Error(test.QuotedErrorMsg("error file type", testCase.Input, e.Type))
+			if e, ok := err.(InvalidFileTypeError); ok && testCase.Input != e.FileType {
+				t.Error(test.QuotedErrorMsg("error file type", testCase.Input, e.FileType))
 			}
 			if !cmp.Equal(testCase.Expect, data) {
 				t.Error(test.ErrorMsg("data", testCase.Expect, data))

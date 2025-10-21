@@ -72,8 +72,11 @@ func TestInvalidFileTypeError(t *testing.T) {
 		Input  InvalidFileTypeError
 		Expect string
 	}{
-		"Appends file type text to end of 'Unexpected file type:' prefix": {
+		"Appends file type text to end of 'Unexpected file type:' message": {
 			InvalidFileTypeError{".Foo"}, `Unexpected file type: ".Foo"`,
+		}, // NEVER changes case, just grabs expected file type suffix after last "."
+		"Targets file type text to append to end of 'Unexpected file type:' message": {
+			InvalidFileTypeError{"foobar.JPEG"}, `Unexpected file type: ".JPEG"`,
 		},
 		"Doesn't append a leading dot or change case": {
 			InvalidFileTypeError{"bar"}, `Unexpected file type: "bar"`,
