@@ -54,7 +54,7 @@ func TestFileNotFoundError(t *testing.T) {
 		"Appends file message to end of 'File not found at' prefix": {
 			FileNotFoundError{"Foo"}, "File not found at Foo",
 		},
-		"Missing file message": {FileNotFoundError{}, "File missing"},
+		"Blank 'File' field message": {FileNotFoundError{}, "File missing"},
 	}
 	for testName, testCase := range tests {
 		t.Run(testName, func(t *testing.T) {
@@ -99,7 +99,7 @@ func TestMalformedJsonError(t *testing.T) {
 		"Appends cause message to 'JSON malformed' prefix": {
 			MalformedJsonError{"Foo"}, `JSON malformed due to "Foo"`,
 		},
-		"Missing cause message": {MalformedJsonError{}, "JSON unexpectedly malformed"},
+		"Blank 'Cause' field message": {MalformedJsonError{}, "JSON unexpectedly malformed"},
 	}
 	for testName, testCase := range tests {
 		t.Run(testName, func(t *testing.T) {
