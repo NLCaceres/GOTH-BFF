@@ -25,7 +25,8 @@ func TestJSON(t *testing.T) {
 		t.Run(testName, func(t *testing.T) {
 			data, err := JSON[map[string][]map[string]any](testCase.Input)
 
-			if e, ok := testCase.Err.(error); ok && !errors.Is(err, e) && !errors.As(err, testCase.Err) {
+			nilCheck := testCase.Err == nil
+			if (nilCheck && err != nil) || (!nilCheck && !errors.As(err, testCase.Err)) {
 				t.Error(test.QuotedErrorMsg("error", testCase.Err, err))
 			}
 			if e, ok := err.(FileNotFoundError); ok && testCase.Input != e.File {

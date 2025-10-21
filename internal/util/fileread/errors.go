@@ -1,13 +1,8 @@
 package fileread
 
 import (
-	"errors"
 	"fmt"
 	"strings"
-)
-
-var (
-	WrongFileTypeError = errors.New("Incorrect File Type: Expected \".json\" file")
 )
 
 // An error interface type that embeds the actual `error` interface.
