@@ -28,6 +28,11 @@ func (e FileNotFoundError) FileReadError() error {
 	return fmt.Errorf("FileRead Error: %w", e)
 }
 
+// An error returned when the file received does not match the expected file type
+// e.g. when you expect a ".json" file but you expected to get a "txt" file
+// Its error message specifically returns the file extension assuming a "." is found at
+// the end of the `FileType` field input; however, if no "." is found, then a non-blank
+// `FileType` is returned after an "Unexpected file type" prefix.
 type InvalidFileTypeError struct {
 	FileType string
 }
