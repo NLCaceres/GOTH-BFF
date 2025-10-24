@@ -2,6 +2,7 @@ package test
 
 import (
 	"errors"
+	"github.com/NLCaceres/goth-example/internal/util/fileread"
 	"reflect"
 	"testing"
 )
@@ -110,6 +111,55 @@ func TestIsSameError(t *testing.T) {
 		t.Run(testName, func(t *testing.T) {
 			if IsSameError(testCase.Err, testCase.Msg) != testCase.Expect {
 				t.Error(ErrorMsg("errors the same", testCase.Expect, !testCase.Expect))
+			}
+		})
+	}
+}
+
+func TestEqualErrors(t *testing.T) {
+	sentinel := errors.New("foobar")
+	tests := map[string]struct {
+		Err     error
+		ErrType any
+		Expect  bool
+	}{
+		"Nil error EQUAL to  nil":              {nil, nil, true},
+		"Nil error NOT equal to an error":      {nil, errors.New("foo"), false},
+		"Nil error NOT equal to custom error":  {nil, new(fileread.FileReadError), false},
+		"Same sentinel err instance NOT equal": {sentinel, sentinel, false},
+		"error NOT equal to a similar error":   {errors.New("foo"), errors.New("foo"), false},
+		"error NOT equal to nil":               {errors.New("foo"), nil, false},
+		"error NOT equal to another error":     {errors.New("bar"), errors.New("foo"), false},
+		"error NOT equal to custom error": {
+			errors.New("foo"), new(fileread.FileNotFoundError), false,
+		},
+		"error NOT equal to ANY interface": {
+			errors.New("foo"), new(fileread.FileReadError), false,
+		},
+		"Custom error EQUAL to implemented interface error type": {
+			fileread.FileNotFoundError{}, new(fileread.FileReadError), true,
+		},
+		"Custom error EQUAL to same error struct pointer type": {
+			fileread.FileNotFoundError{}, new(fileread.FileNotFoundError), true,
+		},
+		"Custom error NOT equal to same error struct type": {
+			fileread.FileNotFoundError{}, fileread.FileNotFoundError{}, false,
+		},
+		"Custom error NOT equal to different custom error struct pointer": {
+			fileread.FileNotFoundError{}, new(fileread.MalformedJsonError), false,
+		},
+		"Custom error NOT equal to different custom error struct": {
+			fileread.FileNotFoundError{}, fileread.MalformedJsonError{}, false,
+		},
+		"Custom error NOT equal to nil": {fileread.FileNotFoundError{}, nil, false},
+		"Custom error NOT equal to an error": {
+			fileread.FileNotFoundError{}, errors.New("foo"), false,
+		},
+	}
+	for testName, testCase := range tests {
+		t.Run(testName, func(t *testing.T) {
+			if EqualErrors(testCase.Err, testCase.ErrType) != testCase.Expect {
+				t.Error(ErrorMsg("Equal Errors", testCase.Expect, !testCase.Expect))
 			}
 		})
 	}
