@@ -137,8 +137,14 @@ func TestEqualErrors(t *testing.T) {
 		"error NOT equal to custom error": {
 			errors.New("foo"), new(fileread.FileNotFoundError), false,
 		},
-		"error NOT equal to ANY interface": {
+		"error NOT equal to ANY custom error interface": {
 			errors.New("foo"), new(fileread.FileReadError), false,
+		},
+		"error NOT equal to true base any interface": {
+			errors.New("foo"), new(any), false,
+		},
+		"error EQUAL to base error interface": {
+			errors.New("foo"), new(error), true,
 		},
 		"errorF NOT equal to nil": {fmt.Errorf("%v", "foo"), nil, false},
 		"errorF NOT equal to a similar errorF": {
@@ -150,11 +156,23 @@ func TestEqualErrors(t *testing.T) {
 		"errorF NOT equal to custom error": {
 			fmt.Errorf("%v", "foo"), new(fileread.FileNotFoundError), false,
 		},
-		"errorF NOT equal to ANY interface": {
+		"errorF NOT equal to ANY custom error interface": {
 			fmt.Errorf("%v", "foo"), new(fileread.FileReadError), false,
+		},
+		"errorF NOT equal to true base any interface": {
+			fmt.Errorf("%v", "foo"), new(any), false,
+		},
+		"errorF EQUAL to base error interface": {
+			fmt.Errorf("%v", "foo"), new(error), true,
 		},
 		"Custom error EQUAL to implemented interface error type": {
 			fileread.FileNotFoundError{}, new(fileread.FileReadError), true,
+		},
+		"Custom error NOT equal to true base any interface": {
+			fileread.FileNotFoundError{}, new(any), false,
+		},
+		"Custom error EQUAL to base error interface": {
+			fileread.FileNotFoundError{}, new(error), true,
 		},
 		"Custom error EQUAL to same error struct pointer type": {
 			fileread.FileNotFoundError{}, new(fileread.FileNotFoundError), true,
@@ -171,6 +189,9 @@ func TestEqualErrors(t *testing.T) {
 		"Custom error NOT equal to nil": {fileread.FileNotFoundError{}, nil, false},
 		"Custom error NOT equal to an error": {
 			fileread.FileNotFoundError{}, errors.New("foo"), false,
+		},
+		"Custom error NOT equal to an errorF": {
+			fileread.FileNotFoundError{}, fmt.Errorf("%v", "foo"), false,
 		},
 	}
 	for testName, testCase := range tests {
