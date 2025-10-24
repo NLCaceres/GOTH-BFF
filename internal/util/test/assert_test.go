@@ -2,6 +2,7 @@ package test
 
 import (
 	"errors"
+	"fmt"
 	"github.com/NLCaceres/goth-example/internal/util/fileread"
 	"reflect"
 	"testing"
@@ -129,12 +130,28 @@ func TestEqualErrors(t *testing.T) {
 		"Same sentinel err instance NOT equal": {sentinel, sentinel, false},
 		"error NOT equal to a similar error":   {errors.New("foo"), errors.New("foo"), false},
 		"error NOT equal to nil":               {errors.New("foo"), nil, false},
-		"error NOT equal to another error":     {errors.New("bar"), errors.New("foo"), false},
+		"error NOT equal to another error":     {errors.New("foo"), errors.New("bar"), false},
+		"error NOT equal to another errorF": {
+			errors.New("foo"), fmt.Errorf("%v", "foo"), false,
+		},
 		"error NOT equal to custom error": {
 			errors.New("foo"), new(fileread.FileNotFoundError), false,
 		},
 		"error NOT equal to ANY interface": {
 			errors.New("foo"), new(fileread.FileReadError), false,
+		},
+		"errorF NOT equal to nil": {fmt.Errorf("%v", "foo"), nil, false},
+		"errorF NOT equal to a similar errorF": {
+			fmt.Errorf("%v", "foo"), fmt.Errorf("%v", "foo"), false,
+		},
+		"errorF NOT equal to another errorF": {
+			fmt.Errorf("%v", "foo"), fmt.Errorf("%v", "bar"), false,
+		},
+		"errorF NOT equal to custom error": {
+			fmt.Errorf("%v", "foo"), new(fileread.FileNotFoundError), false,
+		},
+		"errorF NOT equal to ANY interface": {
+			fmt.Errorf("%v", "foo"), new(fileread.FileReadError), false,
 		},
 		"Custom error EQUAL to implemented interface error type": {
 			fileread.FileNotFoundError{}, new(fileread.FileReadError), true,
