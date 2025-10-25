@@ -73,12 +73,11 @@ func TestNewQuery(t *testing.T) {
 		t.Run(testName, func(t *testing.T) {
 			os.Setenv("QUERY_FILE", testCase.QueryFile)
 			query, err := newQuery(testCase.Input)
-			nilErr := testCase.Err == nil
 			if test.EqualErrors(err, &testCase.Err) {
 				t.Error(test.ErrorMsg("error", testCase.Err, err))
 			}
 			expect := `"q": "` + testCase.Expect + `",`
-			if (nilErr && !strings.Contains(query.String(), expect)) || (!nilErr && query != nil) {
+			if query.String() != "<nil>" && !strings.Contains(query.String(), expect) {
 				t.Error(test.ErrorMsg("Path input", testCase.Input, query))
 			}
 		})
