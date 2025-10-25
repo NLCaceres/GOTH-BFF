@@ -1,7 +1,6 @@
 package queryapi
 
 import (
-	"errors"
 	"github.com/NLCaceres/goth-example/internal/util/fileread"
 	"github.com/NLCaceres/goth-example/internal/util/test"
 	"github.com/google/go-cmp/cmp"
@@ -48,8 +47,7 @@ func TestCall(t *testing.T) {
 			os.Setenv("QUERY_FILE", testCase.QueryFile)
 			os.Setenv("FILTER_REPLACEMENTS", testCase.Filters)
 			res, err := Call(c)
-			nilErr := testCase.Err == nil
-			if (nilErr && err != nil) || (!nilErr && !errors.As(err, &testCase.Err)) {
+			if test.EqualErrors(err, &testCase.Err) {
 				t.Error(test.ErrorMsg("error", testCase.Err, err))
 			}
 			if !cmp.Equal(res, testCase.Expect) {
@@ -76,7 +74,7 @@ func TestNewQuery(t *testing.T) {
 			os.Setenv("QUERY_FILE", testCase.QueryFile)
 			query, err := newQuery(testCase.Input)
 			nilErr := testCase.Err == nil
-			if (!nilErr && !errors.As(err, &testCase.Err)) || (nilErr && err != nil) {
+			if test.EqualErrors(err, &testCase.Err) {
 				t.Error(test.ErrorMsg("error", testCase.Err, err))
 			}
 			expect := `"q": "` + testCase.Expect + `",`
