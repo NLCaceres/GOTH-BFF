@@ -103,6 +103,9 @@ func TestMalformedJsonError(t *testing.T) {
 			MalformedJsonError{"Foo"}, `JSON malformed due to "Foo"`,
 		},
 		"Blank 'Cause' field message": {MalformedJsonError{}, "JSON unexpectedly malformed"},
+		"Whitespaced 'Cause' field message": {
+			MalformedJsonError{"    "}, "JSON unexpectedly malformed",
+		},
 	}
 	for testName, testCase := range tests {
 		t.Run(testName, func(t *testing.T) {
