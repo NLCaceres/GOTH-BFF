@@ -4,6 +4,7 @@ import (
 	"errors"
 	"github.com/NLCaceres/goth-example/internal/handler/queryapi"
 	"github.com/NLCaceres/goth-example/internal/util/fileread"
+	"github.com/NLCaceres/goth-example/internal/util/proxy"
 	"github.com/NLCaceres/goth-example/internal/view/index"
 	"github.com/a-h/templ"
 	"github.com/labstack/echo/v4"
@@ -33,7 +34,9 @@ func InlineQueries(c echo.Context) error {
 }
 
 func queryErrCode(e error) int {
-	if errors.As(e, new(fileread.FileReadError)) {
+	if errors.As(e, new(proxy.RequestError)) {
+		return http.StatusBadGateway
+	} else if errors.As(e, new(fileread.FileReadError)) {
 		return http.StatusInternalServerError
 	} else if errors.Is(e, queryapi.SearchSetterError) {
 		return http.StatusNotImplemented
