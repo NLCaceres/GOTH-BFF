@@ -23,7 +23,7 @@ func TestCall(t *testing.T) {
 		Err       any
 	}{ // Probably never will get 501 err from setter while building query
 		"Error building query": {
-			httpMock(badData), "./bad.json", "", nil, new(fileread.FileReadError),
+			httpMock(badData), "./bad.json", "", nil, new(fileread.Error),
 		},
 		"Error from inside PostJSON": {
 			httpMock(badData), "internal/test_query.json", "foo|bar|fi", nil, new(error),

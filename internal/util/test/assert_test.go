@@ -126,7 +126,7 @@ func TestEqualErrors(t *testing.T) {
 	}{
 		"Nil error EQUAL to  nil":              {nil, nil, true},
 		"Nil error NOT equal to an error":      {nil, errors.New("foo"), false},
-		"Nil error NOT equal to custom error":  {nil, new(fileread.FileReadError), false},
+		"Nil error NOT equal to custom error":  {nil, new(fileread.Error), false},
 		"Same sentinel err instance NOT equal": {sentinel, sentinel, false},
 		"error NOT equal to a similar error":   {errors.New("foo"), errors.New("foo"), false},
 		"error NOT equal to nil":               {errors.New("foo"), nil, false},
@@ -138,7 +138,7 @@ func TestEqualErrors(t *testing.T) {
 			errors.New("foo"), new(fileread.FileNotFoundError), false,
 		},
 		"error NOT equal to ANY custom error interface": {
-			errors.New("foo"), new(fileread.FileReadError), false,
+			errors.New("foo"), new(fileread.Error), false,
 		},
 		"error NOT equal to true base any interface": {
 			errors.New("foo"), new(any), false,
@@ -157,7 +157,7 @@ func TestEqualErrors(t *testing.T) {
 			fmt.Errorf("%v", "foo"), new(fileread.FileNotFoundError), false,
 		},
 		"errorF NOT equal to ANY custom error interface": {
-			fmt.Errorf("%v", "foo"), new(fileread.FileReadError), false,
+			fmt.Errorf("%v", "foo"), new(fileread.Error), false,
 		},
 		"errorF NOT equal to true base any interface": {
 			fmt.Errorf("%v", "foo"), new(any), false,
@@ -166,7 +166,7 @@ func TestEqualErrors(t *testing.T) {
 			fmt.Errorf("%v", "foo"), new(error), true,
 		},
 		"Custom error EQUAL to implemented interface error type": {
-			fileread.FileNotFoundError{}, new(fileread.FileReadError), true,
+			fileread.FileNotFoundError{}, new(fileread.Error), true,
 		},
 		"Custom error NOT equal to true base any interface": {
 			fileread.FileNotFoundError{}, new(any), false,

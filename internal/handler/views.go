@@ -36,7 +36,7 @@ func InlineQueries(c echo.Context) error {
 func queryErrCode(e error) int {
 	if errors.As(e, new(proxy.RequestError)) {
 		return http.StatusBadGateway
-	} else if errors.As(e, new(fileread.FileReadError)) {
+	} else if errors.As(e, new(fileread.Error)) {
 		return http.StatusInternalServerError
 	} else if errors.Is(e, queryapi.SearchSetterError) {
 		return http.StatusNotImplemented
