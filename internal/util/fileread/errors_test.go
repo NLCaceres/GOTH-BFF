@@ -35,11 +35,11 @@ func TestFileReadError(t *testing.T) {
 	}
 	for testName, testCase := range tests {
 		t.Run(testName, func(t *testing.T) {
-			var fileReadErr FileReadError // Alternative to an inline `new(FileReadError)`
+			var fileReadErr Error // Alternative to an inline `new(Error)`
 			if errors.As(testCase.Input, &fileReadErr) != testCase.Expect {
 				t.Error(test.ErrorMsg("Is FileReadErr", testCase.Input, testCase.Expect))
 			}
-			if e, ok := testCase.Input.(FileReadError); ok && e.FileReadError().Error() != testCase.Msg {
+			if e, ok := testCase.Input.(Error); ok && e.FileReadError().Error() != testCase.Msg {
 				t.Error(test.ErrorMsg("FileReadErr msg", testCase.Msg, e.FileReadError().Error()))
 			}
 		})

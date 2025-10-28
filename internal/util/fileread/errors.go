@@ -8,7 +8,7 @@ import (
 // An error interface type that embeds the actual `error` interface.
 // Types that implement it, generally should return a new error wrapping the original.
 // This helps simulate inheritance AND provide context, ideally prefixing "FileRead Err:"
-type FileReadError interface {
+type Error interface {
 	error
 	FileReadError() error
 }
