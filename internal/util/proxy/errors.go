@@ -15,3 +15,12 @@ func (e RequestError) Error() string {
 	}
 	return fmt.Sprintf("Proxied request failed due to %q", e.Cause)
 }
+
+func (e RequestError) ProxyError() error {
+	return fmt.Errorf("Proxy Error: %w", e)
+}
+
+type Error interface {
+	error
+	ProxyError() error
+}
