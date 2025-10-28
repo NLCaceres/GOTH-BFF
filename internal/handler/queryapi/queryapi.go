@@ -13,7 +13,7 @@ import (
 // POSTs pre-formatted JSON to an API after dynamically updating the JSON string's
 // key-value pair corresponding to the search value
 func Call(c echo.Context) (map[string]any, error) {
-	query, err := newQuery(os.Getenv("QUERY_FILE"))
+	query, err := newQuery(c.Path()[1:])
 	if err != nil {
 		return nil, err
 	}
