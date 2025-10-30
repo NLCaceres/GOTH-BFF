@@ -13,24 +13,22 @@ import (
 )
 
 func TestCall(t *testing.T) {
-	badData := `"foo":"bar"`
-	successData := "{" + badData + "}"
 	tests := map[string]struct {
 		Mock      test.HttpMock
 		QueryFile string
 		Filters   string
-		Expect    map[string]any
+		Expect    *Request
 		Err       any
 	}{ // Probably never will get 501 err from setter while building query
 		"Error building query": {
-			httpMock(badData), "./bad.json", "", nil, new(fileread.Error),
+			httpMock(`"foo":"bar"`), "./bad.json", "", nil, new(fileread.Error),
 		},
 		"Error from inside PostJSON": {
-			httpMock(badData), "internal/test_query.json", "foo|bar|fi", nil, new(error),
+			httpMock(`"foo":"bar"`), "internal/test_query.json", "foo|bar|fi", nil, new(error),
 		},
 		"Successfully POSTed to external API": {
-			httpMock(successData), "internal/test_query.json",
-			"foo|bar|fi", map[string]any{"foo": "bar"}, nil,
+			httpMock(`{"searches": [{"q":"foo"}]}`), "internal/test_query.json",
+			"foo|bar|fi", &Request{[]Search{{Q: "foo"}}}, nil,
 		},
 	}
 	for testName, testCase := range tests {

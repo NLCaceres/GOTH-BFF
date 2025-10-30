@@ -12,12 +12,12 @@ import (
 
 // POSTs pre-formatted JSON to an API after dynamically updating the JSON string's
 // key-value pair corresponding to the search value
-func Call(c echo.Context) (map[string]any, error) {
+func Call(c echo.Context) (*Request, error) {
 	query, err := newQuery(c.Path()[1:])
 	if err != nil {
 		return nil, err
 	}
-	res, err := proxy.PostJSON(os.Getenv("EXTERNAL_API_URL"), query)
+	res, err := proxy.PostJSON[*Request](os.Getenv("EXTERNAL_API_URL"), query)
 	if err != nil {
 		log.Printf("Issue making POST Request due to: %s\n", err)
 		return nil, err
