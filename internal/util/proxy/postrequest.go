@@ -29,8 +29,8 @@ func PostRequest(url string, contentType string, body io.Reader) ([]byte, error)
 	return responseBody, err
 }
 
-func PostJSON(url string, body io.Reader) (map[string]any, error) {
-	var responseData map[string]any
+func PostJSON[T any](url string, body io.Reader) (T, error) {
+	var responseData T
 
 	responseBody, err := PostRequest(url, "application/json", body)
 	if err != nil {

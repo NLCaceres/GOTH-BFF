@@ -68,7 +68,7 @@ func TestPostJSON(t *testing.T) {
 
 			serverURL := server.URL + "/foo"
 			requestBody := bytes.NewBuffer([]byte(`{"foo":"bar"}`))
-			responseData, err := PostJSON(serverURL, requestBody)
+			responseData, err := PostJSON[map[string]any](serverURL, requestBody)
 			if !cmp.Equal(testCase.Expect, responseData) {
 				t.Error(test.ErrorMsg("response data", testCase.Expect, responseData))
 			}
