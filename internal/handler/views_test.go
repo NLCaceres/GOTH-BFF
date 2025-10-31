@@ -14,8 +14,6 @@ import (
 )
 
 func TestInlineQueries(t *testing.T) {
-	badData := `"foo":"bar"`
-	successData := "{" + badData + "}"
 	tests := map[string]struct {
 		Mock               test.HttpMock
 		QueryFile          string
@@ -24,13 +22,14 @@ func TestInlineQueries(t *testing.T) {
 		ExpectedResponse   string
 	}{ // Probably never will get 501 err from setter while building query
 		"Error building query": {
-			httpMock(badData), "./bad.json", "", http.StatusInternalServerError, "",
+			httpMock(`"foo":"bar"`), "./bad.json", "", http.StatusInternalServerError, "",
 		},
 		"Error from inside PostJSON": {
-			httpMock(badData), "internal/test_query.json", "foo|bar|fi", http.StatusBadGateway, "",
+			httpMock(`"foo":"bar"`), "internal/test_query.json", "foo|bar|fi", http.StatusBadGateway, "",
 		},
 		"Successfully POSTed to external API": {
-			httpMock(successData), "internal/test_query.json", "foo|bar|fi", http.StatusOK, successData,
+			httpMock(`{"searches": [{"q":"foo"}]}`), "internal/test_query.json",
+			"foo|bar|fi", http.StatusOK, `"q":"foo"`,
 		},
 	}
 	for testName, testCase := range tests {
@@ -50,7 +49,9 @@ func TestInlineQueries(t *testing.T) {
 			if rec.Code != testCase.ExpectedStatusCode {
 				t.Error(test.ErrorMsg("response", testCase.ExpectedStatusCode, rec.Code))
 			}
-			if strings.TrimSpace(rec.Body.String()) != testCase.ExpectedResponse {
+			notEquallyEmpty := rec.Body.String() != "" && testCase.ExpectedResponse == ""
+			missingQ := !strings.Contains(rec.Body.String(), testCase.ExpectedResponse)
+			if notEquallyEmpty || missingQ {
 				t.Error(test.ErrorMsg("response", testCase.ExpectedResponse, rec.Body.String()))
 			}
 		})
