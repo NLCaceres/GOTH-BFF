@@ -29,6 +29,9 @@ func PostRequest(url string, contentType string, body io.Reader) ([]byte, error)
 	return responseBody, err
 }
 
+// Fires an HTTP POST request delivering the body input, typically a `*bytes.Buffer`,
+// to the given URL. The return type represents an HTTP response containing JSON that can
+// be unmarshaled into the type input into the generic type parameter.
 func PostJSON[T any](url string, body io.Reader) (T, error) {
 	var responseData T
 
