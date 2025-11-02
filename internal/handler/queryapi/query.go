@@ -6,6 +6,18 @@ import (
 	"strings"
 )
 
+type Response struct {
+	Results []struct {
+		Hits []struct {
+			Document Document `json:"document"`
+		} `json:"hits"`
+	} `json:"results"`
+}
+type Document struct {
+	Title string `json:"title"`
+	URL   string `json:"url"`
+}
+
 type Search struct {
 	FilterBy string `json:"filter_by"`
 	Page     int    `json:"page"`
