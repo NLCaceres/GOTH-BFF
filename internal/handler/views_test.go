@@ -28,8 +28,8 @@ func TestInlineQueries(t *testing.T) {
 			httpMock(`"foo":"bar"`), "internal/test_query.json", "foo|bar|fi", http.StatusBadGateway, "",
 		},
 		"Successfully POSTed to external API": {
-			httpMock(`{"searches": [{"q":"foo"}]}`), "internal/test_query.json",
-			"foo|bar|fi", http.StatusOK, `"q":"foo"`,
+			httpMock(`{"results": [{ "hits": [{ "document": {"url": "foo"} }] }]}`),
+			"internal/test_query.json", "foo|bar|fi", http.StatusOK, `"url":"foo"`,
 		},
 	}
 	for testName, testCase := range tests {
