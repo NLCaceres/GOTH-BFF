@@ -17,7 +17,7 @@ func TestCall(t *testing.T) {
 		Mock      test.HttpMock
 		QueryFile string
 		Filters   string
-		Expect    *Request
+		Expect    *Response
 		Err       any
 	}{ // Probably never will get 501 err from setter while building query
 		"Error building query": {
@@ -27,8 +27,18 @@ func TestCall(t *testing.T) {
 			httpMock(`"foo":"bar"`), "internal/test_query.json", "foo|bar|fi", nil, new(error),
 		},
 		"Successfully POSTed to external API": {
-			httpMock(`{"searches": [{"q":"foo"}]}`), "internal/test_query.json",
-			"foo|bar|fi", &Request{[]Search{{Q: "foo"}}}, nil,
+			httpMock(`{"results": [{ "hits": [{ "document": {"url": "foo"} }] }]}`),
+			"internal/test_query.json", "foo|bar|fi", &Response{
+				[]struct {
+					Hits []struct {
+						Document Document `json:"document"`
+					} `json:"hits"`
+				}{
+					{[]struct {
+						Document Document `json:"document"`
+					}{{Document{URL: "foo"}}}},
+				},
+			}, nil,
 		},
 	}
 	for testName, testCase := range tests {
