@@ -3,7 +3,11 @@ package queryapi
 import (
 	"errors"
 	"github.com/NLCaceres/goth-example/internal/util/stringy"
+	"math"
+	"strconv"
 	"strings"
+	"time"
+	"unicode/utf8"
 )
 
 type Response struct {
@@ -14,15 +18,35 @@ type Response struct {
 	} `json:"results"`
 }
 type Document struct {
-	PostTime JSONValueString `json:"posted"` // Tends to get microsecond precision
-	Title    string          `json:"title"`
-	URL      string          `json:"url"`
+	PostTime LocalDateTime `json:"posted"` // Tends to get microsecond precision
+	Title    string        `json:"title"`
+	URL      string        `json:"url"`
 }
 
 type JSONValueString string
 
 func (n *JSONValueString) UnmarshalJSON(b []byte) error {
 	*n = JSONValueString(string(b))
+	return nil
+}
+
+type LocalDateTime string
+
+func (t *LocalDateTime) UnmarshalJSON(b []byte) error {
+	arr := strings.Split(string(b), ".")
+	seconds, err := strconv.ParseInt(arr[0], 10, 64)
+	if err != nil {
+		return err
+	}
+	count := utf8.RuneCountInString(arr[1])
+	nanoseconds, err := strconv.ParseInt(arr[1], 10, 64)
+	if err != nil {
+		return err
+	}
+	if count < 9 {
+		nanoseconds = nanoseconds * int64(math.Pow(10, float64(9-count)))
+	}
+	*t = LocalDateTime(time.Unix(seconds, nanoseconds).String())
 	return nil
 }
 
