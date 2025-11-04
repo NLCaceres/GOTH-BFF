@@ -14,8 +14,16 @@ type Response struct {
 	} `json:"results"`
 }
 type Document struct {
-	Title string `json:"title"`
-	URL   string `json:"url"`
+	PostTime JSONValueString `json:"posted"` // Tends to get microsecond precision
+	Title    string          `json:"title"`
+	URL      string          `json:"url"`
+}
+
+type JSONValueString string
+
+func (n *JSONValueString) UnmarshalJSON(b []byte) error {
+	*n = JSONValueString(string(b))
+	return nil
 }
 
 type Search struct {
