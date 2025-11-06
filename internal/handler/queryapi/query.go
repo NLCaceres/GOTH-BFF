@@ -20,13 +20,6 @@ type Document struct {
 	URL      string         `json:"url"`
 }
 
-type JSONValueString string
-
-func (n *JSONValueString) UnmarshalJSON(b []byte) error {
-	*n = JSONValueString(string(b))
-	return nil
-}
-
 type Search struct {
 	FilterBy string `json:"filter_by"`
 	Page     int    `json:"page"`
