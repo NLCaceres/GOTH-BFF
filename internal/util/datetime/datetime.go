@@ -16,13 +16,15 @@ func (t *Local) UnmarshalJSON(b []byte) error {
 	if err != nil {
 		return err
 	}
-	count := utf8.RuneCountInString(arr[1])
-	nanoseconds, err := strconv.ParseInt(arr[1], 10, 64)
-	if err != nil {
-		return err
-	}
-	if count < 9 {
-		nanoseconds = nanoseconds * int64(math.Pow(10, float64(9-count)))
+	var nanoseconds int64
+	if len(arr) > 1 {
+		nanoseconds, err = strconv.ParseInt(arr[1], 10, 64)
+		if err != nil {
+			return err
+		}
+		if count := utf8.RuneCountInString(arr[1]); count < 9 {
+			nanoseconds = nanoseconds * int64(math.Pow(10, float64(9-count)))
+		}
 	}
 	*t = Local(time.Unix(seconds, nanoseconds).String())
 	return nil
