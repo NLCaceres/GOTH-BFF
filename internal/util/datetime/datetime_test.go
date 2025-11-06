@@ -11,9 +11,10 @@ func TestLocalUnmarshalJSON(t *testing.T) {
 		Input  []byte
 		Expect string
 	}{
-		"Empty bytes":          {[]byte{}, ""},
-		"Bytes without time":   {[]byte("foo"), ""},
-		"Bytes with Unix time": {[]byte("1234567890"), "2009-02-13 15:31:30"},
+		"Empty bytes":             {[]byte{}, ""},
+		"Bytes without time":      {[]byte("foo"), ""},
+		"Bytes with Unix time":    {[]byte("1234567890"), "2009-02-13 15:31:30"},
+		"Bytes with microseconds": {[]byte("1234567800.123"), "2009-02-13 15:30:00"},
 	}
 	for testName, testCase := range tests {
 		t.Run(testName, func(t *testing.T) {
