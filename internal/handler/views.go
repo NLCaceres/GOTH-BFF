@@ -25,12 +25,22 @@ func RenderHTMLView(c echo.Context, page templ.Component, vm index.ViewModel) er
 	return c.HTML(http.StatusAccepted, string(htmlStr))
 }
 
+type queryResponse struct {
+	Results []queryapi.Document
+}
+
 func InlineQueries(c echo.Context) error {
 	res, err := queryapi.Call(c)
 	if err != nil {
 		return c.NoContent(queryErrCode(err))
 	}
-	return c.JSON(http.StatusOK, res)
+	var documents []queryapi.Document // No `make()` mem-alloc needed for `append` to work!
+	for _, result := range res.Results {
+		for _, hit := range result.Hits {
+			documents = append(documents, hit.Document)
+		}
+	}
+	return c.JSON(http.StatusOK, queryResponse{documents})
 }
 
 func queryErrCode(e error) int {
