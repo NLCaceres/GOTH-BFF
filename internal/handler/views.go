@@ -34,13 +34,7 @@ func InlineQueries(c echo.Context) error {
 	if err != nil {
 		return c.NoContent(queryErrCode(err))
 	}
-	var documents []queryapi.Document // No `make()` mem-alloc needed for `append` to work!
-	for _, result := range res.Results {
-		for _, hit := range result.Hits {
-			documents = append(documents, hit.Document)
-		}
-	}
-	return c.JSON(http.StatusOK, queryResponse{documents})
+	return c.JSON(http.StatusOK, queryResponse{res.Documents()})
 }
 
 func queryErrCode(e error) int {

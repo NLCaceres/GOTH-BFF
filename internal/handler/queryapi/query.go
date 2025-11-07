@@ -14,6 +14,17 @@ type Response struct {
 		} `json:"hits"`
 	} `json:"results"`
 }
+
+func (r *Response) Documents() []Document {
+	var docs []Document // No `make()` mem-allocation needed for `append` to work below
+	for _, result := range r.Results {
+		for _, hit := range result.Hits {
+			docs = append(docs, hit.Document)
+		}
+	}
+	return docs
+}
+
 type Document struct {
 	PostTime datetime.Local `json:"posted"` // Tends to get microsecond precision
 	Title    string         `json:"title"`
