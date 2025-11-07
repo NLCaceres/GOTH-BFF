@@ -26,6 +26,8 @@ func (t *Local) UnmarshalJSON(b []byte) error {
 			nanoseconds = nanoseconds * int64(math.Pow(10, float64(9-count)))
 		}
 	}
-	*t = Local(time.Unix(seconds, nanoseconds).String())
+	unixTime := time.Unix(seconds, nanoseconds)
+	pst := time.FixedZone("UTC-8", -8*60*60)
+	*t = Local(unixTime.In(pst).Format(time.RFC1123))
 	return nil
 }
