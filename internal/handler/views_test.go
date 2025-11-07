@@ -29,7 +29,7 @@ func TestInlineQueries(t *testing.T) {
 		},
 		"Successfully POSTed to external API": {
 			httpMock(`{"results": [{ "hits": [{ "document": {"url": "foo"} }] }]}`),
-			"internal/test_query.json", "foo|bar|fi", http.StatusOK, `"url":"foo"`,
+			"internal/test_query.json", "foo|bar|fi", http.StatusOK, `"url":"foo"}]}`,
 		},
 	}
 	for testName, testCase := range tests {
