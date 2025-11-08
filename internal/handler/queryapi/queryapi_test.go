@@ -28,17 +28,7 @@ func TestCall(t *testing.T) {
 		},
 		"Successfully POSTed to external API": {
 			httpMock(`{"results": [{ "hits": [{ "document": {"url": "foo"} }] }]}`),
-			"internal/test_query.json", "foo|bar|fi", &Response{
-				[]struct {
-					Hits []struct {
-						Document Document `json:"document"`
-					} `json:"hits"`
-				}{
-					{[]struct {
-						Document Document `json:"document"`
-					}{{Document{URL: "foo"}}}},
-				},
-			}, nil,
+			"internal/test_query.json", "foo|bar|fi", NewResponse([]Document{{URL: "foo"}}), nil,
 		},
 	}
 	for testName, testCase := range tests {

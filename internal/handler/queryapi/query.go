@@ -15,6 +15,25 @@ type Response struct {
 	} `json:"results"`
 }
 
+func NewResponse(docs []Document) *Response {
+	res := Response{
+		[]struct {
+			Hits []struct {
+				Document Document `json:"document"`
+			} `json:"hits"`
+		}{{[]struct {
+			Document Document `json:"document"`
+		}{},
+		}},
+	}
+	for _, doc := range docs {
+		res.Results[0].Hits = append(res.Results[0].Hits, struct {
+			Document Document `json:"document"`
+		}{doc})
+	}
+	return &res
+}
+
 func (r *Response) Documents() []Document {
 	var docs []Document // No `make()` mem-allocation needed for `append` to work below
 	for _, result := range r.Results {
