@@ -30,7 +30,7 @@ type queryResponse struct {
 }
 
 func InlineQueries(c echo.Context) error {
-	res, err := queryapi.Call(c)
+	res, err := queryapi.Call(c.Path()[1:])
 	if err != nil {
 		return c.NoContent(queryErrCode(err))
 	}

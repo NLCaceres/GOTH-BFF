@@ -54,7 +54,7 @@ func TestCall(t *testing.T) {
 
 			os.Setenv("QUERY_FILE", testCase.QueryFile)
 			os.Setenv("FILTER_REPLACEMENTS", testCase.Filters)
-			res, err := Call(c)
+			res, err := Call(c.Path()[1:])
 			if test.EqualErrors(err, &testCase.Err) {
 				t.Error(test.ErrorMsg("error", testCase.Err, err))
 			}

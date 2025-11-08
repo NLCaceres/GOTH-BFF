@@ -5,15 +5,14 @@ import (
 	"encoding/json"
 	"github.com/NLCaceres/goth-example/internal/util/fileread"
 	"github.com/NLCaceres/goth-example/internal/util/proxy"
-	"github.com/labstack/echo/v4"
 	"log"
 	"os"
 )
 
 // POSTs pre-formatted JSON to an API after dynamically updating the JSON string's
 // key-value pair corresponding to the search value
-func Call(c echo.Context) (*Response, error) {
-	query, err := newQuery(c.Path()[1:])
+func Call(path string) (*Response, error) {
+	query, err := newQuery(path)
 	if err != nil {
 		return nil, err
 	}
