@@ -47,6 +47,18 @@ func (r *Response) Documents() []Document {
 	}
 	return r.documents
 }
+func (r *Response) SetDocuments(docs []Document) {
+	if len(r.Results[0].Hits) > 0 || len(r.documents) > 0 {
+		r.Results[0].Hits = r.Results[0].Hits[:0]
+		r.documents = r.documents[:0]
+	}
+	for _, doc := range docs {
+		r.Results[0].Hits = append(r.Results[0].Hits, struct {
+			Document Document `json:"document"`
+		}{doc})
+	}
+	r.documents = append(r.documents, docs...)
+}
 
 type Document struct {
 	PostTime datetime.Local `json:"posted"` // Tends to get microsecond precision
