@@ -4,6 +4,7 @@ import (
 	"github.com/NLCaceres/goth-example/internal/util/fileread"
 	"github.com/NLCaceres/goth-example/internal/util/test"
 	"github.com/google/go-cmp/cmp"
+	"github.com/google/go-cmp/cmp/cmpopts"
 	"github.com/labstack/echo/v4"
 	"net/http"
 	"net/http/httptest"
@@ -48,7 +49,7 @@ func TestCall(t *testing.T) {
 			if test.EqualErrors(err, &testCase.Err) {
 				t.Error(test.ErrorMsg("error", testCase.Err, err))
 			}
-			if !cmp.Equal(res, testCase.Expect) {
+			if !cmp.Equal(res, testCase.Expect, cmpopts.IgnoreUnexported(Response{})) {
 				t.Error(test.ErrorMsg("response", testCase.Expect, res))
 			}
 		})
