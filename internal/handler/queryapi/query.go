@@ -13,6 +13,7 @@ type Response struct {
 			Document Document `json:"document"`
 		} `json:"hits"`
 	} `json:"results"`
+	documents []Document
 }
 
 func NewResponse(docs []Document) *Response {
@@ -24,8 +25,9 @@ func NewResponse(docs []Document) *Response {
 		}{{[]struct {
 			Document Document `json:"document"`
 		}{},
-		}},
+		}}, nil,
 	}
+	res.documents = docs
 	for _, doc := range docs {
 		res.Results[0].Hits = append(res.Results[0].Hits, struct {
 			Document Document `json:"document"`
@@ -35,13 +37,15 @@ func NewResponse(docs []Document) *Response {
 }
 
 func (r *Response) Documents() []Document {
-	var docs []Document // No `make()` mem-allocation needed for `append` to work below
+	if len(r.documents) != 0 { // Handles nil since nil slices are length 0
+		return r.documents
+	}
 	for _, result := range r.Results {
 		for _, hit := range result.Hits {
-			docs = append(docs, hit.Document)
+			r.documents = append(r.documents, hit.Document)
 		}
 	}
-	return docs
+	return r.documents
 }
 
 type Document struct {
