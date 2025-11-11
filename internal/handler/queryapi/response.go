@@ -33,6 +33,12 @@ func NewResponse(docs []Document) *Response {
 	return &res
 }
 
+type Document struct {
+	PostTime datetime.Local `json:"posted"` // Tends to get microsecond precision
+	Title    string         `json:"title"`
+	URL      string         `json:"url"`
+}
+
 func (r *Response) Documents() []Document {
 	if len(r.documents) != 0 { // Handles nil since nil slices are length 0
 		return r.documents
@@ -55,10 +61,4 @@ func (r *Response) SetDocuments(docs []Document) {
 		}{doc})
 	}
 	r.documents = append(r.documents, docs...)
-}
-
-type Document struct {
-	PostTime datetime.Local `json:"posted"` // Tends to get microsecond precision
-	Title    string         `json:"title"`
-	URL      string         `json:"url"`
 }
