@@ -2,6 +2,7 @@ package queryapi
 
 import (
 	"github.com/NLCaceres/goth-example/internal/util/datetime"
+	"github.com/NLCaceres/goth-example/internal/util/slice"
 )
 
 type Response struct {
@@ -14,23 +15,20 @@ type Response struct {
 }
 
 func NewResponse(docs []Document) *Response {
-	res := Response{
+	hits, _ := slice.ForEach(docs, func(d Document) (struct {
+		Document Document `json:"document"`
+	}, error) {
+		return struct {
+			Document Document `json:"document"`
+		}{d}, nil
+	})
+	return &Response{
 		[]struct {
 			Hits []struct {
 				Document Document `json:"document"`
 			} `json:"hits"`
-		}{{[]struct {
-			Document Document `json:"document"`
-		}{},
-		}}, nil,
+		}{{hits}}, docs,
 	}
-	res.documents = docs
-	for _, doc := range docs {
-		res.Results[0].Hits = append(res.Results[0].Hits, struct {
-			Document Document `json:"document"`
-		}{doc})
-	}
-	return &res
 }
 
 type Document struct {
