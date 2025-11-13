@@ -1,7 +1,6 @@
 package handler
 
 import (
-	"context"
 	"errors"
 	"github.com/NLCaceres/goth-example/internal/handler/queryapi"
 	"github.com/NLCaceres/goth-example/internal/model"
@@ -39,13 +38,12 @@ func RenderQuery(c echo.Context) error {
 	if err != nil {
 		return c.NoContent(queryErrCode(err))
 	}
-	newCtx := context.WithValue(c.Request().Context(), "param", name)
-	c.SetRequest(c.Request().WithContext(newCtx))
 	vm := index.ViewModel{Title: name, CssPaths: []string{"css/item_list.css"}}
 	itemList, _ := slice.ForEach(res.Documents(), func(d queryapi.Document) (model.Item, error) {
 		return model.Item{Name: d.CompanyName, URL: d.URL, Description: d.Title + "\n" + string(d.PostTime)}, nil
 	})
-	return RenderHTMLView(c, items.ListPage(itemList), vm)
+	itemsVm := items.ViewModel{Title: name, Items: itemList}
+	return RenderHTMLView(c, items.ListPage(itemsVm), vm)
 }
 
 func InlineQueries(c echo.Context) error {

@@ -1,7 +1,6 @@
 package route
 
 import (
-	"context"
 	"github.com/NLCaceres/goth-example/internal/handler"
 	"github.com/NLCaceres/goth-example/internal/model"
 	"github.com/NLCaceres/goth-example/internal/util/stringy"
@@ -18,10 +17,9 @@ func Routes(app *echo.Echo) {
 	app.GET("/", handler.RenderView)
 	app.GET("/:name", func(c echo.Context) error {
 		name := c.Param("name")
-		newCtx := context.WithValue(c.Request().Context(), "param", name)
-		c.SetRequest(c.Request().WithContext(newCtx))
 		vm := index.ViewModel{Title: name, CssPaths: []string{"css/item_list.css"}}
-		return handler.RenderHTMLView(c, items.ListPage(model.ManyMockItems()), vm)
+		itemsVm := items.ViewModel{Title: name, Items: model.ManyMockItems()}
+		return handler.RenderHTMLView(c, items.ListPage(itemsVm), vm)
 	})
 
 	apiRoutes := strings.Split(os.Getenv("APP_ROUTES"), ",") // Get comma-delim'd route paths
