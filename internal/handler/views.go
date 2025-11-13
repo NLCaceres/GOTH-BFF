@@ -1,11 +1,15 @@
 package handler
 
 import (
+	"context"
 	"errors"
 	"github.com/NLCaceres/goth-example/internal/handler/queryapi"
+	"github.com/NLCaceres/goth-example/internal/model"
 	"github.com/NLCaceres/goth-example/internal/util/fileread"
 	"github.com/NLCaceres/goth-example/internal/util/proxy"
+	"github.com/NLCaceres/goth-example/internal/util/slice"
 	"github.com/NLCaceres/goth-example/internal/view/index"
+	"github.com/NLCaceres/goth-example/internal/view/items"
 	"github.com/a-h/templ"
 	"github.com/labstack/echo/v4"
 	"net/http"
@@ -27,6 +31,21 @@ func RenderHTMLView(c echo.Context, page templ.Component, vm index.ViewModel) er
 
 type queryResponse struct {
 	Results []queryapi.Document
+}
+
+func RenderQuery(c echo.Context) error {
+	name := c.Path()[1:]
+	res, err := queryapi.Call(name)
+	if err != nil {
+		return c.NoContent(queryErrCode(err))
+	}
+	newCtx := context.WithValue(c.Request().Context(), "param", name)
+	c.SetRequest(c.Request().WithContext(newCtx))
+	vm := index.ViewModel{Title: name, CssPaths: []string{"css/item_list.css"}}
+	itemList, _ := slice.ForEach(res.Documents(), func(d queryapi.Document) (model.Item, error) {
+		return model.Item{Name: d.CompanyName, URL: d.URL, Description: d.Title + "\n" + string(d.PostTime)}, nil
+	})
+	return RenderHTMLView(c, items.ListPage(itemList), vm)
 }
 
 func InlineQueries(c echo.Context) error {
