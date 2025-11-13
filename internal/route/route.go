@@ -30,7 +30,7 @@ func Routes(app *echo.Echo) {
 		routePath := "/" + route
 		routeFormattedPath := "/" + stringy.PresenterMapValue(routeMap, route)
 
-		app.GET(routePath, handler.InlineQueries)
-		app.GET(routeFormattedPath, handler.InlineQueries)
+		app.GET(routePath, handler.RenderQuery)
+		app.GET(routeFormattedPath, handler.RenderQuery)
 	}
 }
