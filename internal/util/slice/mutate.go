@@ -1,5 +1,13 @@
 package slice
 
+func SafeMap[T any, U any](list []T, mapper func(T) U) []U {
+	newList := make([]U, len(list))
+	for i, value := range list {
+		newList[i] = mapper(value)
+	}
+	return newList
+}
+
 // Transform each element of an array/slice via mapping function, then insert them into
 // a new slice. If the mapper fails, returns an empty slice with the mapping function error
 func ForEach[T any, U any](list []T, mapper func(T) (U, error)) ([]U, error) {
