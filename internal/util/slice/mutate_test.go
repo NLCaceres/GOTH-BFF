@@ -32,8 +32,8 @@ func TestForEach(t *testing.T) {
 		Expect []int
 		Err    string
 	}{
-		"Coerces string slice into int slice": {[]string{"1", "2", "3"}, []int{1, 2, 3}, ""},
-		"Mapper fails":                        {[]string{"1", "b", "c"}, []int{}, "invalid syntax"},
+		"Coerces strings into ints": {[]string{"1", "2", "3"}, []int{1, 2, 3}, ""},
+		"Mapper fails":              {[]string{"1", "b", "c"}, []int{}, "invalid syntax"},
 	}
 	for testName, testCase := range tests {
 		t.Run(testName, func(t *testing.T) {
