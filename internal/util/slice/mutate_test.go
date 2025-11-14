@@ -8,6 +8,23 @@ import (
 	"testing"
 )
 
+func TestSafeMap(t *testing.T) {
+	t.Run("Coerce int to string", func(t *testing.T) {
+		actual := SafeMap([]int{1, 2, 3}, func(i int) string { return strconv.Itoa(i) })
+		if !cmp.Equal([]string{"1", "2", "3"}, actual) {
+			t.Error(test.ErrorMsg("safe list", []string{"1", "2", "3"}, actual))
+		}
+	})
+	t.Run("Safe map fails", func(t *testing.T) {
+		actual := SafeMap([]string{"1", "a", "2"}, func(s string) int {
+			i, _ := strconv.Atoi(s)
+			return i
+		})
+		if !cmp.Equal([]int{1, 0, 2}, actual) {
+			t.Error(test.ErrorMsg("safe list", []int{1, 0, 2}, actual))
+		}
+	})
+}
 func TestForEach(t *testing.T) {
 	mapper := func(num string) (int, error) { return strconv.Atoi(num) }
 	tests := map[string]struct {
