@@ -1,10 +1,9 @@
 package slice
 
 func SafeMap[T any, U any](list []T, mapper func(T) U) []U {
-	newList := make([]U, len(list))
-	for i, value := range list {
-		newList[i] = mapper(value)
-	}
+	newList, _ := ForEach(list, func(t T) (U, error) {
+		return mapper(t), nil
+	})
 	return newList
 }
 
