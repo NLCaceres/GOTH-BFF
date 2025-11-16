@@ -15,12 +15,12 @@ type Response struct {
 }
 
 func NewResponse(docs []Document) *Response {
-	hits, _ := slice.ForEach(docs, func(d Document) (struct {
+	hits := slice.SafeMap(docs, func(d Document) struct {
 		Document Document `json:"document"`
-	}, error) {
+	} {
 		return struct {
 			Document Document `json:"document"`
-		}{d}, nil
+		}{d}
 	})
 	return &Response{
 		[]struct {

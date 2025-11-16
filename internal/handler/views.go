@@ -39,8 +39,8 @@ func RenderQuery(c echo.Context) error {
 		return c.NoContent(queryErrCode(err))
 	}
 	vm := index.ViewModel{Title: name, CssPaths: []string{"css/item_list.css"}}
-	itemList, _ := slice.ForEach(res.Documents(), func(d queryapi.Document) (model.Item, error) {
-		return model.Item{Name: d.CompanyName, URL: d.URL, Description: d.Title + "\n" + string(d.PostTime)}, nil
+	itemList := slice.SafeMap(res.Documents(), func(d queryapi.Document) model.Item {
+		return model.Item{Name: d.Title, URL: d.URL, Description: d.Title + "\n" + string(d.PostTime)}
 	})
 	itemsVm := items.ViewModel{Title: name, Items: itemList}
 	return RenderHTMLView(c, items.ListPage(itemsVm), vm)
