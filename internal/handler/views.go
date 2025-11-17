@@ -28,10 +28,6 @@ func RenderHTMLView(c echo.Context, page templ.Component, vm index.ViewModel) er
 	return c.HTML(http.StatusAccepted, string(htmlStr))
 }
 
-type queryResponse struct {
-	Results []queryapi.Document
-}
-
 func RenderQuery(c echo.Context) error {
 	name := c.Path()[1:]
 	res, err := queryapi.Call(name)
@@ -44,14 +40,6 @@ func RenderQuery(c echo.Context) error {
 	})
 	itemsVm := items.ViewModel{Title: name, Items: itemList}
 	return RenderHTMLView(c, items.ListPage(itemsVm), vm)
-}
-
-func InlineQueries(c echo.Context) error {
-	res, err := queryapi.Call(c.Path()[1:])
-	if err != nil {
-		return c.NoContent(queryErrCode(err))
-	}
-	return c.JSON(http.StatusOK, queryResponse{res.Documents()})
 }
 
 func queryErrCode(e error) int {
