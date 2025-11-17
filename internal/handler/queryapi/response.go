@@ -15,19 +15,19 @@ type Response struct {
 }
 
 func NewResponse(docs []Document) *Response {
-	hits := slice.SafeMap(docs, func(d Document) struct {
-		Document Document `json:"document"`
-	} {
-		return struct {
-			Document Document `json:"document"`
-		}{d}
-	})
 	return &Response{
-		[]struct {
+		documents: docs,
+		Results: []struct {
 			Hits []struct {
 				Document Document `json:"document"`
 			} `json:"hits"`
-		}{{hits}}, docs,
+		}{{slice.SafeMap(docs, func(d Document) struct {
+			Document Document `json:"document"`
+		} {
+			return struct {
+				Document Document `json:"document"`
+			}{d}
+		})}},
 	}
 }
 
