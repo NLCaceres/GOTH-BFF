@@ -15,7 +15,7 @@ func TestQueryApiError(t *testing.T) {
 			Error{errors.New("foo"), 0}, `Queried api: "foo"`,
 		},
 		"Nil 'Err' field": {
-			Error{}, `Queried api: ""`,
+			Error{}, `Queried api: Unknown error`,
 		},
 		"Whitespaced 'Err' field message": {
 			Error{errors.New("   "), 0}, `Queried api: "   "`,

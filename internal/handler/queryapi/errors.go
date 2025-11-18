@@ -13,5 +13,11 @@ type Error struct {
 }
 
 func (e Error) Error() string {
-	return fmt.Sprintf("Queried api: %q", e.Err)
+	var err string
+	if e.Err != nil {
+		err = fmt.Sprintf("%q", e.Err)
+	} else {
+		err = `Unknown error`
+	}
+	return "Queried api: " + err
 }
