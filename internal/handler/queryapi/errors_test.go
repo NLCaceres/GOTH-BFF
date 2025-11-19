@@ -2,7 +2,9 @@ package queryapi
 
 import (
 	"errors"
+	"github.com/NLCaceres/goth-example/internal/util/fileread"
 	"github.com/NLCaceres/goth-example/internal/util/test"
+	"net/http"
 	"testing"
 )
 
@@ -27,6 +29,31 @@ func TestQueryApiError(t *testing.T) {
 				t.Error(test.ErrorMsg(
 					"QueryAPI Error message", testCase.Expect, testCase.Input.Error(),
 				))
+			}
+		})
+	}
+}
+
+func TestErrCode(t *testing.T) {
+	tests := map[string]struct {
+		Err    error
+		Expect int
+	}{
+		"500 error code if FileReadError": {
+			Err: fileread.FileNotFoundError{}, Expect: http.StatusInternalServerError,
+		},
+		"501 error code if setter error": {
+			Err: SearchSetterError, Expect: http.StatusNotImplemented,
+		},
+		"400 bad request by default": {
+			Err: errors.New("foo"), Expect: http.StatusBadRequest,
+		},
+	}
+	for testName, testCase := range tests {
+		t.Run(testName, func(t *testing.T) {
+			actual := ErrCode(testCase.Err)
+			if actual != testCase.Expect {
+				t.Error(test.ErrorMsg("Error code", testCase.Expect, actual))
 			}
 		})
 	}
