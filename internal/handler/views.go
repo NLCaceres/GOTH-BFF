@@ -1,11 +1,8 @@
 package handler
 
 import (
-	"errors"
 	"github.com/NLCaceres/goth-example/internal/handler/queryapi"
 	"github.com/NLCaceres/goth-example/internal/model"
-	"github.com/NLCaceres/goth-example/internal/util/fileread"
-	"github.com/NLCaceres/goth-example/internal/util/proxy"
 	"github.com/NLCaceres/goth-example/internal/util/slice"
 	"github.com/NLCaceres/goth-example/internal/view/index"
 	"github.com/NLCaceres/goth-example/internal/view/items"
@@ -32,7 +29,7 @@ func RenderQuery(c echo.Context) error {
 	name := c.Path()[1:]
 	res, err := queryapi.Call(name)
 	if err != nil {
-		return c.NoContent(queryErrCode(err))
+		return c.NoContent(queryapi.ErrCode(err))
 	}
 	vm := index.ViewModel{Title: name, CssPaths: []string{"css/item_list.css"}}
 	itemList := slice.SafeMap(res.Documents(), func(d queryapi.Document) model.Item {
@@ -40,16 +37,4 @@ func RenderQuery(c echo.Context) error {
 	})
 	itemsVm := items.ViewModel{Title: name, Items: itemList}
 	return RenderHTMLView(c, items.ListPage(itemsVm), vm)
-}
-
-func queryErrCode(e error) int {
-	if errors.As(e, new(proxy.RequestError)) {
-		return http.StatusBadGateway
-	} else if errors.As(e, new(fileread.Error)) {
-		return http.StatusInternalServerError
-	} else if errors.Is(e, queryapi.SearchSetterError) {
-		return http.StatusNotImplemented
-	} else {
-		return http.StatusBadRequest
-	}
 }

@@ -9,7 +9,7 @@ import (
 func QueryJSON(c echo.Context) error {
 	res, err := queryapi.Call(c.Path()[1:])
 	if err != nil {
-		return c.NoContent(queryErrCode(err))
+		return c.NoContent(queryapi.ErrCode(err))
 	}
 	return c.JSON(http.StatusOK, queryResponse{res.Documents()})
 }
