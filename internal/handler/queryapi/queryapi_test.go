@@ -65,9 +65,9 @@ func TestNewQuery(t *testing.T) {
 	}{
 		"Returns ready query":  {"foo", "internal/test_query.json", nil, "foo"},
 		"Empty query is empty": {"", "internal/test_query.json", nil, ""},
-		"File not found error": {"", "./bad.json", new(fileread.FileNotFoundError), ""},
+		"File not found error": {"", "bad.json", new(fileread.FileNotFoundError), ""},
 		"File formatting error": {
-			"", "./bad_typing.json", new(fileread.MalformedJsonError), "",
+			"", "internal/util/test/bad_typing.json", new(fileread.MalformedJsonError), "",
 		},
 	} // Unsure how to get `Marshal` to fail so no test case for it
 	for testName, testCase := range tests {
