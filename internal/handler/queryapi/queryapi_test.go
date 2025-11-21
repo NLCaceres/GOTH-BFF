@@ -46,8 +46,8 @@ func TestCall(t *testing.T) {
 			os.Setenv("QUERY_FILE", testCase.QueryFile)
 			os.Setenv("FILTER_REPLACEMENTS", testCase.Filters)
 			res, err := Call(c.Path()[1:])
-			if test.EqualErrors(err, &testCase.Err) {
-				t.Error(test.ErrorMsg("error", testCase.Err, err))
+			if !test.EqualErrors(err, testCase.Err) {
+				t.Errorf("Expected error = %T but got %#v", testCase.Err, err)
 			}
 			if !cmp.Equal(res, testCase.Expect, cmpopts.IgnoreUnexported(Response{})) {
 				t.Error(test.ErrorMsg("response", testCase.Expect, res))
@@ -63,17 +63,19 @@ func TestNewQuery(t *testing.T) {
 		Err       any
 		Expect    string
 	}{
-		"Returns ready query":   {"foo", "internal/test_query.json", nil, "foo"},
-		"Empty query is empty":  {"", "internal/test_query.json", nil, ""},
-		"File not found error":  {"", "./bad.json", fileread.FileNotFoundError{}, ""},
-		"File formatting error": {"", "./bad_typing.json", fileread.MalformedJsonError{}, ""},
+		"Returns ready query":  {"foo", "internal/test_query.json", nil, "foo"},
+		"Empty query is empty": {"", "internal/test_query.json", nil, ""},
+		"File not found error": {"", "./bad.json", new(fileread.FileNotFoundError), ""},
+		"File formatting error": {
+			"", "./bad_typing.json", new(fileread.MalformedJsonError), "",
+		},
 	} // Unsure how to get `Marshal` to fail so no test case for it
 	for testName, testCase := range tests {
 		t.Run(testName, func(t *testing.T) {
 			os.Setenv("QUERY_FILE", testCase.QueryFile)
 			query, err := newQuery(testCase.Input)
-			if test.EqualErrors(err, &testCase.Err) {
-				t.Error(test.ErrorMsg("error", testCase.Err, err))
+			if !test.EqualErrors(err, testCase.Err) {
+				t.Errorf("Expected error = %T but got %#v", testCase.Err, err)
 			}
 			expect := `"q": "` + testCase.Expect + `",`
 			if query.String() != "<nil>" && !strings.Contains(query.String(), expect) {
