@@ -37,3 +37,6 @@ func (e Error) Error() string {
 	}
 	return "Queried api: " + err
 }
+func (e Error) Unwrap() error {
+	return e.Err
+}
