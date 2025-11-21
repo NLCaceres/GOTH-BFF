@@ -28,8 +28,8 @@ func RenderHTMLView(c echo.Context, page templ.Component, vm index.ViewModel) er
 func RenderQuery(c echo.Context) error {
 	name := c.Path()[1:]
 	res, err := queryapi.Call(name)
-	if err != nil {
-		return c.NoContent(queryapi.ErrCode(err))
+	if e, ok := err.(queryapi.Error); ok {
+		return c.NoContent(e.Code)
 	}
 	vm := index.ViewModel{Title: name, CssPaths: []string{"css/item_list.css"}}
 	itemList := slice.SafeMap(res.Documents(), func(d queryapi.Document) model.Item {

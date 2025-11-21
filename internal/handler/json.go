@@ -8,8 +8,8 @@ import (
 
 func QueryJSON(c echo.Context) error {
 	res, err := queryapi.Call(c.Path()[1:])
-	if err != nil {
-		return c.NoContent(queryapi.ErrCode(err))
+	if e, ok := err.(queryapi.Error); ok {
+		return c.NoContent(e.Code)
 	}
 	return c.JSON(http.StatusOK, queryResponse{res.Documents()})
 }

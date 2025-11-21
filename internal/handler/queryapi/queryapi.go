@@ -14,12 +14,12 @@ import (
 func Call(path string) (*Response, error) {
 	query, err := newQuery(path)
 	if err != nil {
-		return nil, err
+		return nil, Error{err, ErrCode(err)}
 	}
 	res, err := proxy.PostJSON[*Response](os.Getenv("EXTERNAL_API_URL"), query)
 	if err != nil {
 		log.Printf("Issue making POST Request due to: %s\n", err)
-		return nil, err
+		return nil, Error{err, ErrCode(err)}
 	}
 	return res, nil
 }
