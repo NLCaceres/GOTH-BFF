@@ -177,6 +177,9 @@ func TestEqualErrors(t *testing.T) {
 		"Custom error EQUAL to same error struct pointer type": {
 			fileread.FileNotFoundError{}, new(fileread.FileNotFoundError), true,
 		},
+		"Custom error with message EQUAL to same error struct pointer type": {
+			fileread.FileNotFoundError{File: "foo"}, new(fileread.FileNotFoundError), true,
+		},
 		"Custom error NOT equal to same error struct type": {
 			fileread.FileNotFoundError{}, fileread.FileNotFoundError{}, false,
 		},
