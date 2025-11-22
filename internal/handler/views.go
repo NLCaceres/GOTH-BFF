@@ -1,6 +1,7 @@
 package handler
 
 import (
+	"errors"
 	"github.com/NLCaceres/goth-example/internal/handler/queryapi"
 	"github.com/NLCaceres/goth-example/internal/model"
 	"github.com/NLCaceres/goth-example/internal/util/slice"
@@ -28,7 +29,8 @@ func RenderHTMLView(c echo.Context, page templ.Component, vm index.ViewModel) er
 func RenderQuery(c echo.Context) error {
 	name := c.Path()[1:]
 	res, err := queryapi.Call(name)
-	if e, ok := err.(queryapi.Error); ok {
+	var e queryapi.Error
+	if errors.As(err, &e) {
 		return c.NoContent(e.Code)
 	}
 	vm := index.ViewModel{Title: name, CssPaths: []string{"css/item_list.css"}}
