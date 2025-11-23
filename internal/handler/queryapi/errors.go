@@ -17,11 +17,11 @@ type Error struct {
 }
 
 func NewError(err error) Error {
-	code := ErrCode(err)
+	code := errCode(err)
 	return Error{err, code}
 }
 
-func ErrCode(e error) int {
+func errCode(e error) int {
 	if errors.As(e, new(proxy.RequestError)) {
 		return http.StatusBadGateway
 	} else if errors.As(e, new(fileread.Error)) {

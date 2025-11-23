@@ -80,7 +80,7 @@ func TestErrCode(t *testing.T) {
 	}
 	for testName, testCase := range tests {
 		t.Run(testName, func(t *testing.T) {
-			actual := ErrCode(testCase.Err)
+			actual := errCode(testCase.Err)
 			if actual != testCase.Expect {
 				t.Error(test.ErrorMsg("Error code", testCase.Expect, actual))
 			}
