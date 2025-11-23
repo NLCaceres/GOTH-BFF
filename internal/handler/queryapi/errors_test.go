@@ -3,6 +3,7 @@ package queryapi
 import (
 	"errors"
 	"github.com/NLCaceres/goth-example/internal/util/fileread"
+	"github.com/NLCaceres/goth-example/internal/util/proxy"
 	"github.com/NLCaceres/goth-example/internal/util/test"
 	"net/http"
 	"testing"
@@ -29,6 +30,34 @@ func TestQueryApiError(t *testing.T) {
 				t.Error(test.ErrorMsg(
 					"QueryAPI Error message", testCase.Expect, testCase.Input.Error(),
 				))
+			}
+		})
+	}
+}
+
+func TestNewError(t *testing.T) {
+	tests := map[string]struct {
+		Input  error
+		Expect Error
+	}{
+		"Proxy Err": {
+			proxy.RequestError{}, Error{proxy.RequestError{}, http.StatusBadGateway},
+		},
+		"FileRead Error": {
+			fileread.FileNotFoundError{}, Error{fileread.FileNotFoundError{}, http.StatusInternalServerError},
+		},
+		"Setter Error": {
+			SearchSetterError, Error{SearchSetterError, http.StatusNotImplemented},
+		},
+		"Any error": {
+			errors.New("foo"), Error{errors.New("foo"), http.StatusBadRequest},
+		},
+	}
+	for testName, testCase := range tests {
+		t.Run(testName, func(t *testing.T) {
+			err := NewError(testCase.Input)
+			if err.Error() != testCase.Expect.Error() || err.Code != testCase.Expect.Code {
+				t.Error(test.QuotedErrorMsg("New QueryAPI Error", testCase.Expect, err))
 			}
 		})
 	}

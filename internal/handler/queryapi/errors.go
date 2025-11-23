@@ -16,6 +16,11 @@ type Error struct {
 	Code int
 }
 
+func NewError(err error) Error {
+	code := ErrCode(err)
+	return Error{err, code}
+}
+
 func ErrCode(e error) int {
 	if errors.As(e, new(proxy.RequestError)) {
 		return http.StatusBadGateway
