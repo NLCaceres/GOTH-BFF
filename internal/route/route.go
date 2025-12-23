@@ -22,9 +22,12 @@ func Routes(app *echo.Echo) {
 		return handler.RenderHTMLView(c, items.ListPage(itemsVm), vm)
 	})
 
-	apiRoutes := strings.Split(os.Getenv("APP_ROUTES"), ",") // Get comma-delim'd route paths
+	ApiRoutes(app)
+}
+
+func ApiRoutes(app *echo.Echo) {
 	routeMap := stringy.Map(os.Getenv("ROUTE_MAP"))
-	for _, route := range apiRoutes {
+	for _, route := range strings.Split(os.Getenv("APP_ROUTES"), ",") {
 		routePath := "/" + route
 		routeFormattedPath := "/" + stringy.PresenterMapValue(routeMap, route)
 
