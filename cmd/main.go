@@ -8,6 +8,7 @@ import (
 	"github.com/labstack/echo/v4/middleware"
 	"log"
 	"slices"
+	"strings"
 )
 
 func main() {
@@ -33,7 +34,14 @@ func main() {
 	app.Use(middleware.StaticWithConfig(middleware.StaticConfig{
 		Root: "static",
 		Skipper: func(c echo.Context) bool { // Skip if returning true
-			return !slices.Contains(c.Request().Header["Origin"], "http://localhost:3000")
+			isValidRef := strings.HasPrefix(c.Request().Referer(), "http://localhost:3000") ||
+				strings.HasPrefix(c.Request().Referer(), "http://127.0.0.1:7331")
+			isNavigation := slices.Contains(c.Request().Header["Sec-Fetch-Mode"], "navigate")
+			isSameOrigin := slices.Contains(c.Request().Header["Sec-Fetch-Site"], "same-origin")
+			if isValidRef && !isNavigation && isSameOrigin {
+				return false
+			}
+			return true
 		},
 	}))
 
