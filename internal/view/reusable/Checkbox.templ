@@ -1,20 +1,22 @@
 package reusable
 
-templ Checkbox() {
-<button class="checkbox-button"
+import "strconv"
+
+templ Checkbox(id int) {
+<button class="checkbox-button" data-id={id} 
   style="height:100%;width:100%;background-color: transparent;border:none;margin:1rem 0.75rem 1rem 0.5rem;">
   <svg viewBox="0 0 36 36" height="100%" width="100%"
     style="stroke-width:5;stroke-linecap:square;">
     <!-- X-mark -->
     <path d="M0 0 L36 36 M36 0 L0 36 M0 0" stroke="red" fill="none">
-      <animate id="x-animation" begin="indefinite" fill="freeze" attributeName="d" 
+      <animate id={"x-animation-" + strconv.Itoa(id)} begin="indefinite" fill="freeze" attributeName="d" 
         dur="500ms" to="M0 0 L36 36 M36 0 L0 36 M0 0"/>
-      <animate id="red-animation" begin="indefinite" fill="freeze" attributeName="stroke" 
+      <animate id={"red-animation-" + strconv.Itoa(id)} begin="indefinite" fill="freeze" attributeName="stroke" 
         dur="500ms" to="red"/>
       <!-- Checkmark -->
-      <animate id="check-animation" begin="indefinite" fill="freeze" attributeName="d" 
+      <animate id={"check-animation-" + strconv.Itoa(id)} begin="indefinite" fill="freeze" attributeName="d" 
         dur="500ms" to="M0 22 L20 36 L33.5 0 M0 18"/>
-      <animate id="green-animation" begin="indefinite" fill="freeze" attributeName="stroke" 
+      <animate id={"green-animation-" + strconv.Itoa(id)} begin="indefinite" fill="freeze" attributeName="stroke" 
         dur="500ms" to="green"/>
     </path>
   </svg>
@@ -22,13 +24,14 @@ templ Checkbox() {
 
   <script>
     function handleClick(e) {
+      const dataId = e.currentTarget.dataset.id;
       if (e.currentTarget.classList.contains('check')) {
-        document.getElementById('x-animation').beginElement();
-        document.getElementById('red-animation').beginElement();
+        document.getElementById('x-animation-'+dataId).beginElement();
+        document.getElementById('red-animation-'+dataId).beginElement();
         e.currentTarget.classList.remove('check');
       } else {
-        document.getElementById('check-animation').beginElement();
-        document.getElementById('green-animation').beginElement();
+        document.getElementById('check-animation-'+dataId).beginElement();
+        document.getElementById('green-animation-'+dataId).beginElement();
         e.currentTarget.classList.add('check');
       }
     }

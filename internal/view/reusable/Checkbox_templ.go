@@ -8,7 +8,9 @@ package reusable
 import "github.com/a-h/templ"
 import templruntime "github.com/a-h/templ/runtime"
 
-func Checkbox() templ.Component {
+import "strconv"
+
+func Checkbox(id int) templ.Component {
 	return templruntime.GeneratedTemplate(func(templ_7745c5c3_Input templruntime.GeneratedComponentInput) (templ_7745c5c3_Err error) {
 		templ_7745c5c3_W, ctx := templ_7745c5c3_Input.Writer, templ_7745c5c3_Input.Context
 		if templ_7745c5c3_CtxErr := ctx.Err(); templ_7745c5c3_CtxErr != nil {
@@ -29,7 +31,72 @@ func Checkbox() templ.Component {
 			templ_7745c5c3_Var1 = templ.NopComponent
 		}
 		ctx = templ.ClearChildren(ctx)
-		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 1, "<button class=\"checkbox-button\" style=\"height:100%;width:100%;background-color: transparent;border:none;margin:1rem 0.75rem 1rem 0.5rem;\"><svg viewBox=\"0 0 36 36\" height=\"100%\" width=\"100%\" style=\"stroke-width:5;stroke-linecap:square;\"><!-- X-mark --><path d=\"M0 0 L36 36 M36 0 L0 36 M0 0\" stroke=\"red\" fill=\"none\"><animate id=\"x-animation\" begin=\"indefinite\" fill=\"freeze\" attributeName=\"d\" dur=\"500ms\" to=\"M0 0 L36 36 M36 0 L0 36 M0 0\"></animate> <animate id=\"red-animation\" begin=\"indefinite\" fill=\"freeze\" attributeName=\"stroke\" dur=\"500ms\" to=\"red\"></animate><!-- Checkmark --><animate id=\"check-animation\" begin=\"indefinite\" fill=\"freeze\" attributeName=\"d\" dur=\"500ms\" to=\"M0 22 L20 36 L33.5 0 M0 18\"></animate> <animate id=\"green-animation\" begin=\"indefinite\" fill=\"freeze\" attributeName=\"stroke\" dur=\"500ms\" to=\"green\"></animate></path></svg></button><script>\n    function handleClick(e) {\n      if (e.currentTarget.classList.contains('check')) {\n        document.getElementById('x-animation').beginElement();\n        document.getElementById('red-animation').beginElement();\n        e.currentTarget.classList.remove('check');\n      } else {\n        document.getElementById('check-animation').beginElement();\n        document.getElementById('green-animation').beginElement();\n        e.currentTarget.classList.add('check');\n      }\n    }\n    for (const button of document.getElementsByClassName('checkbox-button')) {\n      button.addEventListener('click', handleClick);\n    }\n  </script>")
+		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 1, "<button class=\"checkbox-button\" data-id=\"")
+		if templ_7745c5c3_Err != nil {
+			return templ_7745c5c3_Err
+		}
+		var templ_7745c5c3_Var2 string
+		templ_7745c5c3_Var2, templ_7745c5c3_Err = templ.JoinStringErrs(id)
+		if templ_7745c5c3_Err != nil {
+			return templ.Error{Err: templ_7745c5c3_Err, FileName: `internal/view/reusable/Checkbox.templ`, Line: 6, Col: 43}
+		}
+		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var2))
+		if templ_7745c5c3_Err != nil {
+			return templ_7745c5c3_Err
+		}
+		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 2, "\" style=\"height:100%;width:100%;background-color: transparent;border:none;margin:1rem 0.75rem 1rem 0.5rem;\"><svg viewBox=\"0 0 36 36\" height=\"100%\" width=\"100%\" style=\"stroke-width:5;stroke-linecap:square;\"><!-- X-mark --><path d=\"M0 0 L36 36 M36 0 L0 36 M0 0\" stroke=\"red\" fill=\"none\"><animate id=\"")
+		if templ_7745c5c3_Err != nil {
+			return templ_7745c5c3_Err
+		}
+		var templ_7745c5c3_Var3 string
+		templ_7745c5c3_Var3, templ_7745c5c3_Err = templ.JoinStringErrs("x-animation-" + strconv.Itoa(id))
+		if templ_7745c5c3_Err != nil {
+			return templ.Error{Err: templ_7745c5c3_Err, FileName: `internal/view/reusable/Checkbox.templ`, Line: 12, Col: 52}
+		}
+		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var3))
+		if templ_7745c5c3_Err != nil {
+			return templ_7745c5c3_Err
+		}
+		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 3, "\" begin=\"indefinite\" fill=\"freeze\" attributeName=\"d\" dur=\"500ms\" to=\"M0 0 L36 36 M36 0 L0 36 M0 0\"></animate> <animate id=\"")
+		if templ_7745c5c3_Err != nil {
+			return templ_7745c5c3_Err
+		}
+		var templ_7745c5c3_Var4 string
+		templ_7745c5c3_Var4, templ_7745c5c3_Err = templ.JoinStringErrs("red-animation-" + strconv.Itoa(id))
+		if templ_7745c5c3_Err != nil {
+			return templ.Error{Err: templ_7745c5c3_Err, FileName: `internal/view/reusable/Checkbox.templ`, Line: 14, Col: 54}
+		}
+		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var4))
+		if templ_7745c5c3_Err != nil {
+			return templ_7745c5c3_Err
+		}
+		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 4, "\" begin=\"indefinite\" fill=\"freeze\" attributeName=\"stroke\" dur=\"500ms\" to=\"red\"></animate><!-- Checkmark --><animate id=\"")
+		if templ_7745c5c3_Err != nil {
+			return templ_7745c5c3_Err
+		}
+		var templ_7745c5c3_Var5 string
+		templ_7745c5c3_Var5, templ_7745c5c3_Err = templ.JoinStringErrs("check-animation-" + strconv.Itoa(id))
+		if templ_7745c5c3_Err != nil {
+			return templ.Error{Err: templ_7745c5c3_Err, FileName: `internal/view/reusable/Checkbox.templ`, Line: 17, Col: 56}
+		}
+		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var5))
+		if templ_7745c5c3_Err != nil {
+			return templ_7745c5c3_Err
+		}
+		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 5, "\" begin=\"indefinite\" fill=\"freeze\" attributeName=\"d\" dur=\"500ms\" to=\"M0 22 L20 36 L33.5 0 M0 18\"></animate> <animate id=\"")
+		if templ_7745c5c3_Err != nil {
+			return templ_7745c5c3_Err
+		}
+		var templ_7745c5c3_Var6 string
+		templ_7745c5c3_Var6, templ_7745c5c3_Err = templ.JoinStringErrs("green-animation-" + strconv.Itoa(id))
+		if templ_7745c5c3_Err != nil {
+			return templ.Error{Err: templ_7745c5c3_Err, FileName: `internal/view/reusable/Checkbox.templ`, Line: 19, Col: 56}
+		}
+		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var6))
+		if templ_7745c5c3_Err != nil {
+			return templ_7745c5c3_Err
+		}
+		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 6, "\" begin=\"indefinite\" fill=\"freeze\" attributeName=\"stroke\" dur=\"500ms\" to=\"green\"></animate></path></svg></button><script>\n    function handleClick(e) {\n      const dataId = e.currentTarget.dataset.id;\n      if (e.currentTarget.classList.contains('check')) {\n        document.getElementById('x-animation-'+dataId).beginElement();\n        document.getElementById('red-animation-'+dataId).beginElement();\n        e.currentTarget.classList.remove('check');\n      } else {\n        document.getElementById('check-animation-'+dataId).beginElement();\n        document.getElementById('green-animation-'+dataId).beginElement();\n        e.currentTarget.classList.add('check');\n      }\n    }\n    for (const button of document.getElementsByClassName('checkbox-button')) {\n      button.addEventListener('click', handleClick);\n    }\n  </script>")
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
