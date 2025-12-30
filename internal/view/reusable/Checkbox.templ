@@ -38,9 +38,11 @@ templ Checkbox(id int) {
           e.currentTarget.classList.add('check');
         }
       }
-      for (const button of document.getElementsByClassName('checkbox-button')) {
-        button.addEventListener('click', handleClick);
-      }
+      window.addEventListener('DOMContentLoaded', function() {
+        for (const button of document.getElementsByClassName('checkbox-button')) {
+          button.addEventListener('click', handleClick);
+        }
+      })
     </script>
   }
 }
