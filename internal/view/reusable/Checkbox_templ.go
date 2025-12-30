@@ -10,6 +10,8 @@ import templruntime "github.com/a-h/templ/runtime"
 
 import "strconv"
 
+var checkboxScript = templ.NewOnceHandle()
+
 func Checkbox(id int) templ.Component {
 	return templruntime.GeneratedTemplate(func(templ_7745c5c3_Input templruntime.GeneratedComponentInput) (templ_7745c5c3_Err error) {
 		templ_7745c5c3_W, ctx := templ_7745c5c3_Input.Writer, templ_7745c5c3_Input.Context
@@ -38,7 +40,7 @@ func Checkbox(id int) templ.Component {
 		var templ_7745c5c3_Var2 string
 		templ_7745c5c3_Var2, templ_7745c5c3_Err = templ.JoinStringErrs(id)
 		if templ_7745c5c3_Err != nil {
-			return templ.Error{Err: templ_7745c5c3_Err, FileName: `internal/view/reusable/Checkbox.templ`, Line: 6, Col: 43}
+			return templ.Error{Err: templ_7745c5c3_Err, FileName: `internal/view/reusable/Checkbox.templ`, Line: 8, Col: 43}
 		}
 		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var2))
 		if templ_7745c5c3_Err != nil {
@@ -51,7 +53,7 @@ func Checkbox(id int) templ.Component {
 		var templ_7745c5c3_Var3 string
 		templ_7745c5c3_Var3, templ_7745c5c3_Err = templ.JoinStringErrs("x-animation-" + strconv.Itoa(id))
 		if templ_7745c5c3_Err != nil {
-			return templ.Error{Err: templ_7745c5c3_Err, FileName: `internal/view/reusable/Checkbox.templ`, Line: 12, Col: 52}
+			return templ.Error{Err: templ_7745c5c3_Err, FileName: `internal/view/reusable/Checkbox.templ`, Line: 14, Col: 52}
 		}
 		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var3))
 		if templ_7745c5c3_Err != nil {
@@ -64,7 +66,7 @@ func Checkbox(id int) templ.Component {
 		var templ_7745c5c3_Var4 string
 		templ_7745c5c3_Var4, templ_7745c5c3_Err = templ.JoinStringErrs("red-animation-" + strconv.Itoa(id))
 		if templ_7745c5c3_Err != nil {
-			return templ.Error{Err: templ_7745c5c3_Err, FileName: `internal/view/reusable/Checkbox.templ`, Line: 14, Col: 54}
+			return templ.Error{Err: templ_7745c5c3_Err, FileName: `internal/view/reusable/Checkbox.templ`, Line: 16, Col: 54}
 		}
 		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var4))
 		if templ_7745c5c3_Err != nil {
@@ -77,7 +79,7 @@ func Checkbox(id int) templ.Component {
 		var templ_7745c5c3_Var5 string
 		templ_7745c5c3_Var5, templ_7745c5c3_Err = templ.JoinStringErrs("check-animation-" + strconv.Itoa(id))
 		if templ_7745c5c3_Err != nil {
-			return templ.Error{Err: templ_7745c5c3_Err, FileName: `internal/view/reusable/Checkbox.templ`, Line: 17, Col: 56}
+			return templ.Error{Err: templ_7745c5c3_Err, FileName: `internal/view/reusable/Checkbox.templ`, Line: 19, Col: 56}
 		}
 		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var5))
 		if templ_7745c5c3_Err != nil {
@@ -90,13 +92,35 @@ func Checkbox(id int) templ.Component {
 		var templ_7745c5c3_Var6 string
 		templ_7745c5c3_Var6, templ_7745c5c3_Err = templ.JoinStringErrs("green-animation-" + strconv.Itoa(id))
 		if templ_7745c5c3_Err != nil {
-			return templ.Error{Err: templ_7745c5c3_Err, FileName: `internal/view/reusable/Checkbox.templ`, Line: 19, Col: 56}
+			return templ.Error{Err: templ_7745c5c3_Err, FileName: `internal/view/reusable/Checkbox.templ`, Line: 21, Col: 56}
 		}
 		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var6))
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
-		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 6, "\" begin=\"indefinite\" fill=\"freeze\" attributeName=\"stroke\" dur=\"500ms\" to=\"green\"></animate></path></svg></button><script>\n    function handleClick(e) {\n      const dataId = e.currentTarget.dataset.id;\n      if (e.currentTarget.classList.contains('check')) {\n        document.getElementById('x-animation-'+dataId).beginElement();\n        document.getElementById('red-animation-'+dataId).beginElement();\n        e.currentTarget.classList.remove('check');\n      } else {\n        document.getElementById('check-animation-'+dataId).beginElement();\n        document.getElementById('green-animation-'+dataId).beginElement();\n        e.currentTarget.classList.add('check');\n      }\n    }\n    for (const button of document.getElementsByClassName('checkbox-button')) {\n      button.addEventListener('click', handleClick);\n    }\n  </script>")
+		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 6, "\" begin=\"indefinite\" fill=\"freeze\" attributeName=\"stroke\" dur=\"500ms\" to=\"green\"></animate></path></svg></button>")
+		if templ_7745c5c3_Err != nil {
+			return templ_7745c5c3_Err
+		}
+		templ_7745c5c3_Var7 := templruntime.GeneratedTemplate(func(templ_7745c5c3_Input templruntime.GeneratedComponentInput) (templ_7745c5c3_Err error) {
+			templ_7745c5c3_W, ctx := templ_7745c5c3_Input.Writer, templ_7745c5c3_Input.Context
+			templ_7745c5c3_Buffer, templ_7745c5c3_IsBuffer := templruntime.GetBuffer(templ_7745c5c3_W)
+			if !templ_7745c5c3_IsBuffer {
+				defer func() {
+					templ_7745c5c3_BufErr := templruntime.ReleaseBuffer(templ_7745c5c3_Buffer)
+					if templ_7745c5c3_Err == nil {
+						templ_7745c5c3_Err = templ_7745c5c3_BufErr
+					}
+				}()
+			}
+			ctx = templ.InitializeContext(ctx)
+			templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 7, "<script>\n      function handleClick(e) {\n        const dataId = e.currentTarget.dataset.id;\n        if (e.currentTarget.classList.contains('check')) {\n          document.getElementById('x-animation-'+dataId).beginElement();\n          document.getElementById('red-animation-'+dataId).beginElement();\n          e.currentTarget.classList.remove('check');\n        } else {\n          document.getElementById('check-animation-'+dataId).beginElement();\n          document.getElementById('green-animation-'+dataId).beginElement();\n          e.currentTarget.classList.add('check');\n        }\n      }\n      window.addEventListener('DOMContentLoaded', function() {\n        for (const button of document.getElementsByClassName('checkbox-button')) {\n          button.addEventListener('click', handleClick);\n        }\n      })\n    </script>")
+			if templ_7745c5c3_Err != nil {
+				return templ_7745c5c3_Err
+			}
+			return nil
+		})
+		templ_7745c5c3_Err = checkboxScript.Once().Render(templ.WithChildren(ctx, templ_7745c5c3_Var7), templ_7745c5c3_Buffer)
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}

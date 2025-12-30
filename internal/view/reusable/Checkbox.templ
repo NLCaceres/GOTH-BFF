@@ -2,6 +2,8 @@ package reusable
 
 import "strconv"
 
+var checkboxScript = templ.NewOnceHandle()
+
 templ Checkbox(id int) {
 <button class="checkbox-button" data-id={id} 
   style="height:100%;width:100%;background-color: transparent;border:none;margin:1rem 0.75rem 1rem 0.5rem;">
@@ -22,21 +24,23 @@ templ Checkbox(id int) {
   </svg>
 </button>
 
-  <script>
-    function handleClick(e) {
-      const dataId = e.currentTarget.dataset.id;
-      if (e.currentTarget.classList.contains('check')) {
-        document.getElementById('x-animation-'+dataId).beginElement();
-        document.getElementById('red-animation-'+dataId).beginElement();
-        e.currentTarget.classList.remove('check');
-      } else {
-        document.getElementById('check-animation-'+dataId).beginElement();
-        document.getElementById('green-animation-'+dataId).beginElement();
-        e.currentTarget.classList.add('check');
+  @checkboxScript.Once() {
+    <script>
+      function handleClick(e) {
+        const dataId = e.currentTarget.dataset.id;
+        if (e.currentTarget.classList.contains('check')) {
+          document.getElementById('x-animation-'+dataId).beginElement();
+          document.getElementById('red-animation-'+dataId).beginElement();
+          e.currentTarget.classList.remove('check');
+        } else {
+          document.getElementById('check-animation-'+dataId).beginElement();
+          document.getElementById('green-animation-'+dataId).beginElement();
+          e.currentTarget.classList.add('check');
+        }
       }
-    }
-    for (const button of document.getElementsByClassName('checkbox-button')) {
-      button.addEventListener('click', handleClick);
-    }
-  </script>
+      for (const button of document.getElementsByClassName('checkbox-button')) {
+        button.addEventListener('click', handleClick);
+      }
+    </script>
+  }
 }
