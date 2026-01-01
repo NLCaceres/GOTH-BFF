@@ -46,59 +46,59 @@ func Checkbox(id int) templ.Component {
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
-		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 2, "\" style=\"height:100%;width:100%;background-color: transparent;border:none;margin:1rem 0.75rem 1rem 0.5rem;\"><svg viewBox=\"0 0 36 36\" height=\"60%\" width=\"60%\"><!-- X-mark --><path d=\"M18,16 L2,0 L0,2 L16,18 L0,34 L2,36 L18,20 L34,36 L36,34 L20,18 L36,2 L34,0z\" style=\"fill:red\"><animate id=\"")
+		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 2, "\" style=\"height:100%;width:100%;background-color: transparent;border:none;margin:1rem 0.75rem 1rem 0.5rem;\"><svg viewBox=\"0 0 36 36\" height=\"60%\" width=\"60%\" style=\"stroke-width:5px;\"><!-- X-mark --><path d=\"M0,0 L36,36 L18,18 L36,0 L0,36 L18,18z\" style=\"stroke:red\"><animate id=\"")
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
 		var templ_7745c5c3_Var3 string
 		templ_7745c5c3_Var3, templ_7745c5c3_Err = templ.JoinStringErrs("x-animation-" + strconv.Itoa(id))
 		if templ_7745c5c3_Err != nil {
-			return templ.Error{Err: templ_7745c5c3_Err, FileName: `internal/view/reusable/Checkbox.templ`, Line: 14, Col: 52}
+			return templ.Error{Err: templ_7745c5c3_Err, FileName: `internal/view/reusable/Checkbox.templ`, Line: 13, Col: 52}
 		}
 		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var3))
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
-		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 3, "\" begin=\"indefinite\" fill=\"freeze\" attributeName=\"d\" dur=\"500ms\" to=\"M18,16 L2,0 L0,2 L16,18 L0,34 L2,36 L18,20 L34,36 L36,34 L20,18 L36,2 L34,0z\"></animate> <animate id=\"")
+		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 3, "\" begin=\"indefinite\" fill=\"freeze\" attributeName=\"d\" dur=\"500ms\" to=\"M0,0 L36,36 L18,18 L36,0 L0,36 L18,18z\"></animate> <animate id=\"")
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
 		var templ_7745c5c3_Var4 string
 		templ_7745c5c3_Var4, templ_7745c5c3_Err = templ.JoinStringErrs("red-animation-" + strconv.Itoa(id))
 		if templ_7745c5c3_Err != nil {
-			return templ.Error{Err: templ_7745c5c3_Err, FileName: `internal/view/reusable/Checkbox.templ`, Line: 17, Col: 54}
+			return templ.Error{Err: templ_7745c5c3_Err, FileName: `internal/view/reusable/Checkbox.templ`, Line: 15, Col: 54}
 		}
 		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var4))
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
-		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 4, "\" begin=\"indefinite\" fill=\"freeze\" attributeName=\"fill\" dur=\"500ms\" to=\"red\"></animate><!-- Checkmark --><animate id=\"")
+		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 4, "\" begin=\"indefinite\" fill=\"freeze\" attributeName=\"stroke\" dur=\"500ms\" to=\"red\"></animate><!-- Checkmark --><animate id=\"")
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
 		var templ_7745c5c3_Var5 string
 		templ_7745c5c3_Var5, templ_7745c5c3_Err = templ.JoinStringErrs("check-animation-" + strconv.Itoa(id))
 		if templ_7745c5c3_Err != nil {
-			return templ.Error{Err: templ_7745c5c3_Err, FileName: `internal/view/reusable/Checkbox.templ`, Line: 20, Col: 56}
+			return templ.Error{Err: templ_7745c5c3_Err, FileName: `internal/view/reusable/Checkbox.templ`, Line: 18, Col: 56}
 		}
 		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var5))
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
-		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 5, "\" begin=\"indefinite\" fill=\"freeze\" attributeName=\"d\" dur=\"500ms\" to=\"M0,24 L18,36 L36,2 L33,0 L16.5,31 L2,21z\"></animate> <animate id=\"")
+		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 5, "\" begin=\"indefinite\" fill=\"freeze\" attributeName=\"d\" dur=\"500ms\" to=\"M0,22 L20,36 L33.5,0 L20,36 L10,29 L0,22z\"></animate> <animate id=\"")
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
 		var templ_7745c5c3_Var6 string
 		templ_7745c5c3_Var6, templ_7745c5c3_Err = templ.JoinStringErrs("green-animation-" + strconv.Itoa(id))
 		if templ_7745c5c3_Err != nil {
-			return templ.Error{Err: templ_7745c5c3_Err, FileName: `internal/view/reusable/Checkbox.templ`, Line: 22, Col: 56}
+			return templ.Error{Err: templ_7745c5c3_Err, FileName: `internal/view/reusable/Checkbox.templ`, Line: 20, Col: 56}
 		}
 		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var6))
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
-		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 6, "\" begin=\"indefinite\" fill=\"freeze\" attributeName=\"fill\" dur=\"500ms\" to=\"green\"></animate></path></svg></button>")
+		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 6, "\" begin=\"indefinite\" fill=\"freeze\" attributeName=\"stroke\" dur=\"500ms\" to=\"green\"></animate></path></svg></button>")
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
