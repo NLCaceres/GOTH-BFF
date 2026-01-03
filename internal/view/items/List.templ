@@ -6,7 +6,7 @@ import (
 )
 
 templ ListPage(vm ViewModel) {
-  <div class="slides-up transitionable">
+  <div>
     <h1>{ vm.Title } - Normal Links</h1>
     <p>Links that simply take the user to the URL provided by the Item struct</p>
     @list(vm.Items)
@@ -32,7 +32,9 @@ templ list(items []model.Item) {
             { item.Description }
           </p>
         </div>
-        <div class="itemButton flex centered cross-centered bg-gray-700">
+        <div class="itemButton flex centered cross-centered bg-gray-700 p-relative"
+          style="border-top-left-radius: 2.5rem; border-bottom-left-radius: 2.5rem;">
+          @reusable.BackingCircle()
           @reusable.Checkbox(i)
         </div>
       </li>
