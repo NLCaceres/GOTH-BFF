@@ -1,3 +1,12 @@
+/* Position helpers */
+.p-absolute {
+  position: absolute;
+}
+
+.p-relative {
+  position: relative;
+}
+
 /* Margin helpers */
 .m-0 {
   margin: calc(var(--spacing) * 0);
