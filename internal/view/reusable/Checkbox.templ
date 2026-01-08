@@ -5,9 +5,8 @@ import "strconv"
 var checkboxScript = templ.NewOnceHandle()
 
 templ Checkbox(id int) {
-<button class="checkbox-button" data-id={id} 
-  style="height:100%;width:100%;background-color: transparent;border:none;margin:1rem 0.75rem 1rem 0.5rem;">
-  <svg viewBox="0 0 36 36" height="60%" width="60%" style="stroke-width:5px;">
+<button class="checkbox-button h-100 w-100 bg-none" data-id={id} style="border:none;">
+  <svg viewBox="0 0 36 36" height="35%" width="35%" style="stroke-width:5px;">
     <!-- X-mark -->
     <path d="M0,0 L36,36 L18,18 L36,0 L0,36 L18,18z" style="stroke:red">
       <animate id={"x-animation-" + strconv.Itoa(id)} begin="indefinite" fill="freeze"

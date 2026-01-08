@@ -3,3 +3,8 @@
 .bg-gray-700 {
   background-color: #374151;
 }
+
+/* Nuance: Sets background-image to none AND implicitly background-color to transparent */
+.bg-none {
+  background: none;
+}
