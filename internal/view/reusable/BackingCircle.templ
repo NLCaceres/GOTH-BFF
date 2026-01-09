@@ -2,10 +2,12 @@ package reusable
 
 // A roughly 270 degree circle that when placed in a parent with `position: relative`,
 // it can act as a floating rounded border, similar to a drop shadow
-templ BackingCircle() {
+templ BackingCircle(rightSided bool) {
 <div class="p-absolute h-100 w-100" style="z-index:-1;">
-  <svg height="100%" viewBox="0 0 36 36" style="overflow:visible;">
-    <path fill="#262626" stroke="white" d="M32,0 A 23,21.5 0 1 0 32,36" />
+  <svg viewBox="0 0 36 36"class={"h-100 p-absolute visible-overflow", templ.KV("p-right", rightSided)}>
+    {{ d := "M32,0 A 23,21.5 0 1 0 32,36"
+      if rightSided { d = "M4,0 A 23,21.5 0 1 1 4,36" } }}
+    <path fill="transparent" stroke="white" d={d} />
   </svg>
 </div>
 }

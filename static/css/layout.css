@@ -7,6 +7,10 @@
   position: relative;
 }
 
+.p-right {
+  right: 0;
+}
+
 /* Margin helpers */
 .m-0 {
   margin: calc(var(--spacing) * 0);

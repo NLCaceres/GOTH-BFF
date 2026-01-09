@@ -21,6 +21,10 @@
   overflow: hidden;
 }
 
+.visible-overflow {
+  overflow: visible;
+}
+
 .text-bright-green {
   color: chartreuse;
 }
