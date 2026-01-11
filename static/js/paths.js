@@ -36,10 +36,20 @@ function transitionEnded(event) {
   }
 }
 
+function checkBoxClicked(e) {
+  (e.currentTarget.classList.contains('check'))
+    ? e.currentTarget.previousElementSibling.firstElementChild.setAttribute("stroke", "red")
+    : e.currentTarget.previousElementSibling.firstElementChild.setAttribute("stroke", "green");
+}
+
 /* Runs when <script> loads this file, adding event handlers IF it finds matching elems */
 for (const item of document.getElementsByClassName("items")) {
   item.addEventListener("mouseenter", mouseEntered, true);
   item.addEventListener("mouseleave", mouseLeft, true);
   item.addEventListener("transitionstart", transitionStarted, true);
   item.addEventListener("transitionend", transitionEnded, true);
+}
+
+for (const checkBox of document.getElementsByClassName("checkbox-button")) {
+  checkBox.addEventListener('click', checkBoxClicked)
 }
