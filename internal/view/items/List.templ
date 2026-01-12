@@ -19,7 +19,9 @@ templ list(items []model.Item) {
     for i, item := range items {
       <li class="grid listItem grid-transition mb-4">
         <div class="itemName flex centered cross-centered bg-gray-700">
-          <p>{ i + 1 }</p>
+          <div class="itemNameCover flex centered cross-centered">
+            <p class="itemNameID text-xl">{ i + 1 }</p>
+          </div>
         </div>
         <div class={
           "itemLink flex flex-column bg-gray-700 hide-overflow text-line-3",

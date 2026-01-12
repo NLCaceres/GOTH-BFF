@@ -41,6 +41,22 @@
   grid-area: item / name;
 }
 
+.itemNameCover {
+  outline: 3px solid red;
+  outline-offset: 8px;
+  height: 60px;
+  width: 60px;
+  transform: rotate(45deg) translate(-20%, 20%);
+}
+
+.listItem:nth-child(odd) .itemNameCover {
+  transform: rotate(45deg) translate(20%, -20%)
+}
+
+.itemNameID {
+  transform: rotate(-45deg);
+}
+
 .itemLink {
   grid-area: item / link;
   /* Min-height should = space needed for url + description + margins/spacing */
