@@ -17,10 +17,10 @@ templ ListPage(vm ViewModel) {
 templ list(items []model.Item) {
   <ul class="items mx-12 my-4">
     for i, item := range items {
-      <li class="grid listItem grid-transition mb-4">
+      <li class="grid listItem grid-transition mb-12">
         <div class="itemName flex centered cross-centered bg-gray-700">
-          <div class="itemNameCover flex centered cross-centered">
-            <p class="itemNameID text-xl">{ i + 1 }</p>
+          <div class="itemNameCover flex centered cross-centered bg-red">
+            <p class="itemNameID text-xl fw-bolder">{ i + 1 }</p>
           </div>
         </div>
         <div class={

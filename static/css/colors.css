@@ -4,6 +4,14 @@
   background-color: #374151;
 }
 
+.bg-green {
+  background-color: green;
+}
+
+.bg-red {
+  background-color: red;
+}
+
 /* Nuance: Sets background-image to none AND implicitly background-color to transparent */
 .bg-none {
   background: none;
