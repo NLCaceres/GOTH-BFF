@@ -41,12 +41,30 @@
   grid-area: item / name;
 }
 
+.listItem:nth-child(even) .itemName {
+  border-top-left-radius: 2rem;
+  border-bottom-left-radius: 2rem;
+}
+
+.listItem:nth-child(odd) .itemName {
+  border-top-right-radius: 2rem;
+  border-bottom-right-radius: 2rem;
+}
+
 .itemNameCover {
   outline: 3px solid red;
   outline-offset: 8px;
   height: 60px;
   width: 60px;
   transform: rotate(45deg) translate(-20%, 20%);
+}
+
+@media (max-width: 768px) {
+  .itemNameCover {
+    height: 50px;
+    width: 50px;
+    outline-offset: 5px;
+  }
 }
 
 .listItem:nth-child(odd) .itemNameCover {
