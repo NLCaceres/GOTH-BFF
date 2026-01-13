@@ -34,10 +34,7 @@ templ list(items []model.Item) {
             { item.Description }
           </p>
         </div>
-        <div class={
-          "itemButton flex centered cross-centered bg-gray-700 p-relative",
-          templ.KV("rounded-left", i % 2 == 0), templ.KV("rounded-right", i % 2 != 0)
-        }>
+        <div class="itemButton flex centered cross-centered bg-gray-700 p-relative">
           @reusable.BackingCircle(i % 2 != 0, "red")
           @reusable.Checkbox(i)
         </div>

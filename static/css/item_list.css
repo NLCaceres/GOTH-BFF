@@ -92,12 +92,12 @@
   grid-area: item / button;
 }
 
-.rounded-left {
-  border-top-left-radius: 2.5rem;
-  border-bottom-left-radius: 2.5rem;
-}
-
-.rounded-right {
+.listItem:nth-child(even) .itemButton {
   border-top-right-radius: 2.5rem;
   border-bottom-right-radius: 2.5rem;
+}
+
+.listItem:nth-child(odd) .itemButton {
+  border-top-left-radius: 2.5rem;
+  border-bottom-left-radius: 2.5rem;
 }
