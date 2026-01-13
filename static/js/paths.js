@@ -37,9 +37,17 @@ function transitionEnded(event) {
 }
 
 function checkBoxClicked(e) {
-  (e.currentTarget.classList.contains('check'))
-    ? e.currentTarget.previousElementSibling.firstElementChild.setAttribute("stroke", "red")
-    : e.currentTarget.previousElementSibling.firstElementChild.setAttribute("stroke", "green");
+  const item = e.currentTarget;
+  const id = item.parentElement?.previousElementSibling?.previousElementSibling?.firstElementChild;
+  const check = item.previousElementSibling?.firstElementChild;
+  if (item.classList.contains('check')) {
+    id?.classList.replace('bg-green', 'bg-red');
+    check?.setAttribute('stroke', 'red');
+  }
+  else {
+    id?.classList.replace('bg-red', 'bg-green');
+    check?.setAttribute('stroke', 'green');
+  }
 }
 
 /* Runs when <script> loads this file, adding event handlers IF it finds matching elems */
