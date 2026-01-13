@@ -52,11 +52,12 @@
 }
 
 .itemNameCover {
-  outline: 3px solid red;
+  outline: 3px solid;
   outline-offset: 8px;
   height: 60px;
   width: 60px;
   transform: rotate(45deg) translate(-20%, 20%);
+  transition: outline-color 500ms, background-color 500ms;
 }
 
 @media (max-width: 768px) {
@@ -69,6 +70,14 @@
 
 .listItem:nth-child(odd) .itemNameCover {
   transform: rotate(45deg) translate(20%, -20%)
+}
+
+.itemNameCover.bg-red {
+  outline-color: red;
+}
+
+.itemNameCover.bg-green {
+  outline-color: green;
 }
 
 .itemNameID {
