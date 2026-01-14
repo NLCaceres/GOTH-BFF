@@ -22,13 +22,13 @@
   }
 }
 
-.listItem:nth-child(odd) {
+.listItem:nth-child(even) {
   grid-template-areas: "button link name";
   grid-template-columns: [name] 1.25fr [link] 4fr [button] 1fr
 }
 
 @media (width <=768px) {
-  .listItem:nth-child(odd) {
+  .listItem:nth-child(even) {
     grid-template-columns: [name] 1.5fr [link] 3fr [button] 1fr;
   }
 }
@@ -41,12 +41,12 @@
   grid-area: item / name;
 }
 
-.listItem:nth-child(even) .itemName {
+.listItem:nth-child(odd) .itemName {
   border-top-left-radius: 2rem;
   border-bottom-left-radius: 2rem;
 }
 
-.listItem:nth-child(odd) .itemName {
+.listItem:nth-child(even) .itemName {
   border-top-right-radius: 2rem;
   border-bottom-right-radius: 2rem;
 }
@@ -68,7 +68,7 @@
   }
 }
 
-.listItem:nth-child(odd) .itemNameCover {
+.listItem:nth-child(even) .itemNameCover {
   transform: rotate(45deg) translate(20%, -20%)
 }
 
@@ -101,12 +101,12 @@
   grid-area: item / button;
 }
 
-.listItem:nth-child(even) .itemButton {
+.listItem:nth-child(odd) .itemButton {
   border-top-right-radius: 2.5rem;
   border-bottom-right-radius: 2.5rem;
 }
 
-.listItem:nth-child(odd) .itemButton {
+.listItem:nth-child(even) .itemButton {
   border-top-left-radius: 2.5rem;
   border-bottom-left-radius: 2.5rem;
 }

@@ -35,7 +35,7 @@ templ list(items []model.Item) {
           </p>
         </div>
         <div class="itemButton flex centered cross-centered bg-gray-700 p-relative">
-          @reusable.BackingCircle(i % 2 != 0, "red")
+          @reusable.BackingCircle(i % 2 == 0, "red")
           @reusable.Checkbox(i)
         </div>
       </li>
