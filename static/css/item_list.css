@@ -42,13 +42,13 @@
 }
 
 .listItem:nth-child(odd) .itemName {
-  border-top-left-radius: 2rem;
-  border-bottom-left-radius: 2rem;
+  border-top-left-radius: 3rem;
+  border-bottom-left-radius: 3rem;
 }
 
 .listItem:nth-child(even) .itemName {
-  border-top-right-radius: 2rem;
-  border-bottom-right-radius: 2rem;
+  border-top-right-radius: 3rem;
+  border-bottom-right-radius: 3rem;
 }
 
 .itemNameCover {
@@ -102,11 +102,11 @@
 }
 
 .listItem:nth-child(odd) .itemButton {
-  border-top-right-radius: 2.5rem;
-  border-bottom-right-radius: 2.5rem;
+  border-top-right-radius: 3rem;
+  border-bottom-right-radius: 3rem;
 }
 
 .listItem:nth-child(even) .itemButton {
-  border-top-left-radius: 2.5rem;
-  border-bottom-left-radius: 2.5rem;
+  border-top-left-radius: 3rem;
+  border-bottom-left-radius: 3rem;
 }
