@@ -106,7 +106,7 @@ func list(items []model.Item) templ.Component {
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
-			var templ_7745c5c3_Var5 = []any{"itemLink flex flex-column bg-gray-700 hide-overflow text-line-3",
+			var templ_7745c5c3_Var5 = []any{"itemLink flex flex-column bg-gray-700 hide-overflow text-line-3 py-1",
 				templ.KV("text-end", i%2 != 0)}
 			templ_7745c5c3_Err = templ.RenderCSSItems(ctx, templ_7745c5c3_Buffer, templ_7745c5c3_Var5...)
 			if templ_7745c5c3_Err != nil {

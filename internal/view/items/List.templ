@@ -24,7 +24,7 @@ templ list(items []model.Item) {
           </div>
         </div>
         <div class={
-          "itemLink flex flex-column bg-gray-700 hide-overflow text-line-3",
+          "itemLink flex flex-column bg-gray-700 hide-overflow text-line-3 py-1",
           templ.KV("text-end", i % 2 != 0)
         }>
           <a href={ item.URL } class="text-xl">
