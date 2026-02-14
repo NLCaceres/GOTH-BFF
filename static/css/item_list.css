@@ -17,7 +17,7 @@
   margin-right: 2rem;
 }
 
-@media (width <=768px) {
+@media (width <=576px) {
   .listItem {
     grid-template-columns: [name] 1fr [link] 3fr [button] 1.5fr;
   }
@@ -30,7 +30,7 @@
   margin-right: 0;
 }
 
-@media (width <=768px) {
+@media (width <=576px) {
   .listItem:nth-child(even) {
     grid-template-columns: [name] 1.5fr [link] 3fr [button] 1fr;
   }
@@ -65,9 +65,14 @@
 
 @media (max-width: 768px) {
   .itemNameCover {
+    outline-offset: 5px;
+  }
+}
+
+@media (width < 576px) {
+  .itemNameCover {
     height: 50px;
     width: 50px;
-    outline-offset: 5px;
   }
 }
 
