@@ -23,6 +23,12 @@
   }
 }
 
+@media (width < 1024px) {
+  .listItem {
+    grid-template-columns: [name] 0.75fr [link] 4.5fr [button] 1fr;
+  }
+}
+
 .listItem:nth-child(even) {
   grid-template-areas: "button link name";
   grid-template-columns: [name] 1.25fr [link] 4fr [button] 1fr;
@@ -35,6 +41,13 @@
     grid-template-columns: [name] 1.5fr [link] 3fr [button] 1fr;
   }
 }
+
+@media (width < 1024px) {
+  .listItem:nth-child(even) {
+    grid-template-columns: [name] 1fr [link] 4.5fr [button] 0.75fr;
+  }
+}
+
 
 .listItem:has(.itemLink:hover) {
   grid-template-rows: [item] 1fr;
