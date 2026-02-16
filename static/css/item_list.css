@@ -48,6 +48,27 @@
   }
 }
 
+@media (576px <=width < 1024px) {
+  .listItem {
+    margin-right: 3rem;
+  }
+
+  .listItem:nth-child(even) {
+    margin-left: 3rem;
+    margin-right: 0;
+  }
+}
+
+@media (width >=1440px) {
+  .listItem {
+    margin-right: 0.75rem;
+  }
+
+  .listItem:nth-child(even) {
+    margin-left: 0.75rem;
+    margin-right: 0;
+  }
+}
 
 .listItem:has(.itemLink:hover) {
   grid-template-rows: [item] 1fr;
