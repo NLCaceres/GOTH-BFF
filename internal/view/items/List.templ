@@ -15,7 +15,7 @@ templ ListPage(vm ViewModel) {
 }
 
 templ list(items []model.Item) {
-  <ul class="items mx-12 my-4">
+  <ul class="items mx-8 md:mx-16 xl:mx-8 my-8">
     for i, item := range items {
       <li class="grid listItem grid-transition mb-12">
         <div class="itemName flex centered cross-centered bg-gray-700">
