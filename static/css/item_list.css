@@ -127,6 +127,7 @@
 }
 
 .itemLink {
+  position: relative;
   grid-area: item / link;
   text-align: end;
   padding-right: 2rem;
@@ -134,13 +135,6 @@
   /* Min-height = Link text (1.5rem) + 2 Description lines + mt-1 + (py-1 * 3) */
   min-height: calc(1.5rem + (2 * 17px * 1.2) + (4 * 0.25rem));
   line-height: 1.25;
-}
-
-.listItem>.no-ellipsis {
-  display: flex;
-  line-clamp: none;
-  -webkit-line-clamp: none;
-  -webkit-box-orient: inline-axis;
 }
 
 .listItem:nth-child(odd) .itemLink {
@@ -167,6 +161,26 @@
   .listItem:nth-child(odd) .itemLink>p {
     text-align: start;
   }
+}
+
+.itemLink>p {
+  overflow: clip;
+}
+
+.itemLink:has(p.overflowing)::after {
+  display: block;
+  content: "";
+  background: linear-gradient(to right, transparent, #374151 95%);
+  height: calc(17px * 1.2);
+  width: 100%;
+  position: absolute;
+  inset-block-end: 0;
+  pointer-events: none;
+  transition: width 1s;
+}
+
+.itemLink:has(p.overflowing):hover::after {
+  width: 0;
 }
 
 .itemButton {
