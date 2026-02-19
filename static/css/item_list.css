@@ -163,10 +163,6 @@
   }
 }
 
-.itemLink>p {
-  overflow: clip;
-}
-
 .itemLink:has(p.overflowing)::after {
   display: block;
   content: "";

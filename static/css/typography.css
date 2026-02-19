@@ -21,6 +21,10 @@
   -webkit-box-orient: vertical;
 }
 
+.clip-overflow {
+  overflow: clip;
+}
+
 .hide-overflow {
   overflow: hidden;
 }
