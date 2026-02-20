@@ -12,19 +12,25 @@ function checkBoxClicked(e) {
   }
 }
 
-/* Following code runs when the `<script>` is loaded */
+function itemLinkOverflowing() {
+  for (const item of document.getElementsByClassName("itemLink")) {
+    if ((item.scrollHeight - item.offsetHeight) > 5) {
+      item.lastElementChild.classList.add("overflowing");
+    }
+  }
+}
+
+// Runs ONLY upon resize (so could possibly NOT run)
 let resizeTimeout;
 window.addEventListener("resize", function() {
   window.clearTimeout(resizeTimeout);
-  resizeTimeout = window.setTimeout(function() {
-    for (const item of document.getElementsByClassName("itemLink")) {
-      if ((item.scrollHeight - item.offsetHeight) > 5) {
-        item.lastElementChild.classList.add("overflowing");
-      }
-    }
-  }, 500);
-})
+  resizeTimeout = window.setTimeout(itemLinkOverflowing, 500);
+});
 
-for (const checkBox of document.getElementsByClassName("checkbox-button")) {
-  checkBox.addEventListener('click', checkBoxClicked)
-}
+// Runs as soon the HTML is parsed BUT often before it's fully constructed
+window.addEventListener("DOMContentLoaded", function() {
+  itemLinkOverflowing()
+  for (const checkBox of document.getElementsByClassName("checkbox-button")) {
+    checkBox.addEventListener('click', checkBoxClicked)
+  }
+});
