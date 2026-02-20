@@ -1,14 +1,15 @@
-function checkBoxClicked(e) {
-  const item = e.currentTarget;
-  const id = item.parentElement?.previousElementSibling?.previousElementSibling?.firstElementChild;
-  const check = item.previousElementSibling?.firstElementChild;
-  if (item.classList.contains('check')) {
+/** Syncs the ID container color with the checkbox background color in `.listItem` elem */
+function syncItemColoring(e) {
+  const checkbox = e.currentTarget;
+  const id = checkbox.parentElement?.previousElementSibling?.previousElementSibling?.firstElementChild;
+  const checkboxBackground = checkbox.previousElementSibling?.firstElementChild;
+  if (checkbox.classList.contains('check')) {
     id?.classList.replace('bg-green', 'bg-red');
-    check?.setAttribute('stroke', 'red');
+    checkboxBackground?.setAttribute('stroke', 'red');
   }
   else {
     id?.classList.replace('bg-red', 'bg-green');
-    check?.setAttribute('stroke', 'green');
+    checkboxBackground?.setAttribute('stroke', 'green');
   }
 }
 
@@ -29,8 +30,8 @@ window.addEventListener("resize", function() {
 
 // Runs as soon the HTML is parsed BUT often before it's fully constructed
 window.addEventListener("DOMContentLoaded", function() {
-  itemLinkOverflowing()
+  itemLinkOverflowing();
   for (const checkBox of document.getElementsByClassName("checkbox-button")) {
-    checkBox.addEventListener('click', checkBoxClicked)
+    checkBox.addEventListener('click', syncItemColoring);
   }
 });
