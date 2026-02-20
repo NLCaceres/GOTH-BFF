@@ -13,6 +13,7 @@ function syncItemColoring(e) {
   }
 }
 
+/** Checks all `.itemLink` elems, adding CSS marker class if <p> inside overflows */
 function itemLinkOverflowing() {
   for (const item of document.getElementsByClassName("itemLink")) {
     if ((item.scrollHeight - item.offsetHeight) > 5) {
