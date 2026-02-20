@@ -17,3 +17,12 @@ export const hasClass = (element, className) => element.classList.contains(class
  * values found in the HTML element `tagName` and `classList`, respectively */
 export const elementWithClass = (element, name, className) =>
   elementIs(element, name) && hasClass(element, className);
+
+/** Takes a function to run after a given delay has passed without additional calls */
+export const debounce = (func, delay) => {
+  let timeout;
+  return () => {
+    window.clearTimeout(timeout);
+    timeout = window.setTimeout(func, delay);
+  }
+}

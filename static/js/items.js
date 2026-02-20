@@ -1,3 +1,5 @@
+import { debounce } from "./helpers.js";
+
 /** Syncs the ID container color with the checkbox background color in `.listItem` elem */
 function syncItemColoring(e) {
   const checkbox = e.currentTarget;
@@ -22,12 +24,8 @@ function itemLinkOverflowing() {
   }
 }
 
-// Runs ONLY upon resize (so could possibly NOT run)
-let resizeTimeout;
-window.addEventListener("resize", function() {
-  window.clearTimeout(resizeTimeout);
-  resizeTimeout = window.setTimeout(itemLinkOverflowing, 500);
-});
+// Runs ONLY upon resize (so could possibly NEVER run)
+window.addEventListener("resize", debounce(itemLinkOverflowing, 500));
 
 // Runs as soon the HTML is parsed BUT often before it's fully constructed
 window.addEventListener("DOMContentLoaded", function() {
