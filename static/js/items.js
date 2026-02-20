@@ -13,11 +13,17 @@ function checkBoxClicked(e) {
 }
 
 /* Following code runs when the `<script>` is loaded */
-for (const item of document.getElementsByClassName("itemLink")) {
-  if ((item.scrollHeight - item.offsetHeight) > 5) {
-    item.lastElementChild.classList.add("overflowing");
-  }
-}
+let resizeTimeout;
+window.addEventListener("resize", function() {
+  window.clearTimeout(resizeTimeout);
+  resizeTimeout = window.setTimeout(function() {
+    for (const item of document.getElementsByClassName("itemLink")) {
+      if ((item.scrollHeight - item.offsetHeight) > 5) {
+        item.lastElementChild.classList.add("overflowing");
+      }
+    }
+  }, 500);
+})
 
 for (const checkBox of document.getElementsByClassName("checkbox-button")) {
   checkBox.addEventListener('click', checkBoxClicked)
