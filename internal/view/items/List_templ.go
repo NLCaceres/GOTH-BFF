@@ -128,20 +128,20 @@ func list(items []model.Item) templ.Component {
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
-			templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 8, "</a><p class=\"m-0 mt-1 text-white white-space-pre-line clip-overflow\">")
+			templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 8, "</a> <span class=\"w-85\"><p class=\"m-0 mt-1 text-white white-space-pre-line clip-overflow\">")
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
 			var templ_7745c5c3_Var7 string
 			templ_7745c5c3_Var7, templ_7745c5c3_Err = templ.JoinStringErrs(item.Description)
 			if templ_7745c5c3_Err != nil {
-				return templ.Error{Err: templ_7745c5c3_Err, FileName: `internal/view/items/List.templ`, Line: 31, Col: 30}
+				return templ.Error{Err: templ_7745c5c3_Err, FileName: `internal/view/items/List.templ`, Line: 32, Col: 32}
 			}
 			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var7))
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
-			templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 9, "</p></div><div class=\"itemButton flex centered cross-centered bg-gray-700 p-relative\">")
+			templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 9, "</p></span></div><div class=\"itemButton flex centered cross-centered bg-gray-700 p-relative\">")
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}

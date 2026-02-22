@@ -27,9 +27,11 @@ templ list(items []model.Item) {
           <a href={ item.URL } class="text-xl">
             { item.Name }
           </a>
-          <p class="m-0 mt-1 text-white white-space-pre-line clip-overflow">
-            { item.Description }
-          </p>
+          <span class="w-85">
+            <p class="m-0 mt-1 text-white white-space-pre-line clip-overflow">
+              { item.Description }
+            </p>
+          </span>
         </div>
         <div class="itemButton flex centered cross-centered bg-gray-700 p-relative">
           @reusable.BackingCircle(i % 2 == 0, "red")
