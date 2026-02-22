@@ -95,6 +95,7 @@
   width: 60px;
   transform: rotate(45deg) translate(-20%, 20%);
   transition: outline-color 500ms, background-color 500ms;
+  z-index: 1;
 }
 
 @media (max-width: 768px) {
