@@ -163,7 +163,7 @@
   }
 }
 
-.itemLink:has(p.overflowing)::after {
+.itemLink:has(.overflowing)::after {
   display: block;
   content: "";
   background: linear-gradient(to right, transparent, #374151 95%);
@@ -175,7 +175,7 @@
   transition: width 1s;
 }
 
-.itemLink:has(p.overflowing):hover::after {
+.itemLink:has(.overflowing):hover::after {
   width: 0;
 }
 
