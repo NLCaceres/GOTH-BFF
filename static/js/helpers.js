@@ -21,8 +21,8 @@ export const elementWithClass = (element, name, className) =>
 /** Takes a function to run after a given delay has passed without additional calls */
 export const debounce = (func, delay) => {
   let timeout;
-  return () => {
+  return (...args) => {
     window.clearTimeout(timeout);
-    timeout = window.setTimeout(func, delay);
+    timeout = window.setTimeout(() => { func(...args) }, delay);
   }
 }
