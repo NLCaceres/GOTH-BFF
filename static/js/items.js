@@ -20,6 +20,8 @@ function itemLinkOverflowing() {
   for (const item of document.getElementsByClassName("itemLink")) {
     if ((item.scrollHeight - item.offsetHeight) > 5) {
       item.lastElementChild.classList.add("overflowing");
+    } else {
+      item.lastElementChild.classList.remove("overflowing");
     }
   }
 }
