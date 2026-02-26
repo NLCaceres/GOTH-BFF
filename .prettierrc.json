@@ -17,5 +17,5 @@
   "proseWrap": "preserve",
   "htmlWhitespaceSensitivity": "css",
   "embeddedLanguageFormatting": "auto",
-  "singleAttributePerLine": false,
+  "singleAttributePerLine": false
 }
