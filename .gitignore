@@ -2,3 +2,8 @@ bin
 tmp
 *.db
 .env
+
+query.json
+long_query.json
+eslint.config.js
+*.pem
