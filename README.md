@@ -47,15 +47,15 @@ of the page routing
   - `go get -u ./...` - Updates dependencies to latest versions
   - `go get -tool <github-url>` - Installs tool dependencies
     - Adds `tool` directive to `go.mod` for pkgs like linters/formatters/builders
-    - Pre-Go v1.24 tool dependencies could be split off into a `/internal/tools`
-    package with a `tools.go` file importing the tools and a `go.mod` requiring them.
+    - Pre-Go v1.24 tool dependencies could be put into a `/internal/tools` package
+    with a `tools.go` file importing the tools and a `go.mod` requiring them,
     BUT, this would require a `Makefile` command to globally install the runnables
 - `go mod init <my-github/root-folder>`
   - Run in root folder to set up dependency tracking creating `go.mod`, i.e.
   `go mod init github.com/NLCaceres/goth-example` sets up a "goth-example" module
 - `go mod tidy` - Clean up and optimize dependencies in `go.mod` and `go.sum` files
   - Very useful since it acts a bit like `go get .`, adding direct and indirect
-  dependencies to `go.mod` & `go.sum` as well as updating indirect dependencies or
+  dependencies to `go.mod` & `go.sum` + updating indirect dependencies or
   removing unneeded ones, making it important after any dependency changes & updates
 - `go run cmd/main.go` - Runs `main()` inside the cmd folder's `main.go` file
   - To run the module with live reloading, install `github.com/bokwoon95/wgo`
@@ -72,12 +72,12 @@ and all test functions start with `Test` and include a parameter `t` of type `*t
 (or sometimes of type `*testing.B` or `*testing.F` for Benchmarks or Fuzzing respectively).
 
 For funcs with lots of cases to test, Golang uses table testing as a means of covering
-all of these test cases from a single parent test func, structuring the test to be
-very simple, readable and quick to write.
+all of these test cases from a single parent test func, structuring the test to
+be very simple, readable and quick to write.
 
 In order to best focus a test on the particular function in question, testing mocks
-are often helpful replacements for the functions' parameters. By creating Mocks that
-resemble those parameter types, but with quick and lightweight implementations of
+are often helpful replacements for the functions' parameters. By creating Mocks
+resembling those parameter types, but with quick & lightweight implementations of
 their interface methods, we can guarantee and, in the case of spies, verify specific
 interactions occur between the function and its parameters. If these events don't
 occur, then we can fail the tests. In Go, the standard library also includes one
@@ -98,8 +98,20 @@ packages you've created as args and also offers a `-v` flag for detailed logging
 ### Helpful Golang Style Guides
 
 1. [Google Style Guide](https://google.github.io/styleguide/go/)
-    - Style Decisions is very helpful in understanding specific reasoning behind
-    Go's features & their usage whether package naming, initializers/getters or methods
+    - Style Decisions is very helpful to understand the logic behind Go's features
+    & their usage whether package naming, initializers/getters or methods
     - Best Practices details many of Go's most common patterns to common problems
 2. [Effective Go](https://go.dev/doc/effective_go)
     - Effectively, a more concise version of Google's Style Guide
+
+#### Start with TLS in Local Dev
+
+- In local development, running
+`go run $GOROOT/src/crypto/tls/generate_cert.go --host localhost` produces a self
+signed certificate and private key that can be used by `StartTLS()` to upgrade
+HTTP connections to HTTP/2, which should improve load times by shrinking Headers,
+prioritizing certain page resources, and parallel streaming of data.
+  - In prod, most deployment hosts SHOULD already be able to handle creating
+  a TLS certificate, ensuring a HTTPS (HTTP/2) connection is used, making `StartTLS()`
+  unneccessary outside of the dev environment.
+  - `go env GOROOT` will display the actual GOROOT you should use in the above command
