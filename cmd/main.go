@@ -6,11 +6,9 @@ import (
 	"github.com/joho/godotenv"
 	"github.com/labstack/echo/v4"
 	"github.com/labstack/echo/v4/middleware"
-	"golang.org/x/net/http2"
 	"log"
 	"slices"
 	"strings"
-	"time"
 )
 
 func main() {
@@ -37,7 +35,8 @@ func main() {
 		Root: "static",
 		Skipper: func(c echo.Context) bool { // Skip if returning true
 			isValidRef := strings.HasPrefix(c.Request().Referer(), "http://localhost:3000") ||
-				strings.HasPrefix(c.Request().Referer(), "http://127.0.0.1:7331")
+				strings.HasPrefix(c.Request().Referer(), "http://127.0.0.1:7331") ||
+				strings.HasPrefix(c.Request().Referer(), "https://localhost:3000")
 			isNavigation := slices.Contains(c.Request().Header["Sec-Fetch-Mode"], "navigate")
 			isSameOrigin := slices.Contains(c.Request().Header["Sec-Fetch-Site"], "same-origin")
 			if isValidRef && !isNavigation && isSameOrigin {
@@ -49,8 +48,5 @@ func main() {
 
 	route.Routes(app) // Routes must ALSO be declared before `app.Start` is called
 
-	s := &http2.Server{
-		MaxConcurrentStreams: 250, MaxReadFrameSize: 1048576, IdleTimeout: 10 * time.Second,
-	}
-	app.Logger.Debug(app.StartH2CServer(":3000", s))
+	app.Logger.Debug(app.StartTLS(":3000", "cert.pem", "key.pem"))
 }
