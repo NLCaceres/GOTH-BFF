@@ -6,9 +6,11 @@ import (
 	"github.com/joho/godotenv"
 	"github.com/labstack/echo/v4"
 	"github.com/labstack/echo/v4/middleware"
+	"golang.org/x/net/http2"
 	"log"
 	"slices"
 	"strings"
+	"time"
 )
 
 func main() {
@@ -47,5 +49,8 @@ func main() {
 
 	route.Routes(app) // Routes must ALSO be declared before `app.Start` is called
 
-	app.Logger.Debug(app.Start("localhost:3000"))
+	s := &http2.Server{
+		MaxConcurrentStreams: 250, MaxReadFrameSize: 1048576, IdleTimeout: 10 * time.Second,
+	}
+	app.Logger.Debug(app.StartH2CServer(":3000", s))
 }
