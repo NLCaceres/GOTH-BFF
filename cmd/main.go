@@ -48,5 +48,5 @@ func main() {
 
 	route.Routes(app) // Routes must ALSO be declared before `app.Start` is called
 
-	app.Logger.Debug(app.StartTLS(":3000", "cert.pem", "key.pem"))
+	app.Logger.Debug(app.Start("localhost:3000"))
 }

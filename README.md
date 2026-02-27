@@ -115,3 +115,8 @@ prioritizing certain page resources, and parallel streaming of data.
   a TLS certificate, ensuring a HTTPS (HTTP/2) connection is used, making `StartTLS()`
   unneccessary outside of the dev environment.
   - `go env GOROOT` will display the actual GOROOT you should use in the above command
+  - `StartAutoTLS(":3000")` could be used BUT won't work in development since
+  "Let's Encrypt" (and all other certificate authorities) would never provide a
+  TLS certificate for `localhost` (and won't issue it to an IP address, e.g. `127.0.0.1`)
+    - Generally recommended to add `autocert.Manager` config to help cache the
+    certificate and whitelist specific domains to prevent rate limits
