@@ -45,8 +45,11 @@ of the page routing
   - `go get <github-url>@none` - Removes dependency
   - `go get .` - Finds external dependencies in current package files to install
   - `go get -u ./...` - Updates dependencies to latest versions
+    - `go get -u <github-url>` for specific dependency updates
   - `go get -tool <github-url>` - Installs tool dependencies
     - Adds `tool` directive to `go.mod` for pkgs like linters/formatters/builders
+      - The dependency in `tool` is unversioned BUT related to a dependency
+      in `require` above it, so technically affected by `go get -u`
     - Pre-Go v1.24 tool dependencies could be put into a `/internal/tools` package
     with a `tools.go` file importing the tools and a `go.mod` requiring them,
     BUT, this would require a `Makefile` command to globally install the runnables
