@@ -14,7 +14,7 @@ import (
 
 func RenderView(c *echo.Context) error {
 	component := index.HTML(index.Home(), index.ViewModel{Title: "Home", CssPaths: nil})
-	return component.Render(c.Request().Context(), c.Response().Writer)
+	return component.Render(c.Request().Context(), c.Response())
 }
 
 func RenderHTMLView(c *echo.Context, page templ.Component, vm index.ViewModel) error {
