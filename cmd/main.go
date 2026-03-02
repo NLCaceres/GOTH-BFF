@@ -1,31 +1,37 @@
 package main
 
 import (
-	"fmt"
+	"context"
 	"github.com/NLCaceres/goth-example/internal/route"
 	"github.com/joho/godotenv"
 	"github.com/labstack/echo/v5"
 	"github.com/labstack/echo/v5/middleware"
-	"log"
+	"log/slog"
+	"os"
 	"slices"
 	"strings"
 )
 
 func main() {
+	logger := slog.New(slog.NewJSONHandler(os.Stdout, nil))
 	if dotEnvErr := godotenv.Load(); dotEnvErr != nil {
-		log.Fatal("Environment not properly loaded") // "log" is prettier than "fmt" by default
+		logger.Error("Environment not properly loaded")
 	} // NOTE: "log" AND "fmt" print to the terminal BUT Echo's logger easily hides them
 
 	app := echo.New()
 	// `Use` must be used & declared BEFORE starting the app
 	app.Use(middleware.RequestLoggerWithConfig(middleware.RequestLoggerConfig{
-		LogStatus: true, LogURI: true, LogError: true,
+		LogStatus: true, LogURI: true,
 		HandleError: true, // Forward errors to the global handler to decide status code
 		LogValuesFunc: func(c *echo.Context, v middleware.RequestLoggerValues) error {
 			if v.Error == nil { // Println provides a simple way of concatening strings with vars with spaces injected between
-				fmt.Println("REQUEST URL =", v.URI, "&", "REQUEST Status =", v.Status)
+				logger.LogAttrs(context.Background(), slog.LevelInfo, "REQUEST",
+					slog.String("uri", v.URI), slog.Int("status", v.Status),
+				)
 			} else { // Printf provides an old-school Python style of interpolating vars into a string BUT SHOULD end with `\n`
-				fmt.Printf("ERROR on REQUEST URL = %v with Status %v & Error = %v\n", v.URI, v.Status, v.Error)
+				logger.LogAttrs(context.Background(), slog.LevelError, "REQUEST_ERROR",
+					slog.String("uri", v.URI), slog.Int("status", v.Status), slog.String("err", v.Error.Error()),
+				)
 			}
 			return nil
 		},
@@ -48,5 +54,7 @@ func main() {
 
 	route.Routes(app) // Routes must ALSO be declared before `app.Start` is called
 
-	app.Logger.Debug(app.Start("localhost:3000"))
+	if err := app.Start("localhost:3000"); err != nil {
+		app.Logger.Error("Could not start the server")
+	}
 }
