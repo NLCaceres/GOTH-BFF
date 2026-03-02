@@ -8,16 +8,16 @@ import (
 	"github.com/NLCaceres/goth-example/internal/view/index"
 	"github.com/NLCaceres/goth-example/internal/view/items"
 	"github.com/a-h/templ"
-	"github.com/labstack/echo/v4"
+	"github.com/labstack/echo/v5"
 	"net/http"
 )
 
-func RenderView(c echo.Context) error {
+func RenderView(c *echo.Context) error {
 	component := index.HTML(index.Home(), index.ViewModel{Title: "Home", CssPaths: nil})
 	return component.Render(c.Request().Context(), c.Response().Writer)
 }
 
-func RenderHTMLView(c echo.Context, page templ.Component, vm index.ViewModel) error {
+func RenderHTMLView(c *echo.Context, page templ.Component, vm index.ViewModel) error {
 	htmlStr, err := templ.ToGoHTML(c.Request().Context(), index.HTML(page, vm))
 	if err != nil {
 		return c.NoContent(http.StatusNotFound)
@@ -26,7 +26,7 @@ func RenderHTMLView(c echo.Context, page templ.Component, vm index.ViewModel) er
 	return c.HTML(http.StatusAccepted, string(htmlStr))
 }
 
-func RenderQuery(c echo.Context) error {
+func RenderQuery(c *echo.Context) error {
 	name := c.Path()[1:]
 	res, err := queryapi.Call(name)
 	var e queryapi.Error

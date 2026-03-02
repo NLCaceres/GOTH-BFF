@@ -4,8 +4,8 @@ import (
 	"fmt"
 	"github.com/NLCaceres/goth-example/internal/route"
 	"github.com/joho/godotenv"
-	"github.com/labstack/echo/v4"
-	"github.com/labstack/echo/v4/middleware"
+	"github.com/labstack/echo/v5"
+	"github.com/labstack/echo/v5/middleware"
 	"log"
 	"slices"
 	"strings"
@@ -21,7 +21,7 @@ func main() {
 	app.Use(middleware.RequestLoggerWithConfig(middleware.RequestLoggerConfig{
 		LogStatus: true, LogURI: true, LogError: true,
 		HandleError: true, // Forward errors to the global handler to decide status code
-		LogValuesFunc: func(c echo.Context, v middleware.RequestLoggerValues) error {
+		LogValuesFunc: func(c *echo.Context, v middleware.RequestLoggerValues) error {
 			if v.Error == nil { // Println provides a simple way of concatening strings with vars with spaces injected between
 				fmt.Println("REQUEST URL =", v.URI, "&", "REQUEST Status =", v.Status)
 			} else { // Printf provides an old-school Python style of interpolating vars into a string BUT SHOULD end with `\n`
@@ -33,7 +33,7 @@ func main() {
 
 	app.Use(middleware.StaticWithConfig(middleware.StaticConfig{
 		Root: "static",
-		Skipper: func(c echo.Context) bool { // Skip if returning true
+		Skipper: func(c *echo.Context) bool { // Skip if returning true
 			isValidRef := strings.HasPrefix(c.Request().Referer(), "http://localhost:3000") ||
 				strings.HasPrefix(c.Request().Referer(), "http://127.0.0.1:7331") ||
 				strings.HasPrefix(c.Request().Referer(), "https://localhost:3000")

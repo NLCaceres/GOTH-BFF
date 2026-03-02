@@ -3,11 +3,11 @@ package handler
 import (
 	"errors"
 	"github.com/NLCaceres/goth-example/internal/handler/queryapi"
-	"github.com/labstack/echo/v4"
+	"github.com/labstack/echo/v5"
 	"net/http"
 )
 
-func QueryJSON(c echo.Context) error {
+func QueryJSON(c *echo.Context) error {
 	res, err := queryapi.Call(c.Path()[1:])
 	var e queryapi.Error
 	if errors.As(err, &e) {

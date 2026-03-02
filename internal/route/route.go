@@ -6,7 +6,7 @@ import (
 	"github.com/NLCaceres/goth-example/internal/util/stringy"
 	"github.com/NLCaceres/goth-example/internal/view/index"
 	"github.com/NLCaceres/goth-example/internal/view/items"
-	"github.com/labstack/echo/v4"
+	"github.com/labstack/echo/v5"
 	"os"
 	"strings"
 )
@@ -15,7 +15,7 @@ import (
 
 func Routes(app *echo.Echo) {
 	app.GET("/", handler.RenderView)
-	app.GET("/:name", func(c echo.Context) error {
+	app.GET("/:name", func(c *echo.Context) error {
 		name := c.Param("name")
 		vm := index.ViewModel{Title: name, CssPaths: []string{"css/item_list.css"}}
 		itemsVm := items.ViewModel{Title: name, Items: model.ManyMockItems()}
