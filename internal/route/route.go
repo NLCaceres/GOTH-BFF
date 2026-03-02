@@ -27,11 +27,18 @@ func Routes(app *echo.Echo) {
 
 func ApiRoutes(app *echo.Echo) {
 	routeMap := stringy.Map(os.Getenv("ROUTE_MAP"))
+	routeAddedMap := make(map[string]bool)
 	for _, route := range strings.Split(os.Getenv("APP_ROUTES"), ",") {
 		routePath := "/" + route
 		routeFormattedPath := "/" + stringy.PresenterMapValue(routeMap, route)
 
-		app.GET(routePath, handler.RenderQuery)
-		app.GET(routeFormattedPath, handler.RenderQuery)
+		if !routeAddedMap[routePath] {
+			app.GET(routePath, handler.RenderQuery)
+			routeAddedMap[routePath] = true
+		}
+		if !routeAddedMap[routeFormattedPath] {
+			app.GET(routeFormattedPath, handler.RenderQuery)
+			routeAddedMap[routeFormattedPath] = true
+		}
 	}
 }
