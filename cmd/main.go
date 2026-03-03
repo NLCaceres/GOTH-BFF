@@ -22,16 +22,17 @@ func main() {
 	} // NOTE: "log" AND "fmt" print to the terminal BUT Echo's logger easily hides them
 
 	app := echo.New()
+	app.Logger = logger
 	// `Use` must be used & declared BEFORE starting the app
 	app.Use(middleware.RequestLoggerWithConfig(middleware.RequestLoggerConfig{
 		LogStatus: true, LogURI: true,
 		HandleError: true, // Forward errors to the global handler to decide status code
 		LogValuesFunc: func(c *echo.Context, v middleware.RequestLoggerValues) error {
-			if v.Error == nil { // Println provides a simple way of concatening strings with vars with spaces injected between
+			if v.Error == nil {
 				logger.LogAttrs(context.Background(), slog.LevelInfo, "REQUEST",
 					slog.String("uri", v.URI), slog.Int("status", v.Status),
 				)
-			} else { // Printf provides an old-school Python style of interpolating vars into a string BUT SHOULD end with `\n`
+			} else {
 				logger.LogAttrs(context.Background(), slog.LevelError, "REQUEST_ERROR",
 					slog.String("uri", v.URI), slog.Int("status", v.Status), slog.String("err", v.Error.Error()),
 				)
@@ -62,6 +63,6 @@ func main() {
 
 	serverConfig := echo.StartConfig{Address: "localhost:3000", GracefulTimeout: time.Second * 5}
 	if err := serverConfig.Start(ctx, app); err != nil {
-		app.Logger.Error("Could not start the server")
+		app.Logger.Error("Could not start the server", "ErrMsg", err)
 	}
 }
