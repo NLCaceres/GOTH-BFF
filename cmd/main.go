@@ -8,8 +8,11 @@ import (
 	"github.com/labstack/echo/v5/middleware"
 	"log/slog"
 	"os"
+	"os/signal"
 	"slices"
 	"strings"
+	"syscall"
+	"time"
 )
 
 func main() {
@@ -54,7 +57,11 @@ func main() {
 
 	route.Routes(app) // Routes must ALSO be declared before `app.Start` is called
 
-	if err := app.Start("localhost:3000"); err != nil {
+	ctx, cancel := signal.NotifyContext(context.Background(), os.Interrupt, syscall.SIGTERM)
+	defer cancel() // Run on shutdown signal
+
+	serverConfig := echo.StartConfig{Address: "localhost:3000", GracefulTimeout: time.Second * 5}
+	if err := serverConfig.Start(ctx, app); err != nil {
 		app.Logger.Error("Could not start the server")
 	}
 }
