@@ -16,7 +16,14 @@ import (
 )
 
 func main() {
-	logger := slog.New(slog.NewJSONHandler(os.Stdout, nil))
+	logOpts := &slog.HandlerOptions{ReplaceAttr: func(groups []string, a slog.Attr) slog.Attr {
+		if a.Key == slog.TimeKey {
+			t := a.Value.Time()
+			a.Value = slog.StringValue(t.Format(time.RFC822Z))
+		}
+		return a
+	}}
+	logger := slog.New(slog.NewJSONHandler(os.Stdout, logOpts))
 	if dotEnvErr := godotenv.Load(); dotEnvErr != nil {
 		logger.Error("Environment not properly loaded")
 	} // NOTE: "log" AND "fmt" print to the terminal BUT Echo's logger easily hides them
