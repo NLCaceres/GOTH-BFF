@@ -3,6 +3,7 @@ package main
 import (
 	"context"
 	"github.com/NLCaceres/goth-example/internal/route"
+	"github.com/NLCaceres/goth-example/internal/util/log"
 	"github.com/joho/godotenv"
 	"github.com/labstack/echo/v5"
 	"github.com/labstack/echo/v5/middleware"
@@ -16,14 +17,7 @@ import (
 )
 
 func main() {
-	logOpts := &slog.HandlerOptions{ReplaceAttr: func(groups []string, a slog.Attr) slog.Attr {
-		if a.Key == slog.TimeKey {
-			t := a.Value.Time()
-			a.Value = slog.StringValue(t.Format(time.RFC822Z))
-		}
-		return a
-	}}
-	logger := slog.New(slog.NewJSONHandler(os.Stdout, logOpts))
+	logger := log.AppLogger()
 	if dotEnvErr := godotenv.Load(); dotEnvErr != nil {
 		logger.Error("Environment not properly loaded")
 	} // NOTE: "log" AND "fmt" print to the terminal BUT Echo's logger easily hides them
