@@ -1,33 +1,36 @@
 package datetime
 
-import (
-	"math"
-	"strconv"
-	"strings"
-	"time"
-	"unicode/utf8"
-)
+// Convenient datetime formats for use in app t.Format or time.Parse
+const AppTime = "Jan 2 2006 3:04:05pm MST"
+const LogTime = "2/Jan/2006 15:04:05 Z0700"
 
-type Local string
-
-func (t *Local) UnmarshalJSON(b []byte) error {
-	arr := strings.Split(string(b), ".")
-	seconds, err := strconv.ParseInt(arr[0], 10, 64)
-	if err != nil {
-		return err
-	}
-	var nanoseconds int64
-	if len(arr) > 1 {
-		nanoseconds, err = strconv.ParseInt(arr[1], 10, 64)
-		if err != nil {
-			return err
-		}
-		if count := utf8.RuneCountInString(arr[1]); count < 9 {
-			nanoseconds = nanoseconds * int64(math.Pow(10, float64(9-count)))
-		}
-	}
-	unixTime := time.Unix(seconds, nanoseconds)
-	pst := time.FixedZone("UTC-8", -8*60*60)
-	*t = Local(unixTime.In(pst).Format(time.RFC1123))
-	return nil
-}
+// Go uses very specific constants to create datetime formats
+// Since they can be a little tough to find, here's every last one.
+// const (
+//     stdLongMonth      = "January"
+//     stdMonth          = "Jan"
+//     stdNumMonth       = "1"
+//     stdZeroMonth      = "01"
+//     stdLongWeekDay    = "Monday"
+//     stdWeekDay        = "Mon"
+//     stdDay            = "2"
+//     stdUnderDay       = "_2"
+//     stdZeroDay        = "02"
+//     stdHour           = "15"
+//     stdHour12         = "3"
+//     stdZeroHour12     = "03"
+//     stdMinute         = "4"
+//     stdZeroMinute     = "04"
+//     stdSecond         = "5"
+//     stdZeroSecond     = "05"
+//     stdLongYear       = "2006"
+//     stdYear           = "06"
+//     stdPM             = "PM"
+//     stdpm             = "pm"
+//     stdTZ             = "MST"
+//     stdISO8601TZ      = "Z0700"  // prints Z for UTC
+//     stdISO8601ColonTZ = "Z07:00" // prints Z for UTC
+//     stdNumTZ          = "-0700"  // always numeric
+//     stdNumShortTZ     = "-07"    // always numeric
+//     stdNumColonTZ     = "-07:00" // always numeric
+// )
