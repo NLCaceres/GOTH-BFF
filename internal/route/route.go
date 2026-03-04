@@ -16,7 +16,10 @@ import (
 func Routes(app *echo.Echo) {
 	app.GET("/", handler.RenderView)
 	app.GET("/:name", func(c *echo.Context) error {
-		name := c.Param("name")
+		name, err := echo.PathParam[string](c, "name")
+		if err != nil {
+			return err
+		}
 		vm := index.ViewModel{Title: name, CssPaths: []string{"css/item_list.css"}}
 		itemsVm := items.ViewModel{Title: name, Items: model.ManyMockItems()}
 		return handler.RenderHTMLView(c, items.ListPage(itemsVm), vm)
