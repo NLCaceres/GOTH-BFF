@@ -7,7 +7,6 @@ import (
 	"github.com/joho/godotenv"
 	"github.com/labstack/echo/v5"
 	echoMiddleware "github.com/labstack/echo/v5/middleware"
-	"log/slog"
 	"os"
 	"os/signal"
 	"slices"
@@ -25,22 +24,7 @@ func main() {
 	app := echo.New()
 	app.Logger = logger
 	// `Use` must be used & declared BEFORE starting the app
-	app.Use(echoMiddleware.RequestLoggerWithConfig(echoMiddleware.RequestLoggerConfig{
-		LogStatus: true, LogURI: true,
-		HandleError: true, // Forward errors to the global handler to decide status code
-		LogValuesFunc: func(c *echo.Context, v echoMiddleware.RequestLoggerValues) error {
-			if v.Error == nil {
-				logger.LogAttrs(context.Background(), slog.LevelInfo, "REQUEST",
-					slog.String("uri", v.URI), slog.Int("status", v.Status),
-				)
-			} else {
-				logger.LogAttrs(context.Background(), slog.LevelError, "REQUEST_ERROR",
-					slog.String("uri", v.URI), slog.Int("status", v.Status), slog.String("err", v.Error.Error()),
-				)
-			}
-			return nil
-		},
-	}))
+	app.Use(middleware.RequestLogger(logger))
 
 	app.Use(echoMiddleware.StaticWithConfig(echoMiddleware.StaticConfig{
 		Root: "static",
