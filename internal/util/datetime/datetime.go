@@ -2,7 +2,7 @@ package datetime
 
 // Convenient datetime formats for use in app t.Format or time.Parse
 const AppTime = "Jan 2 2006 3:04:05pm MST"
-const LogTime = "2/Jan/2006 15:04:05 Z0700"
+const LogTime = "2 Jan 2006 15:04:05 Z0700"
 
 // Go uses very specific constants to create datetime formats
 // Since they can be a little tough to find, here's every last one.

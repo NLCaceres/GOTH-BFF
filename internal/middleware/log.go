@@ -2,11 +2,11 @@ package middleware
 
 import (
 	"context"
+	"github.com/NLCaceres/goth-example/internal/util/datetime"
 	"github.com/NLCaceres/goth-example/internal/util/log"
 	"github.com/labstack/echo/v5"
 	"github.com/labstack/echo/v5/middleware"
 	"log/slog"
-	"time"
 )
 
 func AppLogger() *slog.Logger {
@@ -17,7 +17,7 @@ func defaultOpts() *slog.HandlerOptions {
 	return &slog.HandlerOptions{ReplaceAttr: func(groups []string, a slog.Attr) slog.Attr {
 		if a.Key == slog.TimeKey {
 			t := a.Value.Time()
-			a.Value = slog.StringValue(t.Format(time.RFC822Z))
+			a.Value = slog.StringValue(t.Format(datetime.LogTime))
 		}
 		return a
 	}}
