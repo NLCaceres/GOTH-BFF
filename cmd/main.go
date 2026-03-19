@@ -2,11 +2,11 @@ package main
 
 import (
 	"context"
+	"github.com/NLCaceres/goth-example/internal/middleware"
 	"github.com/NLCaceres/goth-example/internal/route"
-	"github.com/NLCaceres/goth-example/internal/util/log"
 	"github.com/joho/godotenv"
 	"github.com/labstack/echo/v5"
-	"github.com/labstack/echo/v5/middleware"
+	echoMiddleware "github.com/labstack/echo/v5/middleware"
 	"log/slog"
 	"os"
 	"os/signal"
@@ -17,7 +17,7 @@ import (
 )
 
 func main() {
-	logger := log.AppLogger()
+	logger := middleware.AppLogger()
 	if dotEnvErr := godotenv.Load(); dotEnvErr != nil {
 		logger.Error("Environment not properly loaded")
 	} // NOTE: "log" AND "fmt" print to the terminal BUT Echo's logger easily hides them
@@ -25,10 +25,10 @@ func main() {
 	app := echo.New()
 	app.Logger = logger
 	// `Use` must be used & declared BEFORE starting the app
-	app.Use(middleware.RequestLoggerWithConfig(middleware.RequestLoggerConfig{
+	app.Use(echoMiddleware.RequestLoggerWithConfig(echoMiddleware.RequestLoggerConfig{
 		LogStatus: true, LogURI: true,
 		HandleError: true, // Forward errors to the global handler to decide status code
-		LogValuesFunc: func(c *echo.Context, v middleware.RequestLoggerValues) error {
+		LogValuesFunc: func(c *echo.Context, v echoMiddleware.RequestLoggerValues) error {
 			if v.Error == nil {
 				logger.LogAttrs(context.Background(), slog.LevelInfo, "REQUEST",
 					slog.String("uri", v.URI), slog.Int("status", v.Status),
@@ -42,7 +42,7 @@ func main() {
 		},
 	}))
 
-	app.Use(middleware.StaticWithConfig(middleware.StaticConfig{
+	app.Use(echoMiddleware.StaticWithConfig(echoMiddleware.StaticConfig{
 		Root: "static",
 		Skipper: func(c *echo.Context) bool { // Skip if returning true
 			isValidRef := strings.HasPrefix(c.Request().Referer(), "http://localhost:3000") ||
