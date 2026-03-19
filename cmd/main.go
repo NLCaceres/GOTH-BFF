@@ -6,11 +6,8 @@ import (
 	"github.com/NLCaceres/goth-example/internal/route"
 	"github.com/joho/godotenv"
 	"github.com/labstack/echo/v5"
-	echoMiddleware "github.com/labstack/echo/v5/middleware"
 	"os"
 	"os/signal"
-	"slices"
-	"strings"
 	"syscall"
 	"time"
 )
@@ -26,20 +23,7 @@ func main() {
 	// `Use` must be used & declared BEFORE starting the app
 	app.Use(middleware.RequestLogger(logger))
 
-	app.Use(echoMiddleware.StaticWithConfig(echoMiddleware.StaticConfig{
-		Root: "static",
-		Skipper: func(c *echo.Context) bool { // Skip if returning true
-			isValidRef := strings.HasPrefix(c.Request().Referer(), "http://localhost:3000") ||
-				strings.HasPrefix(c.Request().Referer(), "http://127.0.0.1:7331") ||
-				strings.HasPrefix(c.Request().Referer(), "https://localhost:3000")
-			isNavigation := slices.Contains(c.Request().Header["Sec-Fetch-Mode"], "navigate")
-			isSameOrigin := slices.Contains(c.Request().Header["Sec-Fetch-Site"], "same-origin")
-			if isValidRef && !isNavigation && isSameOrigin {
-				return false
-			}
-			return true
-		},
-	}))
+	app.Use(middleware.Static())
 
 	route.Routes(app) // Routes must ALSO be declared before `app.Start` is called
 
