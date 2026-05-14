@@ -3,11 +3,11 @@ module github.com/NLCaceres/goth-example
 go 1.25.0
 
 require (
-	github.com/a-h/templ v0.3.977
+	github.com/a-h/templ v0.3.1020
 	github.com/google/go-cmp v0.7.0
 	github.com/joho/godotenv v1.5.1
-	github.com/labstack/echo/v5 v5.0.4
-	golang.org/x/text v0.34.0
+	github.com/labstack/echo/v5 v5.1.1
+	golang.org/x/text v0.37.0
 )
 
 require (
@@ -20,12 +20,12 @@ require (
 	github.com/mattn/go-colorable v0.1.14 // indirect
 	github.com/mattn/go-isatty v0.0.20 // indirect
 	github.com/natefinch/atomic v1.0.1 // indirect
-	golang.org/x/mod v0.32.0 // indirect
-	golang.org/x/net v0.51.0 // indirect
-	golang.org/x/sync v0.19.0 // indirect
-	golang.org/x/sys v0.41.0 // indirect
-	golang.org/x/time v0.14.0 // indirect
-	golang.org/x/tools v0.41.0 // indirect
+	golang.org/x/mod v0.35.0 // indirect
+	golang.org/x/net v0.53.0 // indirect
+	golang.org/x/sync v0.20.0 // indirect
+	golang.org/x/sys v0.43.0 // indirect
+	golang.org/x/time v0.15.0 // indirect
+	golang.org/x/tools v0.44.0 // indirect
 )
 
 tool github.com/a-h/templ/cmd/templ
