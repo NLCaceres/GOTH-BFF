@@ -46,6 +46,8 @@ of the page routing
   - `go get .` - Finds external dependencies in current package files to install
   - `go get -u ./...` - Updates dependencies to latest versions
     - `go get -u <github-url>` for specific dependency updates
+    - `go list -u -m all` to get a list of dependencies and their possible updates
+      - Adding `-json` flag before `all` adds a bit more helpful info but is verbose
   - `go get -tool <github-url>` - Installs tool dependencies
     - Adds `tool` directive to `go.mod` for pkgs like linters/formatters/builders
       - The dependency in `tool` is unversioned BUT related to a dependency
