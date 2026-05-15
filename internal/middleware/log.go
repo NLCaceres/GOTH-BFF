@@ -25,15 +25,16 @@ func defaultOpts() *slog.HandlerOptions {
 
 func RequestLogger(logger *slog.Logger) echo.MiddlewareFunc {
 	return middleware.RequestLoggerWithConfig(middleware.RequestLoggerConfig{
-		LogStatus: true, LogURI: true, HandleError: true,
+		LogStatus: true, LogURI: true, HandleError: true, LogMethod: true,
 		LogValuesFunc: func(c *echo.Context, v middleware.RequestLoggerValues) error {
 			if v.Error == nil {
 				logger.LogAttrs(context.Background(), slog.LevelInfo, "REQUEST",
-					slog.String("uri", v.URI), slog.Int("status", v.Status),
+					slog.String("uri", v.URI), slog.String("method", v.Method), slog.Int("status", v.Status),
 				)
 			} else {
 				logger.LogAttrs(context.Background(), slog.LevelError, "REQUEST_ERROR",
-					slog.String("uri", v.URI), slog.Int("status", v.Status), slog.String("err", v.Error.Error()),
+					slog.String("uri", v.URI), slog.String("method", v.Method),
+					slog.Int("status", v.Status), slog.String("err", v.Error.Error()),
 				)
 			}
 			return nil
