@@ -5,6 +5,7 @@ import (
   "strings"
   "github.com/NLCaceres/goth-example/internal/util/stringy"
   "github.com/NLCaceres/goth-example/internal/util/slice"
+	"github.com/NLCaceres/goth-example/internal/view/reusable"
 )
 
 templ navbar(navItems []string) {
@@ -14,9 +15,9 @@ templ navbar(navItems []string) {
       for _, navItem := range slice.DistinctBy(navItems, strings.ToLower) {
         if !strings.Contains(navItem, "-") {
           <li class="navListItem mt-4 px-4 flex-grow text-center">
-            <a href={ navItem }>
-              { stringy.PresenterMapValue(routeMap, navItem) }
-            </a>
+            @reusable.Link(
+              stringy.PresenterMapValue(routeMap, navItem), navItem, "main.flex",
+            )
           </li>
         }
       }
