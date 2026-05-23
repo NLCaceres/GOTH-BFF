@@ -22,7 +22,7 @@ func Routes(app *echo.Echo) {
 		}
 		vm := index.ViewModel{Title: name, CssPaths: []string{"css/item_list.css"}}
 		itemsVm := items.ViewModel{Title: name, Items: model.ManyMockItems()}
-		return handler.RenderHTMLView(c, items.ListPage(itemsVm), vm)
+		return handler.RenderHTMLIndex(c, items.ListPage(itemsVm), vm)
 	})
 
 	ApiRoutes(app)

@@ -17,13 +17,17 @@ func RenderView(c *echo.Context) error {
 	return component.Render(c.Request().Context(), c.Response())
 }
 
-func RenderHTMLView(c *echo.Context, page templ.Component, vm index.ViewModel) error {
-	htmlStr, err := templ.ToGoHTML(c.Request().Context(), index.HTML(page, vm))
+func RenderHTML(c *echo.Context, component templ.Component) error {
+	htmlStr, err := templ.ToGoHTML(c.Request().Context(), component)
 	if err != nil {
 		return c.NoContent(http.StatusNotFound)
 	}
 	// This string conversion should be instant, unlike converting between []byte/string
 	return c.HTML(http.StatusAccepted, string(htmlStr))
+}
+
+func RenderHTMLIndex(c *echo.Context, page templ.Component, vm index.ViewModel) error {
+	return RenderHTML(c, index.HTML(page, vm))
 }
 
 func RenderQuery(c *echo.Context) error {
@@ -38,5 +42,5 @@ func RenderQuery(c *echo.Context) error {
 		return model.Item{Name: d.Title, URL: d.URL, Description: d.Title + "\n" + string(d.PostTime)}
 	})
 	itemsVm := items.ViewModel{Title: name, Items: itemList}
-	return RenderHTMLView(c, items.ListPage(itemsVm), vm)
+	return RenderHTMLIndex(c, items.ListPage(itemsVm), vm)
 }
