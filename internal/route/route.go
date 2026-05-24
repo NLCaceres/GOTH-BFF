@@ -6,6 +6,7 @@ import (
 	"github.com/NLCaceres/goth-example/internal/util/stringy"
 	"github.com/NLCaceres/goth-example/internal/view/index"
 	"github.com/NLCaceres/goth-example/internal/view/items"
+	"github.com/NLCaceres/goth-example/internal/view/reusable"
 	"github.com/labstack/echo/v5"
 	"os"
 	"strings"
@@ -25,6 +26,13 @@ func Routes(app *echo.Echo) {
 		return handler.RenderHTMLIndex(c, items.ListPage(itemsVm), vm)
 	})
 
+	app.POST("/:name", func(c *echo.Context) error {
+		name, err := echo.PathParam[string](c, "name")
+		if err != nil {
+			return err
+		}
+		return handler.RenderHTML(c, reusable.TestElem(name))
+	})
 	ApiRoutes(app)
 }
 
