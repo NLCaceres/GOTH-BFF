@@ -1,4 +1,4 @@
-package reusable
+package htmx
 
 templ Link(name string, url string, target string) {
   <a hx-post={"/" + url} hx-target={target}>{ name }</a>
