@@ -1,5 +1,5 @@
 package htmx
 
 templ Link(name string, url string, target string) {
-  <a hx-post={"/" + url} hx-target={target}>{ name }</a>
+  <a hx-post={"/" + url} hx-target={target} hx-push-url="true">{ name }</a>
 }
