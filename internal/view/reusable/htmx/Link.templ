@@ -1,6 +1,8 @@
 package htmx
 
 templ Link(name string, url string, target string) {
-  <a hx-post={"/" + url} hx-target={target}
-     hx-push-url="true" hx-trigger="click throttle:1s">{ name }</a>
+  <a hx-post={"/" + url} hx-target={target} hx-push-url="true"
+     hx-trigger={"click[location.pathname !== '/" + url + "']"}>
+       { name }
+  </a>
 }
