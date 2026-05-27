@@ -2,10 +2,7 @@ package route
 
 import (
 	"github.com/NLCaceres/goth-example/internal/handler"
-	"github.com/NLCaceres/goth-example/internal/model"
 	"github.com/NLCaceres/goth-example/internal/util/stringy"
-	"github.com/NLCaceres/goth-example/internal/view/index"
-	"github.com/NLCaceres/goth-example/internal/view/items"
 	"github.com/NLCaceres/goth-example/internal/view/reusable"
 	"github.com/labstack/echo/v5"
 	"os"
@@ -21,19 +18,9 @@ func Routes(app *echo.Echo) {
 		if err != nil {
 			return err
 		}
-		vm := index.ViewModel{Title: name, CssPaths: []string{"css/item_list.css"}}
-		itemsVm := items.ViewModel{Title: name, Items: model.ManyMockItems()}
-		return handler.RenderHTMLIndex(c, items.ListPage(itemsVm), vm)
-	})
-
-	app.POST("/:name", func(c *echo.Context) error {
-		name, err := echo.PathParam[string](c, "name")
-		if err != nil {
-			return err
-		}
 		return handler.RenderHTML(c, reusable.TestElem(name))
 	})
-	ApiRoutes(app)
+	// ApiRoutes(app)
 }
 
 func ApiRoutes(app *echo.Echo) {
