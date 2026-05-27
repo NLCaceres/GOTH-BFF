@@ -23,7 +23,7 @@ func RenderHTML(c *echo.Context, component templ.Component) error {
 		return c.NoContent(http.StatusNotFound)
 	}
 	// This string conversion should be instant, unlike converting between []byte/string
-	return c.HTML(http.StatusAccepted, string(htmlStr))
+	return c.HTML(http.StatusOK, string(htmlStr))
 }
 
 func RenderHTMLIndex(c *echo.Context, page templ.Component, vm index.ViewModel) error {
