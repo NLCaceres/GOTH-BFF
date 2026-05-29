@@ -21,12 +21,15 @@ func Routes(app *echo.Echo) {
 		if err != nil {
 			return err
 		}
-		if c.Request().Header.Get("Sec-Fetch-Mode") == "cors" {
-			return handler.RenderHTML(c, reusable.TestElem(name))
-		} else {
+		switch fetchMode := c.Request().Header.Get("Sec-Fetch-Mode"); fetchMode {
+		case "navigate":
 			vm := index.ViewModel{Title: name, CssPaths: []string{"css/item_list.css"}}
 			itemsVm := items.ViewModel{Title: name, Items: model.ManyMockItems()}
 			return handler.RenderHTMLIndex(c, items.ListPage(itemsVm), vm)
+		case "cors", "same-origin":
+			return handler.RenderHTML(c, reusable.TestElem(name))
+		default:
+			return handler.RenderHTML(c, reusable.TestElem("Error!"))
 		}
 	})
 	// ApiRoutes(app)
