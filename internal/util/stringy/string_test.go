@@ -169,3 +169,34 @@ func TestUnescapedUnicode(t *testing.T) {
 		})
 	}
 }
+
+func TestHasAnyPrefix(t *testing.T) {
+	tests := map[string]struct {
+		Input  string
+		Values []string
+		Expect bool
+	}{
+		"Blank value, empty slice":            {"", []string{}, false},
+		"Blank value, blank slice":            {"", []string{""}, true},
+		"Blank value, 1 item slice":           {"", []string{"foo"}, false},
+		"Blank value, multi-item slice":       {"", []string{"foo", "bar"}, false},
+		"Simple value, empty slice":           {"foo", []string{}, false},
+		"Simple value, blank slice":           {"foo", []string{""}, true},
+		"Simple value, matching slice":        {"foo", []string{"foo"}, true},
+		"Simple value, case mismatched slice": {"foo", []string{"Foo"}, false},
+		"Simple value, no match slice":        {"foo", []string{"bar"}, false},
+		"Simple value, multi no match slice":  {"foo", []string{"fiz", "buz"}, false},
+		"Simple value, multi 1 match slice":   {"foo", []string{"fiz", "foo"}, true},
+		"Simple value, multi match slice":     {"foo", []string{"foo", "bar", "foo"}, true},
+	}
+	for testName, testCase := range tests {
+		t.Run(testName, func(t *testing.T) {
+			actual := HasAnyPrefix(testCase.Input, testCase.Values...)
+			if actual != testCase.Expect {
+				t.Error(test.QuotedErrorMsg(
+					"Expected Prefix Match for "+testCase.Input, testCase.Expect, actual,
+				))
+			}
+		})
+	}
+}
