@@ -2,11 +2,7 @@ package route
 
 import (
 	"github.com/NLCaceres/goth-example/internal/handler"
-	"github.com/NLCaceres/goth-example/internal/model"
 	"github.com/NLCaceres/goth-example/internal/util/stringy"
-	"github.com/NLCaceres/goth-example/internal/view/index"
-	"github.com/NLCaceres/goth-example/internal/view/items"
-	"github.com/NLCaceres/goth-example/internal/view/reusable"
 	"github.com/labstack/echo/v5"
 	"os"
 	"strings"
@@ -21,16 +17,7 @@ func Routes(app *echo.Echo) {
 		if err != nil {
 			return err
 		}
-		switch fetchMode := c.Request().Header.Get("Sec-Fetch-Mode"); fetchMode {
-		case "navigate":
-			vm := index.ViewModel{Title: name, CssPaths: []string{"css/item_list.css"}}
-			itemsVm := items.ViewModel{Title: name, Items: model.ManyMockItems()}
-			return handler.RenderHTMLIndex(c, items.ListPage(itemsVm), vm)
-		case "cors", "same-origin":
-			return handler.RenderHTML(c, reusable.TestElem(name))
-		default:
-			return handler.RenderHTML(c, reusable.TestElem("Error!"))
-		}
+		return handler.HtmxPayload(c, name)
 	})
 	// ApiRoutes(app)
 }
