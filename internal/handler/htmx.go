@@ -12,17 +12,16 @@ import (
 )
 
 func HtmxPayload(c *echo.Context, name string) error {
-	switch isFullRender, err := isFullRender(c.Request().Header); {
-	case err != nil:
+	isFullRender, err := isFullRender(c.Request().Header)
+	if err != nil {
 		return RenderHTML(c, reusable.TestElem("Error!"))
-	case isFullRender:
+	}
+	if isFullRender {
 		vm := index.ViewModel{Title: name, CssPaths: []string{"css/item_list.css"}}
 		itemsVm := items.ViewModel{Title: name, Items: model.ManyMockItems()}
 		return RenderHTMLIndex(c, items.ListPage(itemsVm), vm)
-	case !isFullRender:
+	} else {
 		return RenderHTML(c, reusable.TestElem(name))
-	default:
-		return RenderHTML(c, reusable.TestElem("Error!"))
 	}
 }
 
