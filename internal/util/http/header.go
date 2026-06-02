@@ -10,25 +10,24 @@ type Header struct {
 	http.Header
 }
 
-// Checks that the "Sec-Fetch-Mode" header equals "navigate", indicating the request
-// originates from top-level navigation
+// Checks "Sec-Fetch-Mode" header equals "navigate" referring to where the request originated
 func (h Header) IsNavigationFetch() bool {
 	return h.Get("Sec-Fetch-Mode") == "navigate"
 }
 
-// Checks that the "Sec-Fetch-Mode" header equals "cors", indicating the request is cross-origin
+// Checks "Sec-Fetch-Mode" header equals "cors" referring to where the request originated
+// BUT `fetch()` + XHRequests default to it these days, so it's NOT always actually cross-origin
 func (h Header) IsCORSFetch() bool {
 	return h.Get("Sec-Fetch-Mode") == "cors"
 }
 
-// Checks that the "Sec-Fetch-Mode" header equals "same-origin", indicating the request
-// is from the same-origin
+// Checks "Sec-Fetch-Mode" header equals "same-origin" referring to where the request originated
 func (h Header) IsSameOriginFetch() bool {
 	return h.Get("Sec-Fetch-Mode") == "same-origin"
 }
 
-// Checks if the "Sec-Fetch-Site" header equals "none", indicating the request is from
-// user-originated operation like entering the URL in the address bar
+// Checks if the "Sec-Fetch-Site" header equals "none", indicating the request is user-init
+// e.g. entered the URL into the address bar OR dropping a file into the browser
 func (h Header) IsSiteNone() bool {
 	return h.Get("Sec-Fetch-Site") == "none"
 }
