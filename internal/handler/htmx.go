@@ -3,16 +3,15 @@ package handler
 import (
 	"fmt"
 	"github.com/NLCaceres/goth-example/internal/model"
-	"github.com/NLCaceres/goth-example/internal/util/stringy"
+	"github.com/NLCaceres/goth-example/internal/util/http"
 	"github.com/NLCaceres/goth-example/internal/view/index"
 	"github.com/NLCaceres/goth-example/internal/view/items"
 	"github.com/NLCaceres/goth-example/internal/view/reusable"
 	"github.com/labstack/echo/v5"
-	"net/http"
 )
 
 func HtmxPayload(c *echo.Context, name string) error {
-	isFullRender, err := isFullRender(c.Request().Header)
+	isFullRender, err := isFullRender(http.Header{Header: c.Request().Header})
 	if err != nil {
 		return RenderHTML(c, reusable.TestElem("Error!"))
 	}
@@ -30,11 +29,12 @@ func isFullRender(h http.Header) (bool, error) {
 	fetchSite := h.Get("Sec-Fetch-Site")
 	referer := h.Get("Referer")
 	switch {
-	case (fetchMode == "navigate" && fetchSite == "none") || referer == "":
+	case (h.IsNavigationFetch() && h.IsSiteNone()) || !h.HasReferer():
 		return true, nil
-	case ((fetchMode == "cors" || fetchMode == "same-origin") &&
-		(fetchSite == "same-origin" || fetchSite == "same-site")) ||
-		stringy.HasAnyPrefix(referer, "http://localhost"):
+	case ((h.IsCORSFetch() || h.IsSameOriginFetch()) && h.IsSiteAllSame()) ||
+		h.IsRefererAny(
+			"http://localhost:3000", "https://localhost:3000",
+			"http://127.0.0.1:3000", "http://127.0.0.1:7331"):
 		return false, nil
 	default:
 		return false,
