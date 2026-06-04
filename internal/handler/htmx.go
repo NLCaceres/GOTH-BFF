@@ -25,9 +25,6 @@ func HtmxPayload(c *echo.Context, name string) error {
 }
 
 func isFullRender(h http.Header) (bool, error) {
-	fetchMode := h.Get("Sec-Fetch-Mode")
-	fetchSite := h.Get("Sec-Fetch-Site")
-	referer := h.Get("Referer")
 	switch {
 	case (h.IsNavigationFetch() && h.IsSiteNone()) || !h.HasReferer():
 		return true, nil
@@ -36,7 +33,7 @@ func isFullRender(h http.Header) (bool, error) {
 		return false, nil
 	default:
 		return false,
-			fmt.Errorf("Issue determining if full render needed: "+
-				"FetchMode = %v  FetchSite = %v  Referer = %v", fetchMode, fetchSite, referer)
+			fmt.Errorf("Issue determining if full render needed: FetchMode = %v  "+
+				"FetchSite = %v  Referer = %v", h.FetchMode(), h.FetchSite(), h.Referer())
 	}
 }
