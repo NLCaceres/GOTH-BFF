@@ -50,6 +50,11 @@ func (h Header) IsSiteAllSame() bool {
 	return h.FetchSite() == "same-origin" || h.FetchSite() == "same-site"
 }
 
+var SafeOrigins = []string{
+	"http://localhost:3000", "https://localhost:3000",
+	"http://127.0.0.1:3000", "http://127.0.0.1:7331",
+}
+
 // Getter for the "Referer" header, which is commonly 1 origin URL (scheme, host, and port)
 // BUT may include the path and parameters IF referer + request are same-origin
 func (h Header) Referer() string {

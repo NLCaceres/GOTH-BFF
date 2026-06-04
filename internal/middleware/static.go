@@ -11,9 +11,7 @@ func Static() echo.MiddlewareFunc {
 		Root: "static",
 		Skipper: func(c *echo.Context) bool { // Skip if returning true
 			h := http.Header{Header: c.Request().Header}
-			return !(h.IsSiteAllSame() && !h.IsNavigationFetch() &&
-				h.IsRefererAny("http://localhost:3000", "https://localhost:3000",
-					"http://127.0.0.1:3000", "http://127.0.0.1:7331"))
+			return !(h.IsSiteAllSame() && !h.IsNavigationFetch() && h.IsRefererAny(http.SafeOrigins...))
 		},
 	})
 }

@@ -31,10 +31,8 @@ func isFullRender(h http.Header) (bool, error) {
 	switch {
 	case (h.IsNavigationFetch() && h.IsSiteNone()) || !h.HasReferer():
 		return true, nil
-	case ((h.IsCORSFetch() || h.IsSameOriginFetch()) && h.IsSiteAllSame()) ||
-		h.IsRefererAny(
-			"http://localhost:3000", "https://localhost:3000",
-			"http://127.0.0.1:3000", "http://127.0.0.1:7331"):
+	case ((h.IsCORSFetch() || h.IsSameOriginFetch()) &&
+		h.IsSiteAllSame()) || h.IsRefererAny(http.SafeOrigins...):
 		return false, nil
 	default:
 		return false,
