@@ -2,25 +2,21 @@ package handler
 
 import (
 	"fmt"
-	"github.com/NLCaceres/goth-example/internal/model"
 	"github.com/NLCaceres/goth-example/internal/util/http"
-	"github.com/NLCaceres/goth-example/internal/view/index"
-	"github.com/NLCaceres/goth-example/internal/view/items"
 	"github.com/NLCaceres/goth-example/internal/view/reusable"
+	"github.com/a-h/templ"
 	"github.com/labstack/echo/v5"
 )
 
-func HtmxPayload(c *echo.Context, name string) error {
+func HtmxPayload(c *echo.Context, fullPage, htmx templ.Component) error {
 	isFullRender, err := isFullRender(http.Header{Header: c.Request().Header})
 	if err != nil {
 		return RenderHTML(c, reusable.TestElem("Error!"))
 	}
 	if isFullRender {
-		vm := index.ViewModel{Title: name, CssPaths: []string{"css/item_list.css"}}
-		itemsVm := items.ViewModel{Title: name, Items: model.ManyMockItems()}
-		return RenderHTMLIndex(c, items.ListPage(itemsVm), vm)
+		return RenderHTML(c, fullPage)
 	} else {
-		return RenderHTML(c, reusable.TestElem(name))
+		return RenderHTML(c, htmx)
 	}
 }
 
