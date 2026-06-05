@@ -10,6 +10,8 @@ import (
 	"github.com/a-h/templ"
 	"github.com/labstack/echo/v5"
 	"net/http"
+	"slices"
+	"strings"
 )
 
 func RenderView(c *echo.Context) error {
@@ -37,10 +39,23 @@ func RenderQuery(c *echo.Context) error {
 	if errors.As(err, &e) {
 		return c.NoContent(e.Code)
 	}
-	vm := index.ViewModel{Title: name, CssPaths: []string{"css/item_list.css"}}
 	itemList := slice.SafeMap(res.Documents(), func(d queryapi.Document) model.Item {
 		return model.Item{Name: d.Title, URL: d.URL, Description: d.Title + "\n" + string(d.PostTime)}
 	})
+	filters := c.QueryParam("exclude")
+	itemList = slices.DeleteFunc(itemList, func(i model.Item) bool {
+		if filters == "" {
+			return false
+		}
+		for _, filter := range strings.Split(filters, ",") {
+			if filter != "" && strings.Contains(i.URL, filter) {
+				return true
+			}
+		}
+		return false
+	})
+	itemList = slices.CompactFunc(itemList, func(i1, i2 model.Item) bool { return i1.Name == i2.Name })
+	vm := index.ViewModel{Title: name, CssPaths: []string{"css/item_list.css"}}
 	itemsVm := items.ViewModel{Title: name, Items: itemList}
 	return RenderHTMLIndex(c, items.ListPage(itemsVm), vm)
 }
