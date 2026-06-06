@@ -4,13 +4,11 @@ import (
 	"errors"
 	"github.com/NLCaceres/goth-example/internal/handler/queryapi"
 	"github.com/NLCaceres/goth-example/internal/model"
-	"github.com/NLCaceres/goth-example/internal/util/slice"
 	"github.com/NLCaceres/goth-example/internal/view/index"
 	"github.com/NLCaceres/goth-example/internal/view/items"
 	"github.com/a-h/templ"
 	"github.com/labstack/echo/v5"
 	"net/http"
-	"slices"
 	"strings"
 )
 
@@ -39,25 +37,28 @@ func RenderQuery(c *echo.Context) error {
 	if errors.As(err, &e) {
 		return c.NoContent(e.Code)
 	}
-	itemList := slice.SafeMap(res.Documents(), func(d queryapi.Document) model.Item {
-		return model.Item{
-			Name: d.CompanyName, URL: d.URL, Description: d.Title + "\n\n" + string(d.PostTime),
-		}
-	})
 	filters := c.QueryParam("exclude")
-	itemList = slices.DeleteFunc(itemList, func(i model.Item) bool {
-		if filters == "" {
-			return false
-		}
-		for _, filter := range strings.Split(filters, ",") {
-			if filter != "" && strings.Contains(i.URL, filter) {
-				return true
-			}
-		}
-		return false
-	})
-	itemList = slices.CompactFunc(itemList, func(i1, i2 model.Item) bool { return i1.Name == i2.Name })
+	itemList := toItems(res.Documents(), strings.Split(filters, ","))
 	vm := index.ViewModel{Title: name, CssPaths: []string{"css/item_list.css"}}
 	itemsVm := items.ViewModel{Title: name, Items: itemList}
 	return RenderHTMLIndex(c, items.ListPage(itemsVm), vm)
+}
+
+func toItems(docs []queryapi.Document, filters []string) []model.Item {
+	items := make([]model.Item, 0, len(docs)) // 0 length, max capacity, backing array small
+DocLoop:
+	for i, d := range docs {
+		for _, filter := range filters {
+			if filter != "" && strings.Contains(d.URL, filter) {
+				continue DocLoop
+			}
+		}
+		if i > 0 && docs[i].CompanyName == docs[i-1].CompanyName {
+			continue DocLoop
+		}
+		items = append(items, model.Item{
+			Name: d.CompanyName, URL: d.URL, Description: d.Title + "\n\n" + string(d.PostTime),
+		})
+	}
+	return items
 }
