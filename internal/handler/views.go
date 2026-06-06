@@ -40,7 +40,9 @@ func RenderQuery(c *echo.Context) error {
 		return c.NoContent(e.Code)
 	}
 	itemList := slice.SafeMap(res.Documents(), func(d queryapi.Document) model.Item {
-		return model.Item{Name: d.Title, URL: d.URL, Description: d.Title + "\n" + string(d.PostTime)}
+		return model.Item{
+			Name: d.CompanyName, URL: d.URL, Description: d.Title + "\n\n" + string(d.PostTime),
+		}
 	})
 	filters := c.QueryParam("exclude")
 	itemList = slices.DeleteFunc(itemList, func(i model.Item) bool {
