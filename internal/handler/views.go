@@ -40,8 +40,8 @@ func RenderQuery(c *echo.Context) error {
 	filters := c.QueryParam("exclude")
 	itemList := toItems(res.Documents(), strings.Split(filters, ","))
 	vm := index.ViewModel{Title: name, CssPaths: []string{"css/item_list.css"}}
-	itemsVm := items.ViewModel{Title: name, Items: itemList}
-	return RenderHTMLIndex(c, items.ListPage(itemsVm), vm)
+	listPage := items.ListPage(items.ViewModel{Title: name, Items: itemList})
+	return HtmxPayload(c, index.HTML(listPage, vm), listPage)
 }
 
 func toItems(docs []queryapi.Document, filters []string) []model.Item {

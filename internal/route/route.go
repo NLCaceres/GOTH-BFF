@@ -26,7 +26,7 @@ func Routes(app *echo.Echo) {
 		indexView := index.HTML(items.ListPage(itemsVm), vm)
 		return handler.HtmxPayload(c, indexView, reusable.TestElem(name))
 	})
-	// ApiRoutes(app)
+	ApiRoutes(app)
 }
 
 func ApiRoutes(app *echo.Echo) {
