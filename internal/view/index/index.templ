@@ -3,6 +3,7 @@ package index
 import (
   "os"
   "strings"
+	"github.com/NLCaceres/goth-example/internal/view/reusable/htmx"
 )
 
 templ HTML(contents templ.Component, vm ViewModel) {
@@ -14,6 +15,7 @@ templ HTML(contents templ.Component, vm ViewModel) {
     <main class="flex centered h-100 mx-4 md:mx-8">
       @contents
     </main>
+    @htmx.LoadingIndicator()
   </body>
 </html>
 }
