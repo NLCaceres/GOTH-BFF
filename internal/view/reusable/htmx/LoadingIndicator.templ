@@ -1,0 +1,11 @@
+package htmx
+
+// Uses the "htmx-indicator" class to appear while an HTMX request is in-flight
+// Can target this by ID via `hx-indicator` CSS selector on the trigger element
+// Can also target the parent so "htmx-request" CSS is placed to affect "htmx-indicator"
+templ LoadingIndicator() {
+  <div style="top: 25%; left: 50%; transform: translate(-50%, -50%);"
+       id="load-indicator" class="p-absolute text-white htmx-indicator transitionable">
+    Loading!
+  </div>
+}
