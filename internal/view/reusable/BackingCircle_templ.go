@@ -35,7 +35,7 @@ func BackingCircle(rightSided bool, color string) templ.Component {
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
-		var templ_7745c5c3_Var2 = []any{"h-100 p-absolute visible-overflow", templ.KV("p-right", rightSided)}
+		var templ_7745c5c3_Var2 = []any{"h-100 p-absolute visible-overflow", templ.KV("r-0", rightSided)}
 		templ_7745c5c3_Err = templ.RenderCSSItems(ctx, templ_7745c5c3_Buffer, templ_7745c5c3_Var2...)
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err

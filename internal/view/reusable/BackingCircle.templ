@@ -5,7 +5,7 @@ package reusable
 templ BackingCircle(rightSided bool, color string) {
 <div class="p-absolute h-100 w-100" style="z-index:-1;">
   <svg viewBox="0 0 36 36" fill="transparent" stroke={color} style="transition: stroke 500ms;"
-    class={"h-100 p-absolute visible-overflow", templ.KV("p-right", rightSided)}>
+    class={"h-100 p-absolute visible-overflow", templ.KV("r-0", rightSided)}>
     {{ d := "M32,0 A 23,21.5 0 1 0 32,36"
       if rightSided { d = "M4,0 A 23,21.5 0 1 1 4,36" } }}
     <path d={d} />
