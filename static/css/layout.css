@@ -7,9 +7,27 @@
   position: relative;
 }
 
-.p-right {
+/* Position Placement helpers */
+.p-center {
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  /* Used with p-absolute or p-relative SHOULD always yield perfect centering */
+  /* 50% down, 50% across, then translate the top-left corner so the elem center is center */
+}
+
+.t-25 {
+  top: 25%;
+}
+
+.r-0 {
   right: 0;
 }
+
+.z-over {
+  z-index: 999;
+}
+
 
 /* Margin helpers */
 .m-0 {
@@ -45,6 +63,7 @@
   margin-left: calc(var(--spacing) * 4);
   margin-right: calc(var(--spacing) * 4);
 }
+
 .mx-8 {
   margin-left: calc(var(--spacing) * 8);
   margin-right: calc(var(--spacing) * 8);
@@ -55,12 +74,14 @@
     margin-left: calc(var(--spacing) * 8);
     margin-right: calc(var(--spacing) * 8);
   }
+
   .md\:mx-16 {
     margin-left: calc(var(--spacing) * 16);
     margin-right: calc(var(--spacing) * 16);
   }
 }
-@media (width >= 1024px) {
+
+@media (width >=1024px) {
   .xl\:mx-8 {
     margin-left: calc(var(--spacing) * 8);
     margin-right: calc(var(--spacing) * 8);
