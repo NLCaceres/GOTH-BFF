@@ -1,0 +1,6 @@
+package htmx
+
+templ StyleLink(stylePath string) {
+  <link id="pageStylesheet" hx-swap-oob="true"
+        rel="stylesheet" crossorigin href={stylePath} />
+}
