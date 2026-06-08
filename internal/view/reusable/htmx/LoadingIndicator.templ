@@ -1,23 +1,12 @@
 package htmx
 
+import "github.com/NLCaceres/goth-example/internal/view/reusable"
+
 // Uses the "htmx-indicator" class to appear while an HTMX request is in-flight
 // Can target this by ID via `hx-indicator` CSS selector on the trigger element
 // Can also target the parent so "htmx-request" CSS is placed to affect "htmx-indicator"
 templ LoadingIndicator() {
   <div id="load-indicator" class="htmx-indicator p-center">
-    <svg width="120" height="30" viewBox="0 0 120 30" fill="#ffffff">
-      <circle cx="15" cy="15" r="15">
-        <animate attributeName="r" dur="1s" values="15;6;15" repeatCount="indefinite" />
-        <animate attributeName="fill-opacity" dur="1s" values="1; 0.5; 1" repeatCount="indefinite" />
-      </circle>
-      <circle cx="60" cy="15" r="6" fill-opacity="0.5">
-        <animate attributeName="r" dur="1s" values="6;15;6" repeatCount="indefinite" />
-        <animate attributeName="fill-opacity" dur="1s" values="0.5; 1; 0.5" repeatCount="indefinite" />
-      </circle>
-      <circle cx="105" cy="15" r="15">
-        <animate attributeName="r" dur="1s" values="15;6;15" repeatCount="indefinite" />
-        <animate attributeName="fill-opacity" dur="1s" values="1; 0.5; 1" repeatCount="indefinite" />
-      </circle>
-    </svg>
+    @reusable.LoadingCircles()
   </div>
 }

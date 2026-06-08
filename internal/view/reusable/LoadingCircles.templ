@@ -1,0 +1,21 @@
+package reusable
+
+// 3 SVG circles that grow and shrink on endless repeat (general design by Sam Herbert)
+// The SMIL animation has the 2 outer circles shrinking to start, while the inner grows
+// They also follow a similar pattern with their opacity, dimming, brightening and dimming, respectively.
+templ LoadingCircles() {
+  <svg width="120" height="30" viewBox="0 0 120 30" fill="#ffffff">
+    <circle cx="15" cy="15" r="15">
+      <animate attributeName="r" dur="1s" values="15;6;15" repeatCount="indefinite" />
+      <animate attributeName="fill-opacity" dur="1s" values="1; 0.5; 1" repeatCount="indefinite" />
+    </circle>
+    <circle cx="60" cy="15" r="6" fill-opacity="0.5">
+      <animate attributeName="r" dur="1s" values="6;15;6" repeatCount="indefinite" />
+      <animate attributeName="fill-opacity" dur="1s" values="0.5; 1; 0.5" repeatCount="indefinite" />
+    </circle>
+    <circle cx="105" cy="15" r="15">
+      <animate attributeName="r" dur="1s" values="15;6;15" repeatCount="indefinite" />
+      <animate attributeName="fill-opacity" dur="1s" values="1; 0.5; 1" repeatCount="indefinite" />
+    </circle>
+  </svg>
+}
