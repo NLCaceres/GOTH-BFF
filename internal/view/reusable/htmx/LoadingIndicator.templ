@@ -4,8 +4,7 @@ package htmx
 // Can target this by ID via `hx-indicator` CSS selector on the trigger element
 // Can also target the parent so "htmx-request" CSS is placed to affect "htmx-indicator"
 templ LoadingIndicator() {
-  <div id="load-indicator"
-       class="htmx-indicator p-absolute p-center t-25 z-over text-white transitionable">
+  <div id="load-indicator" class="htmx-indicator p-center">
     Loading!
   </div>
 }

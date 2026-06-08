@@ -21,3 +21,17 @@
     font-size: 1.5rem;
   }
 }
+
+#load-indicator {
+  position: absolute;
+  z-index: 999;
+  color: white;
+  transition: opacity 1s, visibility 1s;
+  top: 10%;
+}
+
+@media (max-width: 576px) {
+  #load-indicator {
+    top: 25%;
+  }
+}
