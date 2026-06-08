@@ -6,7 +6,8 @@ import (
 	"github.com/NLCaceres/goth-example/internal/util/stringy"
 	"github.com/NLCaceres/goth-example/internal/view/index"
 	"github.com/NLCaceres/goth-example/internal/view/items"
-	"github.com/NLCaceres/goth-example/internal/view/reusable"
+	"github.com/NLCaceres/goth-example/internal/view/reusable/htmx"
+	"github.com/a-h/templ"
 	"github.com/labstack/echo/v5"
 	"os"
 	"strings"
@@ -21,10 +22,11 @@ func Routes(app *echo.Echo) {
 		if err != nil {
 			return err
 		}
-		vm := index.ViewModel{Title: name, CssPaths: []string{"css/item_list.css"}}
+		listStyle := "css/item_list.css"
+		vm := index.ViewModel{Title: name, CssPaths: []string{listStyle}}
 		itemsVm := items.ViewModel{Title: name, Items: model.ManyMockItems()}
-		indexView := index.HTML(items.ListPage(itemsVm), vm)
-		return handler.HtmxPayload(c, indexView, reusable.TestElem(name))
+		listPage := templ.Join(items.ListPage(itemsVm), htmx.StyleLink(listStyle))
+		return handler.HtmxPayload(c, index.HTML(items.ListPage(itemsVm), vm), listPage)
 	})
 	ApiRoutes(app)
 }
