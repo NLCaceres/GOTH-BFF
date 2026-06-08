@@ -32,7 +32,7 @@ func LoadingIndicator() templ.Component {
 			templ_7745c5c3_Var1 = templ.NopComponent
 		}
 		ctx = templ.ClearChildren(ctx)
-		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 1, "<div id=\"load-indicator\" class=\"htmx-indicator p-center\">Loading!</div>")
+		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 1, "<div id=\"load-indicator\" class=\"htmx-indicator p-center\"><svg width=\"120\" height=\"30\" viewBox=\"0 0 120 30\" fill=\"#ffffff\"><circle cx=\"15\" cy=\"15\" r=\"15\"><animate attributeName=\"r\" dur=\"1s\" values=\"15;6;15\" repeatCount=\"indefinite\"></animate> <animate attributeName=\"fill-opacity\" dur=\"1s\" values=\"1; 0.5; 1\" repeatCount=\"indefinite\"></animate></circle> <circle cx=\"60\" cy=\"15\" r=\"6\" fill-opacity=\"0.5\"><animate attributeName=\"r\" dur=\"1s\" values=\"6;15;6\" repeatCount=\"indefinite\"></animate> <animate attributeName=\"fill-opacity\" dur=\"1s\" values=\"0.5; 1; 0.5\" repeatCount=\"indefinite\"></animate></circle> <circle cx=\"105\" cy=\"15\" r=\"15\"><animate attributeName=\"r\" dur=\"1s\" values=\"15;6;15\" repeatCount=\"indefinite\"></animate> <animate attributeName=\"fill-opacity\" dur=\"1s\" values=\"1; 0.5; 1\" repeatCount=\"indefinite\"></animate></circle></svg></div>")
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
