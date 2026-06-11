@@ -1,16 +1,17 @@
 package index
 
 templ StyleLinks() {
-  @StyleLink("css/index.css")
-  @StyleLink("css/animation.css")
-  @StyleLink("css/colors.css")
-  @StyleLink("css/dimensions.css")
-  @StyleLink("css/elements.css")
-  @StyleLink("css/flex_grid.css")
-  @StyleLink("css/layout.css")
-  @StyleLink("css/typography.css")
+  @StyleLink("css/index.css", "")
+  @StyleLink("css/animation.css", "")
+  @StyleLink("css/colors.css", "")
+  @StyleLink("css/dimensions.css", "")
+  @StyleLink("css/elements.css", "")
+  @StyleLink("css/flex_grid.css", "")
+  @StyleLink("css/layout.css", "")
+  @StyleLink("css/typography.css", "")
 }
 
-templ StyleLink(stylePath string) {
-  <link rel="stylesheet" crossorigin href={stylePath}/>
+templ StyleLink(stylePath string, id string) {
+  <link rel="stylesheet" crossorigin
+        if stylePath != "" { href={stylePath} } if id != "" { id={id} } />
 }
