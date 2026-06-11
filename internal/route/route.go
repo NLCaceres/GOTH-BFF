@@ -17,6 +17,11 @@ import (
 
 func Routes(app *echo.Echo) {
 	app.GET("/", handler.RenderView)
+	app.GET("/error", func(c *echo.Context) error {
+		cssPaths := map[string]string{"pageStylesheet": ""}
+		indexPage := index.HTML(index.Error(), index.ViewModel{Title: "Home", CssPaths: cssPaths})
+		return handler.HtmxPayload(c, indexPage, index.Error())
+	})
 	app.GET("/:name", func(c *echo.Context) error {
 		name, err := echo.PathParam[string](c, "name")
 		if err != nil {
