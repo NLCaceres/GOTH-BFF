@@ -23,7 +23,7 @@ func Routes(app *echo.Echo) {
 			return err
 		}
 		listStyle := "css/item_list.css"
-		vm := index.ViewModel{Title: name, CssPaths: []string{listStyle}}
+		vm := index.ViewModel{Title: name, CssPaths: map[string]string{"pageStylesheet": listStyle}}
 		itemsVm := items.ViewModel{Title: name, Items: model.ManyMockItems()}
 		listPage := templ.Join(items.ListPage(itemsVm), htmx.StyleLink(listStyle))
 		return handler.HtmxPayload(c, index.HTML(items.ListPage(itemsVm), vm), listPage)

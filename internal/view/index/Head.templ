@@ -1,6 +1,6 @@
 package index
 
-templ head(title string, cssPaths []string) {
+templ head(title string, cssPaths map[string]string) {
   <head>
     <title>{ title }</title>
 
@@ -10,10 +10,9 @@ templ head(title string, cssPaths []string) {
     <link rel="icon" href="data:;base64,=">
 
     @StyleLinks()
-    for _, cssPath := range cssPaths {
-      @StyleLink(cssPath)
+    for id, cssPath := range cssPaths {
+      @StyleLink(cssPath, id)
     }
-    <link id="pageStylesheet" />
     <script src="js/htmx.js"></script>
   </head>
 }

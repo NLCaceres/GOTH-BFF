@@ -6,6 +6,7 @@ import (
 	"github.com/NLCaceres/goth-example/internal/model"
 	"github.com/NLCaceres/goth-example/internal/view/index"
 	"github.com/NLCaceres/goth-example/internal/view/items"
+	"github.com/NLCaceres/goth-example/internal/view/reusable/htmx"
 	"github.com/a-h/templ"
 	"github.com/labstack/echo/v5"
 	"net/http"
@@ -13,7 +14,8 @@ import (
 )
 
 func RenderView(c *echo.Context) error {
-	component := index.HTML(index.Home(), index.ViewModel{Title: "Home", CssPaths: nil})
+	cssPaths := map[string]string{"pageStylesheet": ""}
+	component := index.HTML(index.Home(), index.ViewModel{Title: "Home", CssPaths: cssPaths})
 	return component.Render(c.Request().Context(), c.Response())
 }
 
@@ -39,9 +41,11 @@ func RenderQuery(c *echo.Context) error {
 	}
 	filters := c.QueryParam("exclude")
 	itemList := toItems(res.Documents(), strings.Split(filters, ","))
-	vm := index.ViewModel{Title: name, CssPaths: []string{"css/item_list.css"}}
-	listPage := items.ListPage(items.ViewModel{Title: name, Items: itemList})
-	return HtmxPayload(c, index.HTML(listPage, vm), listPage)
+	listStyle := "css/item_list.css"
+	vm := index.ViewModel{Title: name, CssPaths: map[string]string{"pageStylesheet": listStyle}}
+	itemsVm := items.ViewModel{Title: name, Items: itemList}
+	listPage := templ.Join(items.ListPage(itemsVm), htmx.StyleLink(listStyle))
+	return HtmxPayload(c, index.HTML(items.ListPage(itemsVm), vm), listPage)
 }
 
 func toItems(docs []queryapi.Document, filters []string) []model.Item {

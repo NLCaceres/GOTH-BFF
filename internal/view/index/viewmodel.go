@@ -2,5 +2,5 @@ package index
 
 type ViewModel struct {
 	Title    string
-	CssPaths []string
+	CssPaths map[string]string
 }
