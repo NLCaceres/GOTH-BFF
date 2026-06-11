@@ -3,7 +3,7 @@ package handler
 import (
 	"fmt"
 	"github.com/NLCaceres/goth-example/internal/util/http"
-	"github.com/NLCaceres/goth-example/internal/view/reusable"
+	"github.com/NLCaceres/goth-example/internal/view/index"
 	"github.com/a-h/templ"
 	"github.com/labstack/echo/v5"
 )
@@ -11,7 +11,9 @@ import (
 func HtmxPayload(c *echo.Context, fullPage, htmx templ.Component) error {
 	isFullRender, err := isFullRender(http.Header{Header: c.Request().Header})
 	if err != nil {
-		return RenderHTML(c, reusable.TestElem("Error!"))
+		cssPaths := map[string]string{"pageStylesheet": ""}
+		errorPage := index.HTML(index.Error(), index.ViewModel{Title: "Home", CssPaths: cssPaths})
+		return RenderHTML(c, errorPage)
 	}
 	if isFullRender {
 		return RenderHTML(c, fullPage)
