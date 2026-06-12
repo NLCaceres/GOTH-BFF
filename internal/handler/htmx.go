@@ -10,8 +10,8 @@ import (
 
 func HtmxPayload(c *echo.Context, fullPage, htmx templ.Component) error {
 	isFullRender, err := isFullRender(myHttp.Header{Header: c.Request().Header})
-	if err != nil { // Header won't work if initial navigation
-		c.Response().Header().Add("Hx-Redirect", "/error")
+	if err != nil { // "Hx-Location" can cause infinite re-renders
+		c.Response().Header().Add("Hx-Location", `{"path":"/error", "target":"main"}`)
 		return c.NoContent(http.StatusBadRequest)
 	}
 	if isFullRender {
