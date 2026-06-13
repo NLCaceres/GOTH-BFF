@@ -1,12 +1,17 @@
 package htmx
 
-import "github.com/NLCaceres/goth-example/internal/util/http"
+import (
+	apphttp "github.com/NLCaceres/goth-example/internal/util/http"
+	"net/http"
+)
 
 // Embeds my custom `http.Header` which already wraps the standard library `net/http.Header`
 // Adds methods that make working with HTMX headers easier ("Hx"-prefixed)
 type Header struct {
-	http.Header
+	apphttp.Header
 }
+
+func NewHeader(h http.Header) Header { return Header{Header: apphttp.Header{Header: h}} }
 
 // Whenever HTMX makes a request, it sets a "Hx-Request"
 func (h Header) HxRequest() string {
