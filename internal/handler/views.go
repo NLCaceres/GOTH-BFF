@@ -44,7 +44,7 @@ func RenderQuery(c *echo.Context) error {
 	listStyle := "css/item_list.css"
 	vm := index.ViewModel{Title: name, CssPaths: map[string]string{"pageStylesheet": listStyle}}
 	itemsVm := items.ViewModel{Title: name, Items: itemList}
-	listPage := templ.Join(items.ListPage(itemsVm), htmx.StyleLink(listStyle))
+	listPage := templ.Join(items.ListPage(itemsVm), htmx.StyleLink(listStyle), htmx.Title(name))
 	return HtmxPayload(c, index.HTML(items.ListPage(itemsVm), vm), listPage)
 }
 

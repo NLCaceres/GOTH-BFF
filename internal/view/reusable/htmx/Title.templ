@@ -1,0 +1,7 @@
+package htmx
+
+// Useful component to help update page title, since HTMX will automagically perform an
+// out-of-band swap on the <title> when included in a response
+templ Title(title string) {
+  <title>{title}</title>
+}
