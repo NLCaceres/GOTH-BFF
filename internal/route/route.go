@@ -3,8 +3,6 @@ package route
 import (
 	"github.com/NLCaceres/goth-example/internal/handler"
 	"github.com/NLCaceres/goth-example/internal/model"
-	utilhtmx "github.com/NLCaceres/goth-example/internal/util/htmx"
-	"github.com/NLCaceres/goth-example/internal/util/http"
 	"github.com/NLCaceres/goth-example/internal/util/stringy"
 	"github.com/NLCaceres/goth-example/internal/view/index"
 	"github.com/NLCaceres/goth-example/internal/view/items"
@@ -20,14 +18,9 @@ import (
 func Routes(app *echo.Echo) {
 	app.GET("/", handler.RenderView)
 	app.GET("/error", func(c *echo.Context) error {
-		h := utilhtmx.Header{Header: http.Header{Header: c.Request().Header}}
-		if h.IsHxRequest() {
-			return handler.RenderHTML(c, index.Error())
-		} else {
-			cssPaths := map[string]string{"pageStylesheet": ""}
-			indexPage := index.HTML(index.Error(), index.ViewModel{Title: "Home", CssPaths: cssPaths})
-			return handler.RenderHTML(c, indexPage)
-		}
+		cssPaths := map[string]string{"pageStylesheet": ""}
+		indexPage := index.HTML(index.Error(), index.ViewModel{Title: "Home", CssPaths: cssPaths})
+		return handler.HtmxPayload(c, indexPage, index.Error())
 	})
 	app.GET("/:name", func(c *echo.Context) error {
 		name, err := echo.PathParam[string](c, "name")
