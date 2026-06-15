@@ -27,7 +27,8 @@ func (h Header) IsHxRequest() bool {
 // Redirects to the input path like an "Hx-Boost" link (no full-page reload)
 // Unlike "Hx-Redirect", this option has a ton of flexibility like adding a target for swaps
 func (h Header) AddLocation(path, target string) {
-	h.Add("Hx-Location", `{"path":"`+path+`", "target":"`+target+`"}`)
+	value := `{"path":"` + path + `", "target":"` + target + `"}`
+	h.Add("Hx-Location", value)
 }
 
 // Causes full reload of the page, redirecting to the desired page

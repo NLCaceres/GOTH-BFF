@@ -11,8 +11,8 @@ import (
 
 func HtmxPayload(c *echo.Context, fullPage, partial templ.Component) error {
 	isFullRender, err := isFullRender(htmx.NewHeader(c.Request().Header))
-	if err != nil { // "Hx-Location" can cause infinite re-renders
-		c.Response().Header().Add("Hx-Location", `{"path":"/error", "target":"main"}`)
+	if err != nil {
+		htmx.NewHeader(c.Response().Header()).AddLocation("/error", "main")
 		return c.NoContent(http.StatusBadRequest)
 	}
 	if isFullRender {
