@@ -52,4 +52,8 @@ func Title(title string) templ.Component {
 	})
 }
 
+func AddTitle(title string, partial templ.Component) templ.Component {
+	return templ.Join(Title(title), partial)
+}
+
 var _ = templruntime.GeneratedTemplate
