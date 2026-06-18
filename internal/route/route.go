@@ -7,7 +7,6 @@ import (
 	"github.com/NLCaceres/goth-example/internal/view/index"
 	"github.com/NLCaceres/goth-example/internal/view/items"
 	"github.com/NLCaceres/goth-example/internal/view/reusable/htmx"
-	"github.com/a-h/templ"
 	"github.com/labstack/echo/v5"
 	"os"
 	"strings"
@@ -20,7 +19,7 @@ func Routes(app *echo.Echo) {
 	app.GET("/error", func(c *echo.Context) error {
 		cssPaths := map[string]string{"pageStylesheet": ""}
 		indexPage := index.HTML(index.Error(), index.ViewModel{Title: "Error", CssPaths: cssPaths})
-		return handler.HtmxPayload(c, indexPage, htmx.AddTitle("Error", index.Error()))
+		return handler.HtmxPayload(c, indexPage, htmx.Data(index.Error()).AddTitle("Error"))
 	})
 	app.GET("/:name", func(c *echo.Context) error {
 		name, err := echo.PathParam[string](c, "name")
@@ -30,7 +29,7 @@ func Routes(app *echo.Echo) {
 		listStyle := "css/item_list.css"
 		vm := index.ViewModel{Title: name, CssPaths: map[string]string{"pageStylesheet": listStyle}}
 		itemsVm := items.ViewModel{Title: name, Items: model.ManyMockItems()}
-		listPage := templ.Join(htmx.AddTitle(name, items.ListPage(itemsVm)), htmx.StyleLink(listStyle))
+		listPage := htmx.Data(items.ListPage(itemsVm)).AddTitle(name).AddStyle(listStyle)
 		return handler.HtmxPayload(c, index.HTML(items.ListPage(itemsVm), vm), listPage)
 	})
 	ApiRoutes(app)
