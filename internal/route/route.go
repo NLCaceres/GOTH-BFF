@@ -19,7 +19,7 @@ func Routes(app *echo.Echo) {
 	app.GET("/error", func(c *echo.Context) error {
 		cssPaths := map[string]string{"pageStylesheet": ""}
 		indexPage := index.HTML(index.Error(), index.ViewModel{Title: "Error", CssPaths: cssPaths})
-		return handler.HtmxPayload(c, indexPage, htmx.Data(index.Error()).AddTitle("Error"))
+		return handler.HtmxPayload(c, htmx.Data(indexPage), htmx.Data(index.Error()).AddTitle("Error"))
 	})
 	app.GET("/:name", func(c *echo.Context) error {
 		name, err := echo.PathParam[string](c, "name")
@@ -30,7 +30,7 @@ func Routes(app *echo.Echo) {
 		vm := index.ViewModel{Title: name, CssPaths: map[string]string{"pageStylesheet": listStyle}}
 		itemsVm := items.ViewModel{Title: name, Items: model.ManyMockItems()}
 		listPage := htmx.Data(items.ListPage(itemsVm)).AddTitle(name).AddStyle(listStyle)
-		return handler.HtmxPayload(c, index.HTML(items.ListPage(itemsVm), vm), listPage)
+		return handler.HtmxPayload(c, htmx.Data(index.HTML(items.ListPage(itemsVm), vm)), listPage)
 	})
 	ApiRoutes(app)
 }
