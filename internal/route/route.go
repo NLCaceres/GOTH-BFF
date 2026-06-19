@@ -3,10 +3,10 @@ package route
 import (
 	"github.com/NLCaceres/goth-example/internal/handler"
 	"github.com/NLCaceres/goth-example/internal/model"
+	"github.com/NLCaceres/goth-example/internal/util/htmx"
 	"github.com/NLCaceres/goth-example/internal/util/stringy"
 	"github.com/NLCaceres/goth-example/internal/view/index"
 	"github.com/NLCaceres/goth-example/internal/view/items"
-	"github.com/NLCaceres/goth-example/internal/view/reusable/htmx"
 	"github.com/labstack/echo/v5"
 	"os"
 	"strings"
