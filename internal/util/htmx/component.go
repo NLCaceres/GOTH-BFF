@@ -27,3 +27,12 @@ func (c PageComponent) AddTitle(title string) PageComponent {
 func (c PageComponent) AddStyle(path string) PageComponent {
 	return PageComponent{templ.Join(c, htmx.StyleLink(path))}
 }
+
+func (c PageComponent) ToHTML(ctx context.Context) (string, error) {
+	b := templ.GetBuffer()
+	defer templ.ReleaseBuffer(b)
+	if err := c.Render(ctx, b); err != nil {
+		return "", err
+	}
+	return b.String(), nil
+}
