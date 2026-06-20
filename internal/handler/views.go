@@ -7,9 +7,7 @@ import (
 	"github.com/NLCaceres/goth-example/internal/util/htmx"
 	"github.com/NLCaceres/goth-example/internal/view/index"
 	"github.com/NLCaceres/goth-example/internal/view/items"
-	"github.com/a-h/templ"
 	"github.com/labstack/echo/v5"
-	"net/http"
 	"strings"
 )
 
@@ -17,19 +15,6 @@ func RenderView(c *echo.Context) error {
 	cssPaths := map[string]string{"pageStylesheet": ""}
 	component := index.HTML(index.Home(), index.ViewModel{Title: "Home", CssPaths: cssPaths})
 	return component.Render(c.Request().Context(), c.Response())
-}
-
-func RenderHTML(c *echo.Context, component templ.Component) error {
-	htmlStr, err := templ.ToGoHTML(c.Request().Context(), component)
-	if err != nil {
-		return c.NoContent(http.StatusNotFound)
-	}
-	// This string conversion should be instant, unlike converting between []byte/string
-	return c.HTML(http.StatusOK, string(htmlStr))
-}
-
-func RenderHTMLIndex(c *echo.Context, page templ.Component, vm index.ViewModel) error {
-	return RenderHTML(c, index.HTML(page, vm))
 }
 
 func RenderQuery(c *echo.Context) error {
