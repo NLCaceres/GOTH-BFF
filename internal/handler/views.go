@@ -11,12 +11,6 @@ import (
 	"strings"
 )
 
-func RenderView(c *echo.Context) error {
-	cssPaths := map[string]string{"pageStylesheet": ""}
-	component := index.HTML(index.Home(), index.ViewModel{Title: "Home", CssPaths: cssPaths})
-	return component.Render(c.Request().Context(), c.Response())
-}
-
 func RenderQuery(c *echo.Context) error {
 	name := c.Path()[1:]
 	res, err := queryapi.Call(name)

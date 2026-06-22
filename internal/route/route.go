@@ -15,7 +15,11 @@ import (
 // NOTE: Public funcs in Go start with a capital 1st letter, no keyword needed
 
 func Routes(app *echo.Echo) {
-	app.GET("/", handler.RenderView)
+	app.GET("/", func(c *echo.Context) error {
+		cssPaths := map[string]string{"pageStylesheet": ""}
+		vm := index.ViewModel{Title: "Home", CssPaths: cssPaths}
+		return handler.RenderHtmx(c, htmx.Data(index.HTML(index.Home(), vm)))
+	})
 	app.GET("/error", func(c *echo.Context) error {
 		cssPaths := map[string]string{"pageStylesheet": ""}
 		indexPage := index.HTML(index.Error(), index.ViewModel{Title: "Error", CssPaths: cssPaths})
