@@ -24,6 +24,18 @@ func (h Header) IsHxRequest() bool {
 	return h.HxRequest() == "true"
 }
 
+// If HTMX can't find a URL entry in its history cache, then this header is added to
+// the request in order to get the full page for the URL in response
+func (h Header) HxHistoryRestoreRequest() string {
+	return h.Get("Hx-History-Restore-Request")
+}
+
+// If true, then the request expects a full page response in order to restore the
+// Htmx history cache entry for the URL
+func (h Header) HxRestoreHistory() bool {
+	return h.HxHistoryRestoreRequest() == "true"
+}
+
 // Redirects to the input path like an "Hx-Boost" link (no full-page reload)
 // Unlike "Hx-Redirect", this option has a ton of flexibility like adding a target for swaps
 func (h Header) AddLocation(path, target string) {
