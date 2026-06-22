@@ -2,9 +2,9 @@ package handler
 
 import (
 	"errors"
+	"github.com/NLCaceres/goth-example/internal/handler/htmx"
 	"github.com/NLCaceres/goth-example/internal/handler/queryapi"
 	"github.com/NLCaceres/goth-example/internal/model"
-	"github.com/NLCaceres/goth-example/internal/util/htmx"
 	"github.com/NLCaceres/goth-example/internal/view/index"
 	"github.com/NLCaceres/goth-example/internal/view/items"
 	"github.com/labstack/echo/v5"
@@ -24,7 +24,7 @@ func RenderQuery(c *echo.Context) error {
 	vm := index.ViewModel{Title: name, CssPaths: map[string]string{"pageStylesheet": listStyle}}
 	itemsVm := items.ViewModel{Title: name, Items: itemList}
 	listPage := htmx.Data(items.ListPage(itemsVm)).AddTitle(name).AddStyle(listStyle)
-	return HtmxPayload(c, htmx.Data(index.HTML(items.ListPage(itemsVm), vm)), listPage)
+	return htmx.HtmxPayload(c, htmx.Data(index.HTML(items.ListPage(itemsVm), vm)), listPage)
 }
 
 func toItems(docs []queryapi.Document, filters []string) []model.Item {

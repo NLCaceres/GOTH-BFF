@@ -2,8 +2,8 @@ package route
 
 import (
 	"github.com/NLCaceres/goth-example/internal/handler"
+	"github.com/NLCaceres/goth-example/internal/handler/htmx"
 	"github.com/NLCaceres/goth-example/internal/model"
-	"github.com/NLCaceres/goth-example/internal/util/htmx"
 	"github.com/NLCaceres/goth-example/internal/util/stringy"
 	"github.com/NLCaceres/goth-example/internal/view/index"
 	"github.com/NLCaceres/goth-example/internal/view/items"
@@ -18,12 +18,12 @@ func Routes(app *echo.Echo) {
 	app.GET("/", func(c *echo.Context) error {
 		cssPaths := map[string]string{"pageStylesheet": ""}
 		vm := index.ViewModel{Title: "Home", CssPaths: cssPaths}
-		return handler.RenderHtmx(c, htmx.Data(index.HTML(index.Home(), vm)))
+		return htmx.RenderHtmx(c, htmx.Data(index.HTML(index.Home(), vm)))
 	})
 	app.GET("/error", func(c *echo.Context) error {
 		cssPaths := map[string]string{"pageStylesheet": ""}
 		indexPage := index.HTML(index.Error(), index.ViewModel{Title: "Error", CssPaths: cssPaths})
-		return handler.HtmxPayload(c, htmx.Data(indexPage), htmx.Data(index.Error()).AddTitle("Error"))
+		return htmx.HtmxPayload(c, htmx.Data(indexPage), htmx.Data(index.Error()).AddTitle("Error"))
 	})
 	app.GET("/:name", func(c *echo.Context) error {
 		name, err := echo.PathParam[string](c, "name")
@@ -34,7 +34,7 @@ func Routes(app *echo.Echo) {
 		vm := index.ViewModel{Title: name, CssPaths: map[string]string{"pageStylesheet": listStyle}}
 		itemsVm := items.ViewModel{Title: name, Items: model.ManyMockItems()}
 		listPage := htmx.Data(items.ListPage(itemsVm)).AddTitle(name).AddStyle(listStyle)
-		return handler.HtmxPayload(c, htmx.Data(index.HTML(items.ListPage(itemsVm), vm)), listPage)
+		return htmx.HtmxPayload(c, htmx.Data(index.HTML(items.ListPage(itemsVm), vm)), listPage)
 	})
 	ApiRoutes(app)
 }
