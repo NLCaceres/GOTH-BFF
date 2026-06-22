@@ -24,7 +24,7 @@ func RenderQuery(c *echo.Context) error {
 	vm := index.ViewModel{Title: name, CssPaths: map[string]string{"pageStylesheet": listStyle}}
 	itemsVm := items.ViewModel{Title: name, Items: itemList}
 	listPage := htmx.Data(items.ListPage(itemsVm)).AddTitle(name).AddStyle(listStyle)
-	return htmx.HtmxPayload(c, htmx.Data(index.HTML(items.ListPage(itemsVm), vm)), listPage)
+	return htmx.Payload(c, htmx.Data(index.HTML(items.ListPage(itemsVm), vm)), listPage)
 }
 
 func toItems(docs []queryapi.Document, filters []string) []model.Item {
