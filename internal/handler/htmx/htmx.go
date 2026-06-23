@@ -7,8 +7,11 @@ import (
 
 // Takes a full page component or the `Hx-Swap` ready partial component and decides
 // based on `Hx-` prefixed headers which to send back as a response.
-func Payload(c *echo.Context, fullPage, partial PageComponent) error {
-	if NewHeader(c.Request().Header).IsHxRequest() {
+func Response(c *echo.Context, fullPage, partial PageComponent) error {
+	h := NewHeader(c.Request().Header)
+	if h.HxRestoreHistory() {
+		return Render(c, fullPage)
+	} else if h.IsHxRequest() {
 		return Render(c, partial)
 	} else {
 		return Render(c, fullPage)
