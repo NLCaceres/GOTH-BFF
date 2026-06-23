@@ -72,3 +72,9 @@ func (h Header) HasReferer() bool {
 func (h Header) IsRefererAny(origins ...string) bool {
 	return stringy.HasAnyPrefix(h.Referer(), origins...)
 }
+
+func (h Header) AddVary(headers ...string) {
+	for _, header := range headers {
+		h.Add("Vary", header)
+	}
+}
