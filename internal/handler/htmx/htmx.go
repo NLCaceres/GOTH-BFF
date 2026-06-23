@@ -9,9 +9,9 @@ import (
 // based on `Hx-` prefixed headers which to send back as a response.
 func Response(c *echo.Context, fullPage, partial PageComponent) error {
 	h := NewHeader(c.Request().Header)
-	if h.HxRestoreHistory() {
-		return Render(c, fullPage)
-	} else if h.IsHxRequest() {
+	h.AddVary("Hx-Request", "Hx-History-Restore-Request")
+
+	if h.IsHxRequest() && !h.HxRestoreHistory() {
 		return Render(c, partial)
 	} else {
 		return Render(c, fullPage)
