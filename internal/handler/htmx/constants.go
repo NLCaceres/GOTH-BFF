@@ -1,8 +1,9 @@
 package htmx
 
+// Constants for the names of Htmx's custom response and request headers
 const (
-	RequestHeader               = "Hx-Request"
-	HistoryRestoreRequestHeader = "Hx-History-Restore-Request"
-	LocationHeader              = "Hx-Location"
-	RedirectHeader              = "Hx-Redirect"
+	HxLocation              = "Hx-Location"
+	HxRedirect              = "Hx-Redirect"
+	HxRequest               = "Hx-Request"
+	HxHistoryRestoreRequest = "Hx-History-Restore-Request"
 )
