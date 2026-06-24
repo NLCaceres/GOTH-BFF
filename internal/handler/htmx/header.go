@@ -15,7 +15,7 @@ func NewHeader(h http.Header) Header { return Header{Header: apphttp.Header{Head
 
 // Whenever HTMX makes a request, it sets a "Hx-Request"
 func (h Header) HxRequest() string {
-	return h.Get("Hx-Request")
+	return h.Get(RequestHeader)
 }
 
 // Whenever HTMX makes a request, it sets a "Hx-Request" header to "true".
@@ -27,7 +27,7 @@ func (h Header) IsHxRequest() bool {
 // If HTMX can't find a URL entry in its history cache, then this header is added to
 // the request in order to get the full page for the URL in response
 func (h Header) HxHistoryRestoreRequest() string {
-	return h.Get("Hx-History-Restore-Request")
+	return h.Get(HistoryRestoreRequestHeader)
 }
 
 // If true, then the request expects a full page response in order to restore the
@@ -40,10 +40,10 @@ func (h Header) HxRestoreHistory() bool {
 // Unlike "Hx-Redirect", this option has a ton of flexibility like adding a target for swaps
 func (h Header) AddLocation(path, target string) {
 	value := `{"path":"` + path + `", "target":"` + target + `"}`
-	h.Add("Hx-Location", value)
+	h.Add(LocationHeader, value)
 }
 
 // Causes full reload of the page, redirecting to the desired page
 func (h Header) AddRedirect(path string) {
-	h.Add("Hx-Redirect", path)
+	h.Add(RedirectHeader, path)
 }
