@@ -1,8 +1,13 @@
 package htmx
 
-templ Link(name string, url string, target string) {
-  <a href={"/" + url} hx-boost="true" hx-target={target} hx-indicator="body"
-     hx-trigger={"click[location.pathname !== '/" + url + "']"}>
-       { name }
+// Htmx "Hx-Boosted" link that accepts text content as a name for the link, its typical
+// href URL and an HTMX target to swap into. It injects its loading indicator directly
+// into the body tag of the HTML document.
+// The href attribute works normal thanks to the "hx-boost" attribute, so using a "/edit"
+// link from "foo.com/item/2" links to "foo.com/edit", while "edit" and "./edit" links to
+// "foo.com/item/2/edit", and "../edit" goes to "foo.com/item/edit"
+templ Link(name string, href string, target string) {
+  <a href={href} hx-boost="true" hx-target={target} hx-indicator="body">
+    { name }
   </a>
 }
