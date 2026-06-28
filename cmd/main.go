@@ -21,6 +21,7 @@ func main() {
 	app := echo.New()
 	app.Logger = logger
 	// `Use` must be used & declared BEFORE starting the app
+	app.Use(middleware.RateLimiter())
 	app.Use(middleware.RequestLogger(logger))
 
 	app.Use(middleware.Static())
