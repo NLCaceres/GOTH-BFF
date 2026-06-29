@@ -30,7 +30,7 @@ func Routes(app *echo.Echo) {
 		if err != nil {
 			return err
 		}
-		listStyle := "css/item_list.css"
+		listStyle := "/css/item_list.css"
 		vm := index.ViewModel{Title: name, CssPaths: map[string]string{"pageStylesheet": listStyle}}
 		itemsVm := items.ViewModel{Title: name, Items: model.ManyMockItems()}
 		listPage := htmx.Data(items.ListPage(itemsVm)).AddTitle(name).AddStyle(listStyle)

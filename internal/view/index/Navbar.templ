@@ -16,7 +16,7 @@ templ navbar(navItems []string) {
         if !strings.Contains(navItem, "-") {
           <li class="navListItem mt-4 px-4 flex-grow text-center">
             @htmx.Link(
-              stringy.PresenterMapValue(routeMap, navItem), navItem, "main.flex",
+              stringy.PresenterMapValue(routeMap, navItem), "/" + navItem, "main.flex",
             )
           </li>
         }

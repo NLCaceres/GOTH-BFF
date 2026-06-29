@@ -13,7 +13,7 @@ templ head(title string, cssPaths map[string]string) {
     for id, cssPath := range cssPaths {
       @StyleLink(cssPath, id)
     }
-    <script src="js/htmx.js"></script>
+    <script src="/js/htmx.js"></script>
   </head>
 }
 

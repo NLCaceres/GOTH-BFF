@@ -53,7 +53,7 @@ func navbar(navItems []string) templ.Component {
 					return templ_7745c5c3_Err
 				}
 				templ_7745c5c3_Err = htmx.Link(
-					stringy.PresenterMapValue(routeMap, navItem), navItem, "main.flex",
+					stringy.PresenterMapValue(routeMap, navItem), "/"+navItem, "main.flex",
 				).Render(ctx, templ_7745c5c3_Buffer)
 				if templ_7745c5c3_Err != nil {
 					return templ_7745c5c3_Err

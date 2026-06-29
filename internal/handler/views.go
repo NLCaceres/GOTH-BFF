@@ -20,7 +20,7 @@ func RenderQuery(c *echo.Context) error {
 	}
 	filters := c.QueryParam("exclude")
 	itemList := toItems(res.Documents(), strings.Split(filters, ","))
-	listStyle := "css/item_list.css"
+	listStyle := "/css/item_list.css"
 	vm := index.ViewModel{Title: name, CssPaths: map[string]string{"pageStylesheet": listStyle}}
 	itemsVm := items.ViewModel{Title: name, Items: itemList}
 	listPage := htmx.Data(items.ListPage(itemsVm)).AddTitle(name).AddStyle(listStyle)
