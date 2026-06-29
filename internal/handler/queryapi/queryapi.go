@@ -12,7 +12,7 @@ import (
 // POSTs pre-formatted JSON to an API after dynamically updating the JSON string's
 // key-value pair corresponding to the search value
 func Call(path string) (*Response, error) {
-	query, err := newQuery(path)
+	query, err := newQuery(path, 1)
 	if err != nil {
 		return nil, NewError(err)
 	}
@@ -24,13 +24,17 @@ func Call(path string) (*Response, error) {
 	return res, nil
 }
 
-func newQuery(path string) (*bytes.Buffer, error) {
+func newQuery(path string, page int) (*bytes.Buffer, error) {
 	queryReq, err := fileread.JSON[Request](os.Getenv("QUERY_FILE"))
 	if err != nil {
 		log.Printf("Issue getting formatted JSON query map due to: %s\n", err)
 		return nil, err
 	}
 
+	queryReq.last().Page = page
+	if page < 1 {
+		queryReq.last().Page = 1
+	}
 	queryReq.last().Q = path
 	if err := queryReq.last().setFilters(os.Getenv("FILTER_REPLACEMENTS")); err != nil {
 		log.Print("Issue setting filters due to:", err)

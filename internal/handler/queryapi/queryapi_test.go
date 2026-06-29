@@ -73,13 +73,39 @@ func TestNewQuery(t *testing.T) {
 	for testName, testCase := range tests {
 		t.Run(testName, func(t *testing.T) {
 			os.Setenv("QUERY_FILE", testCase.QueryFile)
-			query, err := newQuery(testCase.Input)
+			query, err := newQuery(testCase.Input, 1)
 			if !test.EqualErrors(err, testCase.Err) {
 				t.Errorf("Expected error = %T but got %#v", testCase.Err, err)
 			}
 			expect := `"q": "` + testCase.Expect + `",`
 			if query.String() != "<nil>" && !strings.Contains(query.String(), expect) {
 				t.Error(test.ErrorMsg("Path input", testCase.Input, query))
+			}
+		})
+	}
+}
+
+func TestNewQueryPage(t *testing.T) {
+	tests := map[string]struct {
+		Input  int
+		Expect string
+	}{
+		"Basic 1st query": {1, "1"},
+		"Invalid page":    {-1, "1"},
+		"Page 0":          {0, "1"},
+		"Later page":      {2, "2"},
+		"Random page":     {1234, "1234"},
+	}
+	for testName, testCase := range tests {
+		t.Run(testName, func(t *testing.T) {
+			os.Setenv("QUERY_FILE", "internal/test_query.json")
+			query, err := newQuery("foo", testCase.Input)
+			if err != nil {
+				t.Errorf("Unexpected error = %T", err)
+			}
+			expect := `"page": ` + testCase.Expect + ","
+			if query.String() != "<nil>" && !strings.Contains(query.String(), expect) {
+				t.Error(test.ErrorMsg("Page input", testCase.Input, query))
 			}
 		})
 	}
