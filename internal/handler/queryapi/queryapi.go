@@ -8,12 +8,17 @@ import (
 	"log"
 	"net/url"
 	"os"
+	"strconv"
 )
 
 // POSTs pre-formatted JSON to an API after dynamically updating the JSON string's
 // key-value pair corresponding to the search value
 func Call(URL url.URL) (*Response, error) {
-	query, err := newQuery(URL.Path[1:], 1)
+	page, err := strconv.Atoi(URL.Query().Get("page"))
+	if err != nil {
+		log.Printf("Page %v converted to int %d failed: %v", URL.Query().Get("page"), page, err)
+	}
+	query, err := newQuery(URL.Path[1:], page)
 	if err != nil {
 		return nil, NewError(err)
 	}
@@ -34,6 +39,7 @@ func newQuery(path string, page int) (*bytes.Buffer, error) {
 
 	queryReq.last().Page = page
 	if page < 1 {
+		log.Printf("Got page < 1 equal to %d", page)
 		queryReq.last().Page = 1
 	}
 	queryReq.last().Q = path
