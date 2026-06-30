@@ -6,13 +6,14 @@ import (
 	"github.com/NLCaceres/goth-example/internal/util/fileread"
 	"github.com/NLCaceres/goth-example/internal/util/proxy"
 	"log"
+	"net/url"
 	"os"
 )
 
 // POSTs pre-formatted JSON to an API after dynamically updating the JSON string's
 // key-value pair corresponding to the search value
-func Call(path string) (*Response, error) {
-	query, err := newQuery(path, 1)
+func Call(URL url.URL) (*Response, error) {
+	query, err := newQuery(URL.Path[1:], 1)
 	if err != nil {
 		return nil, NewError(err)
 	}
@@ -36,6 +37,7 @@ func newQuery(path string, page int) (*bytes.Buffer, error) {
 		queryReq.last().Page = 1
 	}
 	queryReq.last().Q = path
+
 	if err := queryReq.last().setFilters(os.Getenv("FILTER_REPLACEMENTS")); err != nil {
 		log.Print("Issue setting filters due to:", err)
 		return nil, SearchSetterError

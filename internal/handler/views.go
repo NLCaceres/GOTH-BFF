@@ -12,8 +12,7 @@ import (
 )
 
 func RenderQuery(c *echo.Context) error {
-	name := c.Path()[1:]
-	res, err := queryapi.Call(name)
+	res, err := queryapi.Call(*c.Request().URL)
 	var e queryapi.Error
 	if errors.As(err, &e) {
 		return c.NoContent(e.Code)
@@ -21,6 +20,7 @@ func RenderQuery(c *echo.Context) error {
 	filters := c.QueryParam("exclude")
 	itemList := toItems(res.Documents(), strings.Split(filters, ","))
 	listStyle := "/css/item_list.css"
+	name := c.Path()[1:]
 	vm := index.ViewModel{Title: name, CssPaths: map[string]string{"pageStylesheet": listStyle}}
 	itemsVm := items.ViewModel{Title: name, Items: itemList}
 	listPage := htmx.Data(items.ListPage(itemsVm)).AddTitle(name).AddStyle(listStyle)

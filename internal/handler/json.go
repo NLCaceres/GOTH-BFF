@@ -8,7 +8,7 @@ import (
 )
 
 func QueryJSON(c *echo.Context) error {
-	res, err := queryapi.Call(c.Path()[1:])
+	res, err := queryapi.Call(*c.Request().URL)
 	var e queryapi.Error
 	if errors.As(err, &e) {
 		return c.NoContent(e.Code)
