@@ -17,6 +17,7 @@ func Call(URL url.URL) (*Response, error) {
 	page, err := strconv.Atoi(URL.Query().Get("page"))
 	if err != nil {
 		log.Printf("Page %v converted to int %d failed: %v", URL.Query().Get("page"), page, err)
+		return nil, NewError(err)
 	}
 	query, err := newQuery(URL.Path[1:], page)
 	if err != nil {

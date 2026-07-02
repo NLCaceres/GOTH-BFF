@@ -6,6 +6,7 @@ import (
 	"github.com/NLCaceres/goth-example/internal/util/fileread"
 	"github.com/NLCaceres/goth-example/internal/util/proxy"
 	"net/http"
+	"strconv"
 )
 
 // An error returned when the request to the queried API fails OR when the formation of
@@ -26,6 +27,8 @@ func errCode(e error) int {
 		return http.StatusBadGateway
 	} else if errors.As(e, new(fileread.Error)) {
 		return http.StatusInternalServerError
+	} else if errors.As(e, new(strconv.NumError)) {
+		return http.StatusUnprocessableEntity
 	} else if errors.Is(e, SearchSetterError) {
 		return http.StatusNotImplemented
 	} else {
