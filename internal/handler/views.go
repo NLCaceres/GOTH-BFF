@@ -8,6 +8,7 @@ import (
 	"github.com/NLCaceres/goth-example/internal/view/index"
 	"github.com/NLCaceres/goth-example/internal/view/items"
 	"github.com/labstack/echo/v5"
+	"net/http"
 	"strings"
 )
 
@@ -15,7 +16,12 @@ func RenderQuery(c *echo.Context) error {
 	res, err := queryapi.Call(*c.Request().URL)
 	var e queryapi.Error
 	if errors.As(err, &e) {
-		return c.NoContent(e.Code)
+		if e.Code == http.StatusUnprocessableEntity {
+			htmx.NewHeader(c.Response().Header()).AddLocation(c.Request().URL.Path, "main.flex")
+			c.Response().Header()
+		} else {
+			return c.NoContent(e.Code)
+		}
 	}
 	filters := c.QueryParam("exclude")
 	itemList := toItems(res.Documents(), strings.Split(filters, ","))
