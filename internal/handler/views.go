@@ -17,8 +17,7 @@ func RenderQuery(c *echo.Context) error {
 	var e queryapi.Error
 	if errors.As(err, &e) {
 		if e.Code == http.StatusUnprocessableEntity {
-			htmx.NewHeader(c.Response().Header()).AddLocation(c.Request().URL.Path, "main.flex")
-			c.Response().Header()
+			return c.Redirect(http.StatusMovedPermanently, c.Request().URL.Path)
 		} else {
 			return c.NoContent(e.Code)
 		}
