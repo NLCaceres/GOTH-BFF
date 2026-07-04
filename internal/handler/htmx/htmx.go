@@ -8,10 +8,11 @@ import (
 // Takes a full page component or the `Hx-Swap` ready partial component and decides
 // based on `Hx-` prefixed headers which to send back as a response.
 func Response(c *echo.Context, fullPage, partial PageComponent) error {
-	h := NewHeader(c.Request().Header)
-	h.AddVary(HxRequest, HxHistoryRestoreRequest)
+	resHeader := NewHeader(c.Response().Header())
+	resHeader.AddVary(HxRequest, HxHistoryRestoreRequest)
 
-	if h.IsHxRequest() && !h.HxRestoreHistory() {
+	reqHeader := NewHeader(c.Request().Header)
+	if reqHeader.IsHxRequest() && !reqHeader.HxRestoreHistory() {
 		return Render(c, partial)
 	} else {
 		return Render(c, fullPage)
