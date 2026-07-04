@@ -45,7 +45,7 @@ func TestCall(t *testing.T) {
 
 			os.Setenv("QUERY_FILE", testCase.QueryFile)
 			os.Setenv("FILTER_REPLACEMENTS", testCase.Filters)
-			res, err := Call(c.Path()[1:])
+			res, err := Call(*c.Request().URL)
 			if !test.EqualErrors(err, testCase.Err) {
 				t.Errorf("Expected error = %T but got %#v", testCase.Err, err)
 			}
