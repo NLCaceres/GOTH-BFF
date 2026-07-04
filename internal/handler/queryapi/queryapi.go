@@ -5,6 +5,7 @@ import (
 	"encoding/json"
 	"github.com/NLCaceres/goth-example/internal/util/fileread"
 	"github.com/NLCaceres/goth-example/internal/util/proxy"
+	appUrl "github.com/NLCaceres/goth-example/internal/util/url"
 	"log"
 	"net/url"
 	"os"
@@ -14,10 +15,11 @@ import (
 // POSTs pre-formatted JSON to an API after dynamically updating the JSON string's
 // key-value pair corresponding to the search value
 func Call(URL url.URL) (*Response, error) {
+	pageQuery := URL.Query().Get("page")
 	page, err := strconv.Atoi(URL.Query().Get("page"))
-	if err != nil {
-		log.Printf("Page %v converted to int %d failed: %v", URL.Query().Get("page"), page, err)
-		return nil, NewError(err)
+	if pageQuery != "" && err != nil {
+		log.Printf("Page %v converted to int %d failed: %v", pageQuery, page, err)
+		return nil, NewError(appUrl.ParamError{Key: "page", Value: pageQuery})
 	}
 	query, err := newQuery(URL.Path[1:], page)
 	if err != nil {
