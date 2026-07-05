@@ -27,6 +27,7 @@ type Search struct {
 	SortBy     string `json:"sort_by"`
 }
 
+var SearchPageError = errors.New("Search Page less than 1")
 var SearchSetterError = errors.New("Unable to set Search Filter Field")
 
 func (s *Search) setFilters(filters string) error {

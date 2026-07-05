@@ -43,7 +43,7 @@ func newQuery(path string, page int) (*bytes.Buffer, error) {
 	queryReq.last().Page = page
 	if page < 1 {
 		log.Printf("Got page < 1 equal to %d", page)
-		queryReq.last().Page = 1
+		return nil, SearchPageError
 	}
 	queryReq.last().Q = path
 

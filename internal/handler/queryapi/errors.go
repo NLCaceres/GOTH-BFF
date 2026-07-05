@@ -27,7 +27,7 @@ func errCode(e error) int {
 		return http.StatusBadGateway
 	} else if errors.As(e, new(fileread.Error)) {
 		return http.StatusInternalServerError
-	} else if errors.As(e, new(url.ParamError)) {
+	} else if errors.As(e, new(url.ParamError)) || errors.Is(e, SearchPageError) {
 		return http.StatusUnprocessableEntity
 	} else if errors.Is(e, SearchSetterError) {
 		return http.StatusNotImplemented
