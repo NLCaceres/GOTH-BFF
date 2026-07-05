@@ -22,8 +22,7 @@ func RenderQuery(c *echo.Context) error {
 			return c.NoContent(e.Code)
 		}
 	}
-	filters := c.QueryParam("exclude")
-	itemList := toItems(res.Documents(), strings.Split(filters, ","))
+	itemList := toItems(res.Documents(), strings.Split(c.QueryParam("exclude"), ","))
 	listStyle := "/css/item_list.css"
 	name := c.Path()[1:]
 	vm := index.ViewModel{Title: name, CssPaths: map[string]string{"pageStylesheet": listStyle}}
