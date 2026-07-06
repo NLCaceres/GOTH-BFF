@@ -16,7 +16,10 @@ import (
 // key-value pair corresponding to the search value
 func Call(URL url.URL) (*Response, error) {
 	pageQuery := URL.Query().Get("page")
-	if pageQuery == "" {
+	if _, ok := URL.Query()["page"]; ok && pageQuery == "" {
+		log.Print("Empty page query param")
+		return nil, NewError(appUrl.ParamError{Key: "page", Value: pageQuery})
+	} else if !ok {
 		pageQuery = "1"
 	}
 	page, err := strconv.Atoi(pageQuery)
