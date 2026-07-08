@@ -8,7 +8,9 @@ import (
 	"github.com/NLCaceres/goth-example/internal/view/index"
 	"github.com/NLCaceres/goth-example/internal/view/items"
 	"github.com/labstack/echo/v5"
+	"log"
 	"net/http"
+	"strconv"
 	"strings"
 )
 
@@ -26,7 +28,14 @@ func RenderQuery(c *echo.Context) error {
 	listStyle := "/css/item_list.css"
 	name := c.Path()[1:]
 	vm := index.ViewModel{Title: name, CssPaths: map[string]string{"pageStylesheet": listStyle}}
-	itemsVm := items.ViewModel{Title: name, Items: itemList}
+	page, err := strconv.Atoi(c.QueryParamOr("page", "1"))
+	if err != nil {
+		log.Printf("Page %v converted to int %d failed: %v", c.QueryParam("page"), page, err)
+		return c.Redirect(http.StatusMovedPermanently, c.Request().URL.Path)
+	}
+	itemsVm := items.ViewModel{
+		Title: name, Items: itemList, CurrentPage: page, PageTotal: 5,
+	}
 	listPage := htmx.Data(items.ListPage(itemsVm)).AddTitle(name).AddStyle(listStyle)
 	return htmx.Response(c, htmx.Data(index.HTML(items.ListPage(itemsVm), vm)), listPage)
 }
