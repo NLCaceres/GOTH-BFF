@@ -9,7 +9,9 @@ templ ListPage(vm ViewModel) {
   <div>
     <h1>{ vm.Title } - Normal Links</h1>
     <p>Links that simply take the user to the URL provided by the Item struct</p>
-    @list(vm.Items)
+    @reusable.Pagination(vm.CurrentPage, vm.PageTotal) {
+      @list(vm.Items)
+    }
   </div>
   <script type="module" src="/js/items.js"></script>
 }
