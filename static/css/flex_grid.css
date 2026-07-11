@@ -10,6 +10,10 @@
   display: flex;
 }
 
+.i-flex {
+  display: inline-flex;
+}
+
 .flex-column {
   flex-direction: column;
 }
@@ -28,5 +32,10 @@
 }
 
 .cross-centered {
+  align-items: center;
+}
+
+.full-centered {
+  justify-content: center;
   align-items: center;
 }
