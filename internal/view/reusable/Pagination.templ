@@ -4,7 +4,7 @@ import "fmt"
 
 templ Pagination(currentPage int, pageTotal int) {
   <div>
-    <div class="my-8">
+    <div class="my-8" style="height:45px;">
       @pages(currentPage)
     </div>
     { children... }
@@ -15,18 +15,18 @@ templ Pagination(currentPage int, pageTotal int) {
 }
 
 templ pages(currentPage int) {
-  <a href={fmt.Sprintf("?page=%d", currentPage-1)} class="text-white fw-bolder i-flex true-centered rounded-l"
-     style="height: 45px; width: 50px; border: 1px solid white;">Back</a>
+  <a href={fmt.Sprintf("?page=%d", currentPage-1)}
+     class="text-white fw-bolder i-flex h-100 w-5 full-centered border-white rounded-l">Back</a>
   @pageLink(currentPage - 2)
   @pageLink(currentPage - 1)
   @pageLink(currentPage)
   @pageLink(currentPage + 1)
   @pageLink(currentPage + 2)
-  <a href={fmt.Sprintf("?page=%d", currentPage+1)} class="text-white fw-bolder i-flex true-centered rounded-r"
-     style="height: 45px; width: 50px; border: 1px solid white;">Next</a>
+  <a href={fmt.Sprintf("?page=%d", currentPage+1)}
+     class="text-white fw-bolder i-flex h-100 w-5 full-centered border-white rounded-r">Next</a>
 }
 
 templ pageLink(page int) {
-  <a href={fmt.Sprintf("?page=%d", page)} class="text-white fw-bolder i-flex true-centered"
-     style="height: 45px; width: 45px; border: 1px solid white;">{ page }</a>
+  <a href={fmt.Sprintf("?page=%d", page)}
+     class="text-white fw-bolder h-100 w-5 i-flex full-centered border-white">{ page }</a>
 }
