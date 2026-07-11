@@ -37,7 +37,19 @@
   color: chartreuse;
 }
 
+.text-black {
+  color: black;
+}
+
 .text-white {
+  color: white;
+}
+
+.hover\:text-white:hover {
+  color: white;
+}
+
+.focus\:text-white:focus {
   color: white;
 }
 

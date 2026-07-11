@@ -1,5 +1,13 @@
 /* Convenient color helpers particular to the app & its theming */
 
+.hover\:bg-black:hover {
+  background-color: black;
+}
+
+.focus\:bg-black:focus {
+  background-color: black;
+}
+
 .bg-gray-700 {
   background-color: #374151;
 }
@@ -10,6 +18,10 @@
 
 .bg-red {
   background-color: red;
+}
+
+.bg-white {
+  background-color: white;
 }
 
 /* Nuance: Sets background-image to none AND implicitly background-color to transparent */
