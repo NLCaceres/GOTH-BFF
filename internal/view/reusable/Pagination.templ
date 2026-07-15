@@ -2,31 +2,43 @@ package reusable
 
 import "fmt"
 
-templ Pagination(currentPage int, pageTotal int) {
-  <div>
-    <div class="my-8" style="height:45px;">
-      @pages(currentPage)
-    </div>
-    { children... }
-    <div>
-      @pages(currentPage)
-    </div>
+templ Pagination(currentPage, pageTotal int) {
+  <div class="flex my-8" style="height:45px;">
+    @pages(currentPage, pageTotal)
+  </div>
+  { children... }
+  <div class="flex" style="height:45px;">
+    @pages(currentPage, pageTotal)
   </div>
 }
 
-templ pages(currentPage int) {
-  <a href={fmt.Sprintf("?page=%d", currentPage-1)}
-     class="text-white fw-bolder i-flex h-100 w-5 full-centered border-white rounded-l">Back</a>
-  @pageLink(currentPage - 2)
-  @pageLink(currentPage - 1)
+templ pages(currentPage, pageTotal int) {
+  if currentPage != 1 {
+    <a href={fmt.Sprintf("?page=%d", currentPage-1)} class="text-white fw-bolder flex
+       w-5 full-centered border-white rounded-l">Back</a>
+  }
+  if currentPage > 2 {
+    @pageLink(currentPage - 2)
+  }
+  if currentPage > 1 {
+    @pageLink(currentPage - 1)
+  }
+
   @pageLink(currentPage)
-  @pageLink(currentPage + 1)
-  @pageLink(currentPage + 2)
-  <a href={fmt.Sprintf("?page=%d", currentPage+1)}
-     class="text-white fw-bolder i-flex h-100 w-5 full-centered border-white rounded-r">Next</a>
+
+  if pageTotal > 1 && currentPage < pageTotal {
+    @pageLink(currentPage + 1)
+  }
+  if pageTotal > 2 && currentPage + 1 < pageTotal {
+    @pageLink(currentPage + 2)
+  }
+  if pageTotal > 1 && currentPage < pageTotal {
+    <a href={fmt.Sprintf("?page=%d", currentPage+1)} class="text-white fw-bolder flex w-5
+      full-centered border-white rounded-r">Next</a>
+  }
 }
 
 templ pageLink(page int) {
   <a href={fmt.Sprintf("?page=%d", page)}
-     class="text-white fw-bolder h-100 w-5 i-flex full-centered border-white">{ page }</a>
+     class="text-white fw-bolder w-5 flex full-centered border-white">{ page }</a>
 }
