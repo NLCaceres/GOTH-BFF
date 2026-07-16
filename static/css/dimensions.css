@@ -38,6 +38,16 @@
   outline-offset: -4px;
 }
 
+.hover\:outline-black-inset:hover {
+  outline: 2px solid black;
+  outline-offset: -4px;
+}
+
+.focus\:outline-black-inset:focus {
+  outline: 2px solid black;
+  outline-offset: -4px;
+}
+
 .rounded-l {
   border-top-left-radius: 10vw;
   border-bottom-left-radius: 10vw;

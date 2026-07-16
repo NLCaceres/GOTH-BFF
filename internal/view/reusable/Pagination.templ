@@ -14,8 +14,11 @@ templ Pagination(currentPage, pageTotal int) {
 
 templ pages(currentPage, pageTotal int) {
   if currentPage != 1 {
-    <a href={fmt.Sprintf("?page=%d", currentPage-1)} class="text-white fw-bolder flex
-       w-5 full-centered border-white rounded-l">Back</a>
+    <a href={fmt.Sprintf("?page=%d", currentPage-1)} class="text-white fw-bolder flex w-5
+      full-centered border-white rounded-l hover:bg-gray-400 hover:text-black
+      hover:outline-black-inset focus:bg-gray-400 focus:text-black focus:outline-black-inset">
+        Back
+    </a>
   }
   if currentPage > 2 {
     @pageLink(currentPage - 2)
@@ -24,7 +27,11 @@ templ pages(currentPage, pageTotal int) {
     @pageLink(currentPage - 1)
   }
 
-  @pageLink(currentPage)
+  <a href={fmt.Sprintf("?page=%d", currentPage)} class="bg-white text-black fw-bolder w-5 flex
+    full-centered outline-black-inset hover:bg-black hover:border-2-white hover:text-white
+    focus:bg-black focus:border-2-white focus:text-white">
+      { currentPage }
+  </a>
 
   if pageTotal > 1 && currentPage < pageTotal {
     @pageLink(currentPage + 1)
@@ -34,11 +41,17 @@ templ pages(currentPage, pageTotal int) {
   }
   if pageTotal > 1 && currentPage < pageTotal {
     <a href={fmt.Sprintf("?page=%d", currentPage+1)} class="text-white fw-bolder flex w-5
-      full-centered border-white rounded-r">Next</a>
+      full-centered border-white rounded-r hover:bg-gray-400 hover:text-black
+      hover:outline-black-inset focus:bg-gray-400 focus:text-black focus:outline-black-inset">
+        Next
+    </a>
   }
 }
 
 templ pageLink(page int) {
-  <a href={fmt.Sprintf("?page=%d", page)}
-     class="text-white fw-bolder w-5 flex full-centered border-white">{ page }</a>
+  <a href={fmt.Sprintf("?page=%d", page)} class="text-white fw-bolder flex w-5
+    full-centered border-white hover:bg-gray-400 hover:text-black hover:outline-black-inset
+    focus:bg-gray-400 focus:text-black focus:outline-black-inset">
+      { page }
+  </a>
 }

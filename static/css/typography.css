@@ -41,6 +41,14 @@
   color: black;
 }
 
+.hover\:text-black:hover {
+  color: black;
+}
+
+.focus\:text-black:focus {
+  color: black;
+}
+
 .text-white {
   color: white;
 }

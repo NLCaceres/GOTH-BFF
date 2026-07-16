@@ -8,6 +8,14 @@
   background-color: black;
 }
 
+.hover\:bg-gray-400:hover {
+  background-color: #9ca3af;
+}
+
+.focus\:bg-gray-400:focus {
+  background-color: #9ca3af;
+}
+
 .bg-gray-700 {
   background-color: #374151;
 }
