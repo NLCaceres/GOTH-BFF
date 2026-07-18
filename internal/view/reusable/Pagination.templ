@@ -20,6 +20,12 @@ templ pages(currentPage, pageTotal int) {
         Back
     </a>
   }
+  if currentPage - 4 > 0 && currentPage == pageTotal && pageTotal > 4 {
+    @pageLink(currentPage - 4)
+  }
+  if currentPage - 3 > 0 && currentPage > pageTotal - 2 && pageTotal > 3 {
+    @pageLink(currentPage - 3)
+  }
   if currentPage > 2 {
     @pageLink(currentPage - 2)
   }
@@ -38,6 +44,12 @@ templ pages(currentPage, pageTotal int) {
   }
   if pageTotal > 2 && currentPage + 1 < pageTotal {
     @pageLink(currentPage + 2)
+  }
+  if pageTotal > 3 && currentPage < 3 && currentPage + 3 <= pageTotal {
+    @pageLink(currentPage + 3)
+  }
+  if pageTotal > 4 && currentPage < 2 && currentPage + 4 <= pageTotal {
+    @pageLink(currentPage + 4)
   }
   if pageTotal > 1 && currentPage < pageTotal {
     <a href={fmt.Sprintf("?page=%d", currentPage+1)} class="text-white fw-bolder flex w-5
