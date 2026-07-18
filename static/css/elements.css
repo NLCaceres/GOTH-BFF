@@ -40,6 +40,10 @@ p {
   color: white;
 }
 
+.unstyled-list {
+  list-style-type: none;
+}
+
 li {
   color: white;
 }

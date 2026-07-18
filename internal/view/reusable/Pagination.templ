@@ -10,71 +10,66 @@ templ Pagination(currentPage, pageTotal int) {
 
 templ pageNav(currentPage, pageTotal int, class string) {
   <nav class={class} style="height:45px;">
-    @pages(currentPage, pageTotal)
+    @pages(currentPage, pageTotal, "flex")
   </nav>
 }
 
-templ pages(currentPage, pageTotal int) {
-<ul>
+templ pages(currentPage, pageTotal int, class string) {
+<ul class={"h-100 unstyled-list", class}>
   if currentPage != 1 {
-    <li>
-    <a href={fmt.Sprintf("?page=%d", currentPage-1)} class="text-white fw-bolder flex w-5
-      full-centered border-white rounded-l hover:bg-gray-400 hover:text-black
-      hover:outline-black-inset focus:bg-gray-400 focus:text-black focus:outline-black-inset">
-        Back
-    </a>
+    <li class={"w-5 fw-bolder flex full-centered rounded-l", pageStyle(false)}>
+      <a href={fmt.Sprintf("?page=%d", currentPage-1)}>Back</a>
     </li>
   }
   if currentPage - 4 > 0 && currentPage == pageTotal && pageTotal > 4 {
-    @pageLink(currentPage - 4)
+    @pageLink(currentPage - 4, false)
   }
   if currentPage - 3 > 0 && currentPage > pageTotal - 2 && pageTotal > 3 {
-    @pageLink(currentPage - 3)
+    @pageLink(currentPage - 3, false)
   }
   if currentPage > 2 {
-    @pageLink(currentPage - 2)
+    @pageLink(currentPage - 2, false)
   }
   if currentPage > 1 {
-    @pageLink(currentPage - 1)
+    @pageLink(currentPage - 1, false)
   }
-  <li>
-  <a href={fmt.Sprintf("?page=%d", currentPage)} class="bg-white text-black fw-bolder w-5 flex
-    full-centered outline-black-inset hover:bg-black hover:border-2-white hover:text-white
-    focus:bg-black focus:border-2-white focus:text-white">
-      { currentPage }
-  </a>
-  </li>
+
+  @pageLink(currentPage, true)
 
   if pageTotal > 1 && currentPage < pageTotal {
-    @pageLink(currentPage + 1)
+    @pageLink(currentPage + 1, false)
   }
   if pageTotal > 2 && currentPage + 1 < pageTotal {
-    @pageLink(currentPage + 2)
+    @pageLink(currentPage + 2, false)
   }
   if pageTotal > 3 && currentPage < 3 && currentPage + 3 <= pageTotal {
-    @pageLink(currentPage + 3)
+    @pageLink(currentPage + 3, false)
   }
   if pageTotal > 4 && currentPage < 2 && currentPage + 4 <= pageTotal {
-    @pageLink(currentPage + 4)
+    @pageLink(currentPage + 4, false)
   }
   if pageTotal > 1 && currentPage < pageTotal {
-    <li>
-    <a href={fmt.Sprintf("?page=%d", currentPage+1)} class="text-white fw-bolder flex w-5
-      full-centered border-white rounded-r hover:bg-gray-400 hover:text-black
-      hover:outline-black-inset focus:bg-gray-400 focus:text-black focus:outline-black-inset">
-        Next
-    </a>
+    <li class={"w-5 fw-bolder flex full-centered rounded-r", pageStyle(false)}>
+      <a href={fmt.Sprintf("?page=%d", currentPage+1)}>Next</a>
     </li>
   }
 </ul>
 }
 
-templ pageLink(page int) {
-<li>
-  <a href={fmt.Sprintf("?page=%d", page)} class="text-white fw-bolder flex w-5
-    full-centered border-white hover:bg-gray-400 hover:text-black hover:outline-black-inset
-    focus:bg-gray-400 focus:text-black focus:outline-black-inset">
-      { page }
-  </a>
-</li>
+templ pageLink(page int, current bool) {
+  <li class={"w-5 fw-bolder flex full-centered", pageStyle(current)}>
+    <a href={fmt.Sprintf("?page=%d", page)}>{ page }</a>
+  </li>
+}
+
+func pageStyle(current bool) string {
+  if current {
+    return "bg-white text-black outline-black-inset " +
+      "hover:bg-black hover:border-2-white hover:text-white focus:bg-black " +
+      "focus:border-2-white focus:text-white"
+  } else {
+    return "text-white border-white hover:bg-gray-400 " +
+      "hover:text-black hover:outline-black-inset focus:bg-gray-400 focus:text-black " +
+      "focus:outline-black-inset"
+  }
 }
