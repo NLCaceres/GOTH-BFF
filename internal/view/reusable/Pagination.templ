@@ -17,48 +17,51 @@ templ pageNav(currentPage, pageTotal int, class string) {
 templ pages(currentPage, pageTotal int, class string) {
 <ul class={"h-100 unstyled-list", class}>
   if currentPage != 1 {
-    <li class={"w-5 fw-bolder flex full-centered rounded-l", pageStyle(false)}>
-      <a href={fmt.Sprintf("?page=%d", currentPage-1)}>Back</a>
-    </li>
+    @pageLink(currentPage - 1, "Back", false, "rounded-l")
   }
   if currentPage - 4 > 0 && currentPage == pageTotal && pageTotal > 4 {
-    @pageLink(currentPage - 4, false)
+    @pageLink(currentPage - 4, "", false, "")
   }
   if currentPage - 3 > 0 && currentPage > pageTotal - 2 && pageTotal > 3 {
-    @pageLink(currentPage - 3, false)
+    @pageLink(currentPage - 3, "", false, "")
   }
   if currentPage > 2 {
-    @pageLink(currentPage - 2, false)
+    @pageLink(currentPage - 2, "", false, "")
   }
   if currentPage > 1 {
-    @pageLink(currentPage - 1, false)
+    @pageLink(currentPage - 1, "", false, "")
   }
 
-  @pageLink(currentPage, true)
+  @pageLink(currentPage, "", true, "")
 
   if pageTotal > 1 && currentPage < pageTotal {
-    @pageLink(currentPage + 1, false)
+    @pageLink(currentPage + 1, "", false, "")
   }
   if pageTotal > 2 && currentPage + 1 < pageTotal {
-    @pageLink(currentPage + 2, false)
+    @pageLink(currentPage + 2, "", false, "")
   }
   if pageTotal > 3 && currentPage < 3 && currentPage + 3 <= pageTotal {
-    @pageLink(currentPage + 3, false)
+    @pageLink(currentPage + 3, "", false, "")
   }
   if pageTotal > 4 && currentPage < 2 && currentPage + 4 <= pageTotal {
-    @pageLink(currentPage + 4, false)
+    @pageLink(currentPage + 4, "", false, "")
   }
   if pageTotal > 1 && currentPage < pageTotal {
-    <li class={"w-5 fw-bolder flex full-centered rounded-r", pageStyle(false)}>
-      <a href={fmt.Sprintf("?page=%d", currentPage+1)}>Next</a>
-    </li>
+    @pageLink(currentPage + 1, "Next", false, "rounded-r")
   }
 </ul>
 }
 
-templ pageLink(page int, current bool) {
-  <li class={"w-5 fw-bolder flex full-centered", pageStyle(current)}>
-    <a href={fmt.Sprintf("?page=%d", page)}>{ page }</a>
+templ pageLink(page int, name string, current bool, class string) {
+  {{ pageStr := fmt.Sprintf("%d", page) }}
+  <li class={"w-5 fw-bolder flex full-centered", pageStyle(current), class}>
+    <a href={"?page=" + pageStr}>
+      if name == "" {
+        { pageStr }
+      } else {
+        { name }
+      }
+    </a>
   </li>
 }
 
