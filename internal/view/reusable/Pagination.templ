@@ -19,10 +19,11 @@ templ pages(currentPage, pageTotal int, class string) {
   if currentPage != 1 {
     @pageLink(currentPage - 1, "Back", false, "rounded-l")
   }
-  if currentPage - 4 > 0 && currentPage == pageTotal && pageTotal > 4 {
+
+  if currentPage > 4 && currentPage + 1 > pageTotal {
     @pageLink(currentPage - 4, "", false, "")
   }
-  if currentPage - 3 > 0 && currentPage > pageTotal - 2 && pageTotal > 3 {
+  if currentPage > 3 && currentPage + 2 > pageTotal {
     @pageLink(currentPage - 3, "", false, "")
   }
   if currentPage > 2 {
@@ -34,18 +35,19 @@ templ pages(currentPage, pageTotal int, class string) {
 
   @pageLink(currentPage, "", true, "")
 
-  if pageTotal > 1 && currentPage < pageTotal {
+  if currentPage < pageTotal {
     @pageLink(currentPage + 1, "", false, "")
   }
-  if pageTotal > 2 && currentPage + 1 < pageTotal {
+  if currentPage + 1 < pageTotal {
     @pageLink(currentPage + 2, "", false, "")
   }
-  if pageTotal > 3 && currentPage < 3 && currentPage + 3 <= pageTotal {
+  if currentPage + 2 < pageTotal && currentPage < 3 {
     @pageLink(currentPage + 3, "", false, "")
   }
-  if pageTotal > 4 && currentPage < 2 && currentPage + 4 <= pageTotal {
+  if currentPage + 3 < pageTotal && currentPage < 2 {
     @pageLink(currentPage + 4, "", false, "")
   }
+
   if pageTotal > 1 && currentPage < pageTotal {
     @pageLink(currentPage + 1, "Next", false, "rounded-r")
   }
