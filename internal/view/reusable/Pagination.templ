@@ -1,6 +1,9 @@
 package reusable
 
-import "fmt"
+import (
+  "fmt"
+  "github.com/NLCaceres/goth-example/internal/util/boolean"
+)
 
 templ Pagination(currentPage, pageTotal int) {
   @pageNav(currentPage, pageTotal, "my-8")
@@ -57,13 +60,7 @@ templ pages(currentPage, pageTotal int, class string) {
 templ pageLink(page int, name string, current bool, class string) {
   {{ pageStr := fmt.Sprintf("%d", page) }}
   <li class={"w-5 fw-bolder flex full-centered", pageStyle(current), class}>
-    <a href={"?page=" + pageStr}>
-      if name == "" {
-        { pageStr }
-      } else {
-        { name }
-      }
-    </a>
+    <a href={"?page=" + pageStr}>{ boolean.Ternary(name == "", pageStr, name) }</a>
   </li>
 }
 
