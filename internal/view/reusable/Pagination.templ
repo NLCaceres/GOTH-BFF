@@ -19,47 +19,48 @@ templ pageNav(currentPage, pageTotal int, class string) {
 
 templ pages(currentPage, pageTotal int, class string) {
 <ul class={"h-100 unstyled-list", class}>
+  {{ inactiveStyle := pageStyle(false) }}
   if currentPage != 1 {
-    @pageLink(currentPage - 1, "Back", false, "rounded-l")
+    @pageLink(currentPage - 1, "Back", "rounded-l " + inactiveStyle)
   }
 
   if currentPage > 4 && currentPage + 1 > pageTotal {
-    @pageLink(currentPage - 4, "", false, "")
+    @pageLink(currentPage - 4, "", inactiveStyle)
   }
   if currentPage > 3 && currentPage + 2 > pageTotal {
-    @pageLink(currentPage - 3, "", false, "")
+    @pageLink(currentPage - 3, "", inactiveStyle)
   }
   if currentPage > 2 {
-    @pageLink(currentPage - 2, "", false, "")
+    @pageLink(currentPage - 2, "", inactiveStyle)
   }
   if currentPage > 1 {
-    @pageLink(currentPage - 1, "", false, "")
+    @pageLink(currentPage - 1, "", inactiveStyle)
   }
 
-  @pageLink(currentPage, "", true, "")
+  @pageLink(currentPage, "", pageStyle(true))
 
   if currentPage < pageTotal {
-    @pageLink(currentPage + 1, "", false, "")
+    @pageLink(currentPage + 1, "", inactiveStyle)
   }
   if currentPage + 1 < pageTotal {
-    @pageLink(currentPage + 2, "", false, "")
+    @pageLink(currentPage + 2, "", inactiveStyle)
   }
   if currentPage + 2 < pageTotal && currentPage < 3 {
-    @pageLink(currentPage + 3, "", false, "")
+    @pageLink(currentPage + 3, "", inactiveStyle)
   }
   if currentPage + 3 < pageTotal && currentPage < 2 {
-    @pageLink(currentPage + 4, "", false, "")
+    @pageLink(currentPage + 4, "", inactiveStyle)
   }
 
   if pageTotal > 1 && currentPage < pageTotal {
-    @pageLink(currentPage + 1, "Next", false, "rounded-r")
+    @pageLink(currentPage + 1, "Next", "rounded-r " + inactiveStyle)
   }
 </ul>
 }
 
-templ pageLink(page int, name string, current bool, class string) {
+templ pageLink(page int, name string, class string) {
   {{ pageStr := fmt.Sprintf("%d", page) }}
-  <li class={"w-5 fw-bolder flex full-centered", pageStyle(current), class}>
+  <li class={"w-5 fw-bolder flex full-centered", class}>
     <a href={"?page=" + pageStr}>{ boolean.Ternary(name == "", pageStr, name) }</a>
   </li>
 }
