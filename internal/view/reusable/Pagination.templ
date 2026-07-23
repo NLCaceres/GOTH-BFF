@@ -19,49 +19,58 @@ templ pageNav(currentPage, pageTotal int, class string) {
 
 templ pages(currentPage, pageTotal int, class string) {
 <ul class={"h-100 unstyled-list", class}>
-  {{ inactiveStyle := pageStyle(false) }}
+  {{ inactivePageCSS := pageStyle(false) }}
+  {{ inactiveLinkCSS := linkStyle(false) }}
   if currentPage != 1 {
-    @pageLink(currentPage - 1, "Back", "rounded-l " + inactiveStyle)
+    @pageLink(currentPage - 1, "Back", "rounded-l " + inactivePageCSS, inactiveLinkCSS)
   }
   <!-- `5-p <= 5/2` handles the 2 prev page links that usually appear
   while `currentPage + p > pageTotal` handles the 3rd and 4th last page -->
   for p := 1; p < 5; p++ {
     if currentPage > 5-p && (5-p <= 5/2 || currentPage + p > pageTotal) {
-      @pageLink(currentPage - (5-p), "", inactiveStyle)
+      @pageLink(currentPage - (5-p), "", inactivePageCSS, inactiveLinkCSS)
     }
   }
 
-  @pageLink(currentPage, "", pageStyle(true))
+  @pageLink(currentPage, "", pageStyle(true), linkStyle(true))
 
   <!-- Uses ceiling rounding to calc max # of next pages
   `p < 5/2` handles the usual 2 next page links while `currentPage < (5-p)` handles the 3rd/4th -->
   for p := 0; p <= (5 + 1) / 2; p++ {
     if currentPage + p < pageTotal && (p < 5 / 2 || currentPage < (5 - p)) {
-      @pageLink(currentPage + p + 1, "", inactiveStyle)
+      @pageLink(currentPage + p + 1, "", inactivePageCSS, inactiveLinkCSS)
     }
   }
 
   if pageTotal > 1 && currentPage < pageTotal {
-    @pageLink(currentPage + 1, "Next", "rounded-r " + inactiveStyle)
+    @pageLink(currentPage + 1, "Next", "rounded-r " + inactivePageCSS, inactiveLinkCSS)
   }
 </ul>
 }
 
-templ pageLink(page int, name string, class string) {
+templ pageLink(page int, name string, class, linkClass string) {
   {{ pageStr := fmt.Sprintf("%d", page) }}
   <li class={"w-5 fw-bolder flex full-centered", class}>
-    <a href={"?page=" + pageStr}>{ boolean.Ternary(name == "", pageStr, name) }</a>
+    <a href={"?page=" + pageStr} class={"h-100 w-100 flex full-centered", linkClass}>
+      { boolean.Ternary(name == "", pageStr, name) }
+    </a>
   </li>
 }
 
 func pageStyle(current bool) string {
   if current {
-    return "bg-white text-black outline-black-inset " +
-      "hover:bg-black hover:border-2-white hover:text-white focus:bg-black " +
-      "focus:border-2-white focus:text-white"
+    return "bg-white hover:bg-black focus:bg-black outline-black-inset " +
+      "hover:border-2-white focus:border-2-white"
   } else {
-    return "text-white border-white hover:bg-gray-400 " +
-      "hover:text-black hover:outline-black-inset focus:bg-gray-400 focus:text-black " +
-      "focus:outline-black-inset"
+    return "hover:bg-gray-400 focus:bg-gray-400 border-white " +
+      "hover:outline-black-inset focus:outline-black-inset"
+  }
+}
+
+func linkStyle(current bool) string {
+  if current {
+    return "text-black hover:text-white focus:text-white"
+  } else {
+    return "text-white hover:text-black focus:text-black"
   }
 }
