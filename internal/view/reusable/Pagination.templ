@@ -23,33 +23,22 @@ templ pages(currentPage, pageTotal int, class string) {
   if currentPage != 1 {
     @pageLink(currentPage - 1, "Back", "rounded-l " + inactiveStyle)
   }
-
-  if currentPage > 4 && currentPage + 1 > pageTotal {
-    @pageLink(currentPage - 4, "", inactiveStyle)
-  }
-  if currentPage > 3 && currentPage + 2 > pageTotal {
-    @pageLink(currentPage - 3, "", inactiveStyle)
-  }
-  if currentPage > 2 {
-    @pageLink(currentPage - 2, "", inactiveStyle)
-  }
-  if currentPage > 1 {
-    @pageLink(currentPage - 1, "", inactiveStyle)
+  <!-- `5-p <= 5/2` handles the 2 prev page links that usually appear
+  while `currentPage + p > pageTotal` handles the 3rd and 4th last page -->
+  for p := 1; p < 5; p++ {
+    if currentPage > 5-p && (5-p <= 5/2 || currentPage + p > pageTotal) {
+      @pageLink(currentPage - (5-p), "", inactiveStyle)
+    }
   }
 
   @pageLink(currentPage, "", pageStyle(true))
 
-  if currentPage < pageTotal {
-    @pageLink(currentPage + 1, "", inactiveStyle)
-  }
-  if currentPage + 1 < pageTotal {
-    @pageLink(currentPage + 2, "", inactiveStyle)
-  }
-  if currentPage + 2 < pageTotal && currentPage < 3 {
-    @pageLink(currentPage + 3, "", inactiveStyle)
-  }
-  if currentPage + 3 < pageTotal && currentPage < 2 {
-    @pageLink(currentPage + 4, "", inactiveStyle)
+  <!-- Uses ceiling rounding to calc max # of next pages
+  `p < 5/2` handles the usual 2 next page links while `currentPage < (5-p)` handles the 3rd/4th -->
+  for p := 0; p <= (5 + 1) / 2; p++ {
+    if currentPage + p < pageTotal && (p < 5 / 2 || currentPage < (5 - p)) {
+      @pageLink(currentPage + p + 1, "", inactiveStyle)
+    }
   }
 
   if pageTotal > 1 && currentPage < pageTotal {
