@@ -18,30 +18,38 @@ templ pageNav(currentPage, pageTotal int, class string) {
 }
 
 templ pages(currentPage, pageTotal int, class string) {
+  @pageList(currentPage, 5, pageTotal, class)
+}
+
+// An unordered list that displays a max number of pages, usually centering the currentPage
+// between the remaining allowed visible pages AND Back/Next links. The Next link only
+// displays UNTIL the pageTotal is reached. The Back link only displays IF not on page 1.
+// "maxVisible" is first used to check on the "Previous" side that the currentPage is
+// far enough in the list, then either tries to add an equal number of pages as the "Next" side
+// OR checks if near the end of the list to add additional previous pages to hit the max.
+// Secondly, on the "Next" side, it's divided by 2, the result rounded up and looped on.
+// Then, like the "Prev" side, it checks if the next page exceeds the page total AND
+// either tries to add the equal num of pages as "Prev" side OR if near start of the list.
+templ pageList(currentPage, maxVisible, pageTotal int, class string) {
 <ul class={"h-100 unstyled-list", class}>
   {{ inactivePageCSS := pageStyle(false) }}
   {{ inactiveLinkCSS := linkStyle(false) }}
   if currentPage != 1 {
     @pageLink(currentPage - 1, "Back", false, "rounded-l " + inactivePageCSS, inactiveLinkCSS)
   }
-  <!-- `5-p <= 5/2` handles the 2 prev page links that usually appear
-  while `currentPage + p > pageTotal` handles the 3rd and 4th last page -->
-  for p := 1; p < 5; p++ {
-    if currentPage > 5-p && (5-p <= 5/2 || currentPage + p > pageTotal) {
-      @pageLink(currentPage - (5-p), "", false, inactivePageCSS, inactiveLinkCSS)
+  for p := 1; p < maxVisible; p++ {
+    if currentPage > maxVisible - p && (maxVisible - p <= maxVisible / 2 || currentPage + p > pageTotal) {
+      @pageLink(currentPage - (maxVisible - p), "", false, inactivePageCSS, inactiveLinkCSS)
     }
   }
 
   @pageLink(currentPage, "", true, pageStyle(true), linkStyle(true))
 
-  <!-- Uses ceiling rounding to calc max # of next pages
-  `p < 5/2` handles the usual 2 next page links while `currentPage < (5-p)` handles the 3rd/4th -->
-  for p := 0; p <= (5 + 1) / 2; p++ {
-    if currentPage + p < pageTotal && (p < 5 / 2 || currentPage < (5 - p)) {
+  for p := 0; p <= (maxVisible + 1) / 2; p++ {
+    if currentPage + p < pageTotal && (p < maxVisible / 2 || currentPage < (maxVisible - p)) {
       @pageLink(currentPage + p + 1, "", false, inactivePageCSS, inactiveLinkCSS)
     }
   }
-
   if pageTotal > 1 && currentPage < pageTotal {
     @pageLink(currentPage + 1, "Next", false, "rounded-r " + inactivePageCSS, inactiveLinkCSS)
   }
@@ -50,7 +58,6 @@ templ pages(currentPage, pageTotal int, class string) {
 
 templ pageLink(page int, name string, current bool, class, linkClass string) {
   {{ pageStr := fmt.Sprintf("%d", page) }}
-  <!-- `aria-current` takes SPECIFIC values, "page" being 1, explicitly for pagination -->
   <li class={"w-5 fw-bolder flex full-centered", class}>
     <a if current { aria-current="page" } aria-label={"Go to page " + pageStr}
       href={"?page=" + pageStr} class={"h-100 w-100 flex full-centered", linkClass}>
