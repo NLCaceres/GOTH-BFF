@@ -1,7 +1,7 @@
 package reusable
 
 import (
-  "fmt"
+  "strconv"
   "github.com/NLCaceres/goth-example/internal/util/boolean"
 )
 
@@ -57,7 +57,7 @@ templ pageList(currentPage, maxVisible, pageTotal int, class string) {
 }
 
 templ pageLink(page int, name string, current bool, class, linkClass string) {
-  {{ pageStr := fmt.Sprintf("%d", page) }}
+  {{ pageStr := strconv.Itoa(page) }}
   <li class={"w-5 fw-bolder flex full-centered", class}>
     <a if current { aria-current="page" } aria-label={"Go to page " + pageStr}
       href={"?page=" + pageStr} class={"h-100 w-100 flex full-centered", linkClass}>

@@ -9,8 +9,8 @@ import "github.com/a-h/templ"
 import templruntime "github.com/a-h/templ/runtime"
 
 import (
-	"fmt"
 	"github.com/NLCaceres/goth-example/internal/util/boolean"
+	"strconv"
 )
 
 func Pagination(currentPage, pageTotal int) templ.Component {
@@ -249,7 +249,7 @@ func pageLink(page int, name string, current bool, class, linkClass string) temp
 			templ_7745c5c3_Var9 = templ.NopComponent
 		}
 		ctx = templ.ClearChildren(ctx)
-		pageStr := fmt.Sprintf("%d", page)
+		pageStr := strconv.Itoa(page)
 		var templ_7745c5c3_Var10 = []any{"w-5 fw-bolder flex full-centered", class}
 		templ_7745c5c3_Err = templ.RenderCSSItems(ctx, templ_7745c5c3_Buffer, templ_7745c5c3_Var10...)
 		if templ_7745c5c3_Err != nil {
