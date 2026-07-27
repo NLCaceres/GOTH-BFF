@@ -37,21 +37,25 @@ templ pageList(currentPage, maxVisible, pageTotal int, class string) {
   }
   for p := 1; p < maxVisible; p++ {
     if currentPage > maxVisible - p && (maxVisible - p <= maxVisible / 2 || currentPage + p > pageTotal) {
-      @pageLink(currentPage - (maxVisible - p), "", false, "", "")
+      @numPageLink(currentPage - (maxVisible - p), false)
     }
   }
 
-  @pageLink(currentPage, "", true, "", "")
+  @numPageLink(currentPage, true)
 
   for p := 0; p <= (maxVisible + 1) / 2; p++ {
     if currentPage + p < pageTotal && (p < maxVisible / 2 || currentPage < (maxVisible - p)) {
-      @pageLink(currentPage + p + 1, "", false, "", "")
+      @numPageLink(currentPage + p + 1, false)
     }
   }
   if pageTotal > 1 && currentPage < pageTotal {
     @pageLink(currentPage + 1, "Next", false, "rounded-r", "")
   }
 </ul>
+}
+
+templ numPageLink(page int, current bool) {
+  @pageLink(page, "", current, "", "")
 }
 
 templ pageLink(page int, name string, current bool, class, linkClass string) {
