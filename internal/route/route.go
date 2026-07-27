@@ -37,11 +37,16 @@ func Routes(app *echo.Echo) {
 		vm := index.ViewModel{Title: name, CssPaths: map[string]string{"pageStylesheet": listStyle}}
 		page, err := strconv.Atoi(c.QueryParamOr("page", "1"))
 		if err != nil {
-			log.Printf("Page %v converted to int %d failed: %v", c.QueryParam("page"), page, err)
+			log.Printf("Requested page %v converted to int %d failed: %v", c.QueryParam("page"), page, err)
+			return c.Redirect(http.StatusMovedPermanently, c.Request().URL.Path)
+		}
+		pageTotal := 10
+		if page > pageTotal {
+			log.Printf("Requested page %v exceeds the total number of pages: %v", page, pageTotal)
 			return c.Redirect(http.StatusMovedPermanently, c.Request().URL.Path)
 		}
 		itemsVm := items.ViewModel{
-			Title: name, Items: model.ManyMockItems(), CurrentPage: page, PageTotal: 5,
+			Title: name, Items: model.ManyMockItems(), CurrentPage: page, PageTotal: pageTotal,
 		}
 		listPage := htmx.Data(items.ListPage(itemsVm)).AddTitle(name).AddStyle(listStyle)
 		return htmx.Response(c, htmx.Data(index.HTML(items.ListPage(itemsVm), vm)), listPage)
