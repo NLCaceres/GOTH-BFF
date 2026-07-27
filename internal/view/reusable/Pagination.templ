@@ -32,35 +32,34 @@ templ pages(currentPage, pageTotal int, class string) {
 // either tries to add the equal num of pages as "Prev" side OR if near start of the list.
 templ pageList(currentPage, maxVisible, pageTotal int, class string) {
 <ul class={"h-100 unstyled-list", class}>
-  {{ inactivePageCSS := pageStyle(false) }}
-  {{ inactiveLinkCSS := linkStyle(false) }}
   if currentPage != 1 {
-    @pageLink(currentPage - 1, "Back", false, "rounded-l " + inactivePageCSS, inactiveLinkCSS)
+    @pageLink(currentPage - 1, "Back", false, "rounded-l", "")
   }
   for p := 1; p < maxVisible; p++ {
     if currentPage > maxVisible - p && (maxVisible - p <= maxVisible / 2 || currentPage + p > pageTotal) {
-      @pageLink(currentPage - (maxVisible - p), "", false, inactivePageCSS, inactiveLinkCSS)
+      @pageLink(currentPage - (maxVisible - p), "", false, "", "")
     }
   }
 
-  @pageLink(currentPage, "", true, pageStyle(true), linkStyle(true))
+  @pageLink(currentPage, "", true, "", "")
 
   for p := 0; p <= (maxVisible + 1) / 2; p++ {
     if currentPage + p < pageTotal && (p < maxVisible / 2 || currentPage < (maxVisible - p)) {
-      @pageLink(currentPage + p + 1, "", false, inactivePageCSS, inactiveLinkCSS)
+      @pageLink(currentPage + p + 1, "", false, "", "")
     }
   }
   if pageTotal > 1 && currentPage < pageTotal {
-    @pageLink(currentPage + 1, "Next", false, "rounded-r " + inactivePageCSS, inactiveLinkCSS)
+    @pageLink(currentPage + 1, "Next", false, "rounded-r", "")
   }
 </ul>
 }
 
 templ pageLink(page int, name string, current bool, class, linkClass string) {
   {{ pageStr := strconv.Itoa(page) }}
-  <li class={"w-5 fw-bolder flex full-centered", class}>
+  <li class={"w-5 fw-bolder flex full-centered", pageStyle(current), class}>
     <a if current { aria-current="page" } aria-label={"Go to page " + pageStr}
-      href={"?page=" + pageStr} class={"h-100 w-100 flex full-centered", linkClass}>
+      href={"?page=" + pageStr}
+      class={"h-100 w-100 flex full-centered", linkStyle(current), linkClass}>
         { boolean.Ternary(name == "", pageStr, name) }
     </a>
   </li>

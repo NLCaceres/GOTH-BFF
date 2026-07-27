@@ -186,36 +186,34 @@ func pageList(currentPage, maxVisible, pageTotal int, class string) templ.Compon
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
-		inactivePageCSS := pageStyle(false)
-		inactiveLinkCSS := linkStyle(false)
 		if currentPage != 1 {
-			templ_7745c5c3_Err = pageLink(currentPage-1, "Back", false, "rounded-l "+inactivePageCSS, inactiveLinkCSS).Render(ctx, templ_7745c5c3_Buffer)
+			templ_7745c5c3_Err = pageLink(currentPage-1, "Back", false, "rounded-l", "").Render(ctx, templ_7745c5c3_Buffer)
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
 		}
 		for p := 1; p < maxVisible; p++ {
 			if currentPage > maxVisible-p && (maxVisible-p <= maxVisible/2 || currentPage+p > pageTotal) {
-				templ_7745c5c3_Err = pageLink(currentPage-(maxVisible-p), "", false, inactivePageCSS, inactiveLinkCSS).Render(ctx, templ_7745c5c3_Buffer)
+				templ_7745c5c3_Err = pageLink(currentPage-(maxVisible-p), "", false, "", "").Render(ctx, templ_7745c5c3_Buffer)
 				if templ_7745c5c3_Err != nil {
 					return templ_7745c5c3_Err
 				}
 			}
 		}
-		templ_7745c5c3_Err = pageLink(currentPage, "", true, pageStyle(true), linkStyle(true)).Render(ctx, templ_7745c5c3_Buffer)
+		templ_7745c5c3_Err = pageLink(currentPage, "", true, "", "").Render(ctx, templ_7745c5c3_Buffer)
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
 		for p := 0; p <= (maxVisible+1)/2; p++ {
 			if currentPage+p < pageTotal && (p < maxVisible/2 || currentPage < (maxVisible-p)) {
-				templ_7745c5c3_Err = pageLink(currentPage+p+1, "", false, inactivePageCSS, inactiveLinkCSS).Render(ctx, templ_7745c5c3_Buffer)
+				templ_7745c5c3_Err = pageLink(currentPage+p+1, "", false, "", "").Render(ctx, templ_7745c5c3_Buffer)
 				if templ_7745c5c3_Err != nil {
 					return templ_7745c5c3_Err
 				}
 			}
 		}
 		if pageTotal > 1 && currentPage < pageTotal {
-			templ_7745c5c3_Err = pageLink(currentPage+1, "Next", false, "rounded-r "+inactivePageCSS, inactiveLinkCSS).Render(ctx, templ_7745c5c3_Buffer)
+			templ_7745c5c3_Err = pageLink(currentPage+1, "Next", false, "rounded-r", "").Render(ctx, templ_7745c5c3_Buffer)
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
@@ -250,7 +248,7 @@ func pageLink(page int, name string, current bool, class, linkClass string) temp
 		}
 		ctx = templ.ClearChildren(ctx)
 		pageStr := strconv.Itoa(page)
-		var templ_7745c5c3_Var10 = []any{"w-5 fw-bolder flex full-centered", class}
+		var templ_7745c5c3_Var10 = []any{"w-5 fw-bolder flex full-centered", pageStyle(current), class}
 		templ_7745c5c3_Err = templ.RenderCSSItems(ctx, templ_7745c5c3_Buffer, templ_7745c5c3_Var10...)
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
@@ -272,7 +270,7 @@ func pageLink(page int, name string, current bool, class, linkClass string) temp
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
-		var templ_7745c5c3_Var12 = []any{"h-100 w-100 flex full-centered", linkClass}
+		var templ_7745c5c3_Var12 = []any{"h-100 w-100 flex full-centered", linkStyle(current), linkClass}
 		templ_7745c5c3_Err = templ.RenderCSSItems(ctx, templ_7745c5c3_Buffer, templ_7745c5c3_Var12...)
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
@@ -294,7 +292,7 @@ func pageLink(page int, name string, current bool, class, linkClass string) temp
 		var templ_7745c5c3_Var13 string
 		templ_7745c5c3_Var13, templ_7745c5c3_Err = templ.ResolveAttributeValue("Go to page " + pageStr)
 		if templ_7745c5c3_Err != nil {
-			return templ.Error{Err: templ_7745c5c3_Err, FileName: `internal/view/reusable/Pagination.templ`, Line: 62, Col: 77}
+			return templ.Error{Err: templ_7745c5c3_Err, FileName: `internal/view/reusable/Pagination.templ`, Line: 60, Col: 77}
 		}
 		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ_7745c5c3_Var13)
 		if templ_7745c5c3_Err != nil {
@@ -307,7 +305,7 @@ func pageLink(page int, name string, current bool, class, linkClass string) temp
 		var templ_7745c5c3_Var14 templ.SafeURL
 		templ_7745c5c3_Var14, templ_7745c5c3_Err = templ.JoinURLErrs("?page=" + pageStr)
 		if templ_7745c5c3_Err != nil {
-			return templ.Error{Err: templ_7745c5c3_Err, FileName: `internal/view/reusable/Pagination.templ`, Line: 63, Col: 30}
+			return templ.Error{Err: templ_7745c5c3_Err, FileName: `internal/view/reusable/Pagination.templ`, Line: 61, Col: 30}
 		}
 		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var14))
 		if templ_7745c5c3_Err != nil {
@@ -333,7 +331,7 @@ func pageLink(page int, name string, current bool, class, linkClass string) temp
 		var templ_7745c5c3_Var16 string
 		templ_7745c5c3_Var16, templ_7745c5c3_Err = templ.JoinStringErrs(boolean.Ternary(name == "", pageStr, name))
 		if templ_7745c5c3_Err != nil {
-			return templ.Error{Err: templ_7745c5c3_Err, FileName: `internal/view/reusable/Pagination.templ`, Line: 64, Col: 52}
+			return templ.Error{Err: templ_7745c5c3_Err, FileName: `internal/view/reusable/Pagination.templ`, Line: 63, Col: 52}
 		}
 		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var16))
 		if templ_7745c5c3_Err != nil {
