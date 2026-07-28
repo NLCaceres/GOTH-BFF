@@ -5,12 +5,12 @@ import (
 	"github.com/NLCaceres/goth-example/internal/handler/htmx"
 	"github.com/NLCaceres/goth-example/internal/handler/queryapi"
 	"github.com/NLCaceres/goth-example/internal/model"
+	"github.com/NLCaceres/goth-example/internal/util/url"
 	"github.com/NLCaceres/goth-example/internal/view/index"
 	"github.com/NLCaceres/goth-example/internal/view/items"
 	"github.com/labstack/echo/v5"
 	"log"
 	"net/http"
-	"strconv"
 	"strings"
 )
 
@@ -28,7 +28,7 @@ func RenderQuery(c *echo.Context) error {
 	listStyle := "/css/item_list.css"
 	name := c.Path()[1:]
 	vm := index.ViewModel{Title: name, CssPaths: map[string]string{"pageStylesheet": listStyle}}
-	page, err := strconv.Atoi(c.QueryParamOr("page", "1"))
+	page, err := url.URL{URL: *c.Request().URL}.QueryInt("page")
 	if err != nil {
 		log.Printf("Page %v converted to int %d failed: %v", c.QueryParam("page"), page, err)
 		return c.Redirect(http.StatusMovedPermanently, c.Request().URL.Path)

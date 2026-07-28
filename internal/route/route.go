@@ -5,13 +5,13 @@ import (
 	"github.com/NLCaceres/goth-example/internal/handler/htmx"
 	"github.com/NLCaceres/goth-example/internal/model"
 	"github.com/NLCaceres/goth-example/internal/util/stringy"
+	"github.com/NLCaceres/goth-example/internal/util/url"
 	"github.com/NLCaceres/goth-example/internal/view/index"
 	"github.com/NLCaceres/goth-example/internal/view/items"
 	"github.com/labstack/echo/v5"
 	"log"
 	"net/http"
 	"os"
-	"strconv"
 	"strings"
 )
 
@@ -35,7 +35,7 @@ func Routes(app *echo.Echo) {
 		}
 		listStyle := "/css/item_list.css"
 		vm := index.ViewModel{Title: name, CssPaths: map[string]string{"pageStylesheet": listStyle}}
-		page, err := strconv.Atoi(c.QueryParamOr("page", "1"))
+		page, err := url.URL{URL: *c.Request().URL}.QueryInt("page")
 		if err != nil {
 			log.Printf("Requested page %v converted to int %d failed: %v", c.QueryParam("page"), page, err)
 			return c.Redirect(http.StatusMovedPermanently, c.Request().URL.Path)
