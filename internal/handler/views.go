@@ -15,7 +15,7 @@ import (
 )
 
 func RenderQuery(c *echo.Context) error {
-	res, err := queryapi.Call(*c.Request().URL)
+	res, err := queryapi.Call(url.New(*c.Request().URL))
 	var e queryapi.Error
 	if errors.As(err, &e) {
 		if e.Code == http.StatusUnprocessableEntity {

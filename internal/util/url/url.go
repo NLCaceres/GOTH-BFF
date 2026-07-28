@@ -11,6 +11,10 @@ type URL struct {
 	url.URL
 }
 
+func New(u url.URL) URL {
+	return URL{u}
+}
+
 func (u URL) QueryInt(paramName string) (int, error) {
 	query := u.Query()
 	value := query.Get(paramName)

@@ -3,6 +3,7 @@ package queryapi
 import (
 	"github.com/NLCaceres/goth-example/internal/util/fileread"
 	"github.com/NLCaceres/goth-example/internal/util/test"
+	"github.com/NLCaceres/goth-example/internal/util/url"
 	"github.com/google/go-cmp/cmp"
 	"github.com/google/go-cmp/cmp/cmpopts"
 	"github.com/labstack/echo/v5"
@@ -45,7 +46,7 @@ func TestCall(t *testing.T) {
 
 			os.Setenv("QUERY_FILE", testCase.QueryFile)
 			os.Setenv("FILTER_REPLACEMENTS", testCase.Filters)
-			res, err := Call(*c.Request().URL)
+			res, err := Call(url.New(*c.Request().URL))
 			if !test.EqualErrors(err, testCase.Err) {
 				t.Errorf("Expected error = %T but got %#v", testCase.Err, err)
 			}

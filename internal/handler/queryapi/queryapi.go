@@ -5,16 +5,15 @@ import (
 	"encoding/json"
 	"github.com/NLCaceres/goth-example/internal/util/fileread"
 	"github.com/NLCaceres/goth-example/internal/util/proxy"
-	appUrl "github.com/NLCaceres/goth-example/internal/util/url"
+	"github.com/NLCaceres/goth-example/internal/util/url"
 	"log"
-	"net/url"
 	"os"
 )
 
 // POSTs pre-formatted JSON to an API after dynamically updating the JSON string's
 // key-value pair corresponding to the search value
 func Call(URL url.URL) (*Response, error) {
-	page, err := appUrl.URL{URL: URL}.QueryInt("page")
+	page, err := URL.QueryInt("page")
 	if err != nil {
 		return nil, NewError(err)
 	}
