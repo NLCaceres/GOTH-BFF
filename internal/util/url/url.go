@@ -12,18 +12,19 @@ type URL struct {
 }
 
 func (u URL) QueryInt(paramName string) (int, error) {
-	query := u.Query().Get(paramName)
+	query := u.Query()
+	value := query.Get(paramName)
 	// Checks if query param exists at all via param name. If it does, check for blank value
-	if _, ok := u.Query()[paramName]; ok && query == "" {
+	if _, ok := query[paramName]; ok && value == "" {
 		log.Print(fmt.Sprintf("Empty %q query param", paramName))
-		return 0, ParamError{Key: paramName, Value: query}
+		return 0, ParamError{Key: paramName, Value: value}
 	} else if !ok { // Doesn't exist so run "1" as a default thru `Atoi`
-		query = "1"
+		value = "1"
 	}
-	intQuery, err := strconv.Atoi(query)
+	intValue, err := strconv.Atoi(value)
 	if err != nil {
-		log.Printf("%q query param int conversion failed as %d due to %v", paramName, intQuery, err)
-		return 0, ParamError{Key: paramName, Value: query}
+		log.Printf("%q query param int conversion failed as %d due to %v", paramName, intValue, err)
+		return 0, ParamError{Key: paramName, Value: value}
 	}
-	return intQuery, nil
+	return intValue, nil
 }
