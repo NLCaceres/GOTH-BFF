@@ -35,13 +35,13 @@ func Routes(app *echo.Echo) {
 		}
 		listStyle := "/css/item_list.css"
 		vm := index.ViewModel{Title: name, CssPaths: map[string]string{"pageStylesheet": listStyle}}
-		page, err := url.URL{URL: *c.Request().URL}.QueryInt("page")
+		page, err := url.New(*c.Request().URL).QueryInt("page")
 		if err != nil {
 			log.Printf("Requested page %v converted to int %d failed: %v", c.QueryParam("page"), page, err)
 			return c.Redirect(http.StatusMovedPermanently, c.Request().URL.Path)
 		}
 		pageTotal := 10
-		if page > pageTotal {
+		if page < 1 || page > pageTotal {
 			log.Printf("Requested page %v exceeds the total number of pages: %v", page, pageTotal)
 			return c.Redirect(http.StatusMovedPermanently, c.Request().URL.Path)
 		}
