@@ -32,3 +32,26 @@ func TestIntQuery(t *testing.T) {
 		})
 	}
 }
+
+func TestQueryIntOr(t *testing.T) {
+	tests := map[string]struct {
+		Query   string
+		Default int
+		Expect  int
+	}{
+		"Return default when err":     {"foo=abc", 123, 123},
+		"Return default when missing": {"bar=12", 321, 321},
+		"Return default when empty":   {"foo=", 42, 42},
+		"Return default when blank":   {"foo=   ", 34, 34},
+		"Return value when no err":    {"foo=12", 321, 12},
+	}
+	for testName, testCase := range tests {
+		t.Run(testName, func(t *testing.T) {
+			u := URL{url.URL{RawQuery: testCase.Query}}
+			q := u.QueryIntOr("foo", testCase.Default)
+			if testCase.Expect != q {
+				t.Error(test.ErrorMsg("QueryParamIntOr", testCase.Expect, q))
+			}
+		})
+	}
+}

@@ -32,3 +32,11 @@ func (u URL) QueryInt(paramName string) (int, error) {
 	}
 	return intValue, nil
 }
+
+func (u URL) QueryIntOr(paramName string, defaultValue int) int {
+	value, err := u.QueryInt(paramName)
+	if err != nil {
+		return defaultValue
+	}
+	return value
+}
