@@ -34,9 +34,14 @@ func (u URL) QueryInt(paramName string) (int, error) {
 }
 
 func (u URL) QueryIntOr(paramName string, defaultValue int) int {
-	value, err := u.QueryInt(paramName)
+	query := u.Query()
+	value := query.Get(paramName)
+	if _, ok := query[paramName]; ok && value == "" || !ok {
+		return defaultValue
+	}
+	intValue, err := strconv.Atoi(value)
 	if err != nil {
 		return defaultValue
 	}
-	return value
+	return intValue
 }
