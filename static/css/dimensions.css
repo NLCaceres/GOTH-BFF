@@ -21,6 +21,60 @@
 }
 
 /* Borders */
+.border-l-none {
+  border-left: none !important;
+}
+
+.border-r-none {
+  border-right: none !important;
+}
+
+.border-y-ext-l::after {
+  content: "";
+  position: absolute;
+  z-index: -1;
+  height: 105%;
+  width: 100%;
+  left: -50%;
+  border-top: 1px solid white;
+  border-bottom: 1px solid white;
+}
+
+.hover\:border-y-ext-l:hover::after {
+  content: "";
+  position: absolute;
+  z-index: -1;
+  height: 128%;
+  width: 100%;
+  left: -43%;
+  background-color: #4b5563;
+  border-top: 5px double white;
+  border-bottom: 5px double white;
+}
+
+.border-y-ext-r::after {
+  content: "";
+  position: absolute;
+  z-index: -1;
+  height: 105%;
+  width: 100%;
+  left: 50%;
+  border-top: 1px solid white;
+  border-bottom: 1px solid white;
+}
+
+.hover\:border-y-ext-r:hover::after {
+  content: "";
+  position: absolute;
+  z-index: -1;
+  height: 128%;
+  width: 100%;
+  left: 50%;
+  background-color: #4b5563;
+  border-top: 5px double white;
+  border-bottom: 5px double white;
+}
+
 .border-white {
   border: 1px solid white;
 }
@@ -31,6 +85,14 @@
 
 .focus\:border-2-white:focus {
   border: 2px solid white;
+}
+
+.hover\:border-dbl-white:hover {
+  border: 5px double white;
+}
+
+.focus\:border-dbl-white:focus {
+  border: 5px double white;
 }
 
 .outline-black-inset {

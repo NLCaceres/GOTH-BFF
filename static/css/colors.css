@@ -16,8 +16,24 @@
   background-color: #9ca3af;
 }
 
+.bg-gray-600 {
+  background-color: #4b5563;
+}
+
+.hover\:bg-gray-600:hover {
+  background-color: #4b5563;
+}
+
+.focus\:bg-gray-600:focus {
+  background-color: #4b5563;
+}
+
 .bg-gray-700 {
   background-color: #374151;
+}
+
+.bg-neutral-800 {
+  background-color: #262626;
 }
 
 .bg-green {
