@@ -60,29 +60,21 @@ templ numPageLink(page int, current bool) {
 
 templ pageLink(page int, name string, current bool, class, linkClass string) {
   {{ pageStr := strconv.Itoa(page) }}
-  <li class={"w-5 fw-bolder flex full-centered", pageStyle(current), class}>
-    <a if current { aria-current="page" } aria-label={"Go to page " + pageStr}
-      href={"?page=" + pageStr}
-      class={"h-100 w-100 flex full-centered", linkStyle(current), linkClass}>
-        { boolean.Ternary(name == "", pageStr, name) }
-    </a>
+  <li class={"w-5 fw-bolder flex full-centered bg-neutral-800 hover:bg-gray-600 focus:bg-gray-600",
+    "border-white hover:border-dbl-white focus:border-dbl-white",
+    templ.KV("bg-white outline-black-inset", current), class}>
+      <a if current { aria-current="page" } aria-label={"Go to page " + pageStr}
+        href={"?page=" + pageStr}
+        class={"h-100 w-100 flex full-centered", linkStyle(current), linkClass}>
+          { boolean.Ternary(name == "", pageStr, name) }
+      </a>
   </li>
-}
-
-func pageStyle(current bool) string {
-  if current {
-    return "bg-white hover:bg-black focus:bg-black outline-black-inset " +
-      "hover:border-2-white focus:border-2-white"
-  } else {
-    return "hover:bg-gray-400 focus:bg-gray-400 border-white " +
-      "hover:outline-black-inset focus:outline-black-inset"
-  }
 }
 
 func linkStyle(current bool) string {
   if current {
     return "text-black hover:text-white focus:text-white"
   } else {
-    return "text-white hover:text-black focus:text-black"
+    return "text-white"
   }
 }
