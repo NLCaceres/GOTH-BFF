@@ -34,7 +34,7 @@ templ pageList(currentPage, maxVisible, pageTotal int, class string) {
 <ul class={"h-100 unstyled-list", class}>
   if currentPage != 1 {
     @pageLink(1, "First", false, "",
-      "border-r-none p-relative rounded-l border-y-ext-r hover:border-y-ext-r")
+      "border-r-none p-relative rounded-l border-y-ext-r hover:border-y-ext-r focus:border-y-ext-r")
     @pageLink(currentPage - 1, "Back", false, "", "rounded-l")
   }
   for p := 1; p < maxVisible; p++ {
@@ -53,7 +53,7 @@ templ pageList(currentPage, maxVisible, pageTotal int, class string) {
   if pageTotal > 1 && currentPage < pageTotal {
     @pageLink(currentPage + 1, "Next", false, "", "rounded-r")
     @pageLink(pageTotal, "Last", false, "",
-      "border-l-none p-relative rounded-r border-y-ext-l hover:border-y-ext-l")
+      "border-l-none p-relative rounded-r border-y-ext-l hover:border-y-ext-l focus:border-y-ext-l")
   }
 </ul>
 }

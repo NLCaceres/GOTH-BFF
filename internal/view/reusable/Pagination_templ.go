@@ -188,7 +188,7 @@ func pageList(currentPage, maxVisible, pageTotal int, class string) templ.Compon
 		}
 		if currentPage != 1 {
 			templ_7745c5c3_Err = pageLink(1, "First", false, "",
-				"border-r-none p-relative rounded-l border-y-ext-r hover:border-y-ext-r").Render(ctx, templ_7745c5c3_Buffer)
+				"border-r-none p-relative rounded-l border-y-ext-r hover:border-y-ext-r focus:border-y-ext-r").Render(ctx, templ_7745c5c3_Buffer)
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
@@ -231,7 +231,7 @@ func pageList(currentPage, maxVisible, pageTotal int, class string) templ.Compon
 				return templ_7745c5c3_Err
 			}
 			templ_7745c5c3_Err = pageLink(pageTotal, "Last", false, "",
-				"border-l-none p-relative rounded-r border-y-ext-l hover:border-y-ext-l").Render(ctx, templ_7745c5c3_Buffer)
+				"border-l-none p-relative rounded-r border-y-ext-l hover:border-y-ext-l focus:border-y-ext-l").Render(ctx, templ_7745c5c3_Buffer)
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
