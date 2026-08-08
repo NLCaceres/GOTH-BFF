@@ -318,8 +318,8 @@ func pageLink(page int, name string, current bool, class, linkClass string) temp
 			return templ_7745c5c3_Err
 		}
 		var templ_7745c5c3_Var13 = []any{"h-100 w-100 flex full-centered hover:bg-gray-600 focus:bg-gray-600",
-			"border-white hover:border-dbl-white focus:border-dbl-white", linkStyle(current),
-			linkClass}
+			"border-white hover:border-dbl-white focus:border-dbl-white focus-ring-invisible",
+			linkStyle(current), linkClass}
 		templ_7745c5c3_Err = templ.RenderCSSItems(ctx, templ_7745c5c3_Buffer, templ_7745c5c3_Var13...)
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err

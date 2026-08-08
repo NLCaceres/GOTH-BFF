@@ -21,6 +21,11 @@
 }
 
 /* Borders */
+/* When focusing with keyboard, browser gives us a ring this drops the extra help */
+.focus-ring-invisible:focus-visible {
+  outline: none;
+}
+
 .border-l-none {
   border-left: none !important;
 }
