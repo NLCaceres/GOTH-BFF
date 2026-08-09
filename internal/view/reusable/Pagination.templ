@@ -65,8 +65,8 @@ templ numPageLink(page int, current bool) {
 templ pageLink(page int, name string, current bool, class, linkClass string) {
   {{ pageStr := strconv.Itoa(page) }}
   <li class={"w-5 fw-bolder flex full-centered", class}>
-      <a if current { aria-current="page" } aria-label={"Go to page " + pageStr}
-        href={"?page=" + pageStr}
+      <a { templ.Attributes{"aria-current": templ.KV("page", current)}... }
+        aria-label={"Go to page " + pageStr} href={"?page=" + pageStr}
         class={"h-100 w-100 flex full-centered hover:bg-gray-600 focus:bg-gray-600",
           "border-white hover:border-dbl-white focus:border-dbl-white focus-ring-invisible",
           linkStyle(current), linkClass}>
