@@ -188,7 +188,7 @@ func pageList(currentPage, maxVisible, pageTotal int, class string) templ.Compon
 		}
 		if currentPage != 1 {
 			templ_7745c5c3_Err = pageLink(1, "First", false, "",
-				"border-r-none p-relative rounded-l border-y-ext-r hover:border-y-ext-r focus:border-y-ext-r").Render(ctx, templ_7745c5c3_Buffer)
+				"px-4 border-r-none p-relative rounded-l border-y-ext-r hover:border-y-ext-r focus:border-y-ext-r").Render(ctx, templ_7745c5c3_Buffer)
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
@@ -196,7 +196,7 @@ func pageList(currentPage, maxVisible, pageTotal int, class string) templ.Compon
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
-			templ_7745c5c3_Err = pageLink(currentPage-1, "Back", false, "", "rounded-l").Render(ctx, templ_7745c5c3_Buffer)
+			templ_7745c5c3_Err = pageLink(currentPage-1, "Back", false, "", "px-4 rounded-l").Render(ctx, templ_7745c5c3_Buffer)
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
@@ -222,7 +222,7 @@ func pageList(currentPage, maxVisible, pageTotal int, class string) templ.Compon
 			}
 		}
 		if pageTotal > 1 && currentPage < pageTotal {
-			templ_7745c5c3_Err = pageLink(currentPage+1, "Next", false, "", "rounded-r").Render(ctx, templ_7745c5c3_Buffer)
+			templ_7745c5c3_Err = pageLink(currentPage+1, "Next", false, "", "px-4 rounded-r").Render(ctx, templ_7745c5c3_Buffer)
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
@@ -231,7 +231,7 @@ func pageList(currentPage, maxVisible, pageTotal int, class string) templ.Compon
 				return templ_7745c5c3_Err
 			}
 			templ_7745c5c3_Err = pageLink(pageTotal, "Last", false, "",
-				"border-l-none p-relative rounded-r border-y-ext-l hover:border-y-ext-l focus:border-y-ext-l").Render(ctx, templ_7745c5c3_Buffer)
+				"px-4 border-l-none p-relative rounded-r border-y-ext-l hover:border-y-ext-l focus:border-y-ext-l").Render(ctx, templ_7745c5c3_Buffer)
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
@@ -295,7 +295,7 @@ func pageLink(page int, name string, current bool, class, linkClass string) temp
 		}
 		ctx = templ.ClearChildren(ctx)
 		pageStr := strconv.Itoa(page)
-		var templ_7745c5c3_Var11 = []any{"w-5 fw-bolder flex full-centered", class}
+		var templ_7745c5c3_Var11 = []any{"fw-bolder flex full-centered", class}
 		templ_7745c5c3_Err = templ.RenderCSSItems(ctx, templ_7745c5c3_Buffer, templ_7745c5c3_Var11...)
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
@@ -313,7 +313,7 @@ func pageLink(page int, name string, current bool, class, linkClass string) temp
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
-		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 10, "\">")
+		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 10, "\" style=\"flex: 0 1 50px;\">")
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}

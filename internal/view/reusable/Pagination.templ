@@ -34,8 +34,8 @@ templ pageList(currentPage, maxVisible, pageTotal int, class string) {
 <ul class={"h-100 unstyled-list", class}>
   if currentPage != 1 {
     @pageLink(1, "First", false, "",
-      "border-r-none p-relative rounded-l border-y-ext-r hover:border-y-ext-r focus:border-y-ext-r")
-    @pageLink(currentPage - 1, "Back", false, "", "rounded-l")
+      "px-4 border-r-none p-relative rounded-l border-y-ext-r hover:border-y-ext-r focus:border-y-ext-r")
+    @pageLink(currentPage - 1, "Back", false, "", "px-4 rounded-l")
   }
   for p := 1; p < maxVisible; p++ {
     if currentPage > maxVisible - p && (maxVisible - p <= maxVisible / 2 || currentPage + p > pageTotal) {
@@ -51,9 +51,9 @@ templ pageList(currentPage, maxVisible, pageTotal int, class string) {
     }
   }
   if pageTotal > 1 && currentPage < pageTotal {
-    @pageLink(currentPage + 1, "Next", false, "", "rounded-r")
+    @pageLink(currentPage + 1, "Next", false, "", "px-4 rounded-r")
     @pageLink(pageTotal, "Last", false, "",
-      "border-l-none p-relative rounded-r border-y-ext-l hover:border-y-ext-l focus:border-y-ext-l")
+      "px-4 border-l-none p-relative rounded-r border-y-ext-l hover:border-y-ext-l focus:border-y-ext-l")
   }
 </ul>
 }
@@ -64,7 +64,7 @@ templ numPageLink(page int, current bool) {
 
 templ pageLink(page int, name string, current bool, class, linkClass string) {
   {{ pageStr := strconv.Itoa(page) }}
-  <li class={"w-5 fw-bolder flex full-centered", class}>
+  <li class={"fw-bolder flex full-centered", class} style="flex: 0 1 50px;">
       <a { templ.Attributes{"aria-current": templ.KV("page", current)}... }
         aria-label={"Go to page " + pageStr} href={"?page=" + pageStr}
         class={"h-100 w-100 flex full-centered hover:bg-gray-600 focus:bg-gray-600",
