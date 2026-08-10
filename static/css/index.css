@@ -1,10 +1,6 @@
 /* App-wide classes, particularly for `@HTML` template direct children like nav or body */
 
 /* Navbar classes */
-.navList {
-  list-style-type: none;
-}
-
 .navListItem {
   width: 20%;
   font-size: 1rem;

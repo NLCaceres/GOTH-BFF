@@ -42,7 +42,7 @@ func navbar(navItems []string) templ.Component {
 			return templ_7745c5c3_Err
 		}
 		routeMap := stringy.Map(os.Getenv("ROUTE_MAP"))
-		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 2, "<ul class=\"navList flex row-wrap\">")
+		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 2, "<ul class=\"unstyled-list flex row-wrap\">")
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
