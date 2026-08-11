@@ -13,6 +13,12 @@ function itemLinkOverflowing() {
 
 // Runs ONLY upon resize (so could possibly NEVER run)
 window.addEventListener("resize", debounce(itemLinkOverflowing, 500));
+window.addEventListener("htmx:afterSettle", function (e) {
+  console.log(`HTMX ${e.target.tagName} after settle ` + new Date().toISOString());
+  if (e.target.tagName != "MAIN") {
+    itemLinkOverflowing();
+  }
+});
 
 /** Syncs the ID container color with the checkbox background color in `.listItem` elem */
 function syncItemColoring(e) {
