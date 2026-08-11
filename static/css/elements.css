@@ -1,8 +1,8 @@
 /* Normal HTML tag styling */
 
 *,
-:after,
-:before {
+*::after,
+*::before {
   box-sizing: border-box;
   margin: 0;
   padding: 0;
