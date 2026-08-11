@@ -3,8 +3,6 @@ name: Run Golang Tests
 on:
   push:
     branches: [main]
-  pull_request:
-    branches: [main]
 
 concurrency:
   group: ${{ github.workflow }}
@@ -17,7 +15,7 @@ jobs:
 
     strategy:
       matrix:
-        go-version: ['1.23', '1.24']
+        go-version: ["1.23", "1.24", "1.25", "1.26"]
 
     steps:
       - uses: actions/checkout@v4
