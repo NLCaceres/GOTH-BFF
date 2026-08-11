@@ -76,6 +76,8 @@
 
 .itemName {
   grid-area: item / name;
+  transform: translateZ(0);
+  /* Safari fix for clipped transformed elements */
 }
 
 .listItem:nth-child(odd) .itemName {
