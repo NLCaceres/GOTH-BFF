@@ -32,9 +32,14 @@ func NewResponse(docs []Document) *Response {
 }
 
 type Document struct {
-	PostTime datetime.Local `json:"posted"` // Tends to get microsecond precision
-	Title    string         `json:"title"`
-	URL      string         `json:"url"`
+	CompanyName     string         `json:"company_name"`
+	CompanySite     string         `json:"company_website"`
+	ExperienceLevel []string       `json:"experience_levels"`
+	JobField        []string       `json:"fields"`
+	Locations       []string       `json:"locations"`
+	PostTime        datetime.Local `json:"posted"` // Tends to get microsecond precision
+	Title           string         `json:"title"`
+	URL             string         `json:"url"`
 }
 
 func (r *Response) Documents() []Document {
